@@ -234,7 +234,15 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
             </div>
 
             <section id="articles" className="mx-auto mt-10 max-w-xl">
-                <div className="aspect-[16/9] w-full rounded-md border border-black/15 bg-black/[0.03]" />
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md border border-black/15 bg-black/[0.03]">
+                    <Image
+                        src="/Baz Intelligence.HEIC"
+                        alt="Baz Intelligence article preview"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </div>
                 <p className={`mt-3 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
                     {t.articlesDescription}
                 </p>

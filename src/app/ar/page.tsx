@@ -5,7 +5,7 @@ const siteName = "باز إنتيليجينس";
 const siteTitle = "باز إنتيليجينس | مختبر تقنيات الذكاء الاصطناعي";
 const siteDescription =
   "باز إنتيليجينس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
-const previewImage = "/Baz Intelligence Prev Ara.png";
+const previewImage = "/baz-intelligence-prev-ara.png";
 
 export const metadata: Metadata = {
   title: siteTitle,

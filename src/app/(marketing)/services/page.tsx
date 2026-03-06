@@ -5,7 +5,7 @@ const siteName = 'Baz Intelligence'
 const title = 'Services | Baz Intelligence'
 const description =
   'Browse Baz Intelligence services across ML models, AI agents, LLM systems, data engineering, automation, and generative AI.'
-const previewImage = '/Baz Intelligence Prev Eng.png'
+const previewImage = '/baz-intelligence-prev-eng.png'
 
 export const metadata: Metadata = {
   title,

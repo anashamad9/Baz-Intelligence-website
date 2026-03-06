@@ -5,7 +5,7 @@ const siteName = "Baz Intelligence";
 const siteTitle = "Baz Intelligence | AI Technologies Lab";
 const siteDescription =
   "Baz Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
-const previewImage = "/Baz Intelligence Prev Eng.png";
+const previewImage = "/baz-intelligence-prev-eng.png";
 
 export const metadata: Metadata = {
   title: siteTitle,

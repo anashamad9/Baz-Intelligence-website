@@ -13,7 +13,7 @@ const siteNameArabic = "باز إنتيليجينس";
 const siteTitle = "Baz Intelligence | AI Technologies Lab";
 const siteDescription =
   "Baz Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
-const englishPreviewImage = "/Baz Intelligence Prev Eng.png";
+const englishPreviewImage = "/baz-intelligence-prev-eng.png";
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [

@@ -5,7 +5,7 @@ const siteName = 'باز إنتيليجينس'
 const title = 'الخدمات | باز إنتيليجينس'
 const description =
   'استكشف خدمات باز إنتيليجينس في نماذج تعلم الآلة ووكلاء الذكاء الاصطناعي وحلول LLM والبيانات والأتمتة والذكاء التوليدي.'
-const previewImage = '/Baz Intelligence Prev Ara.png'
+const previewImage = '/baz-intelligence-prev-ara.png'
 
 export const metadata: Metadata = {
   title,
