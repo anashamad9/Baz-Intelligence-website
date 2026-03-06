@@ -15,6 +15,7 @@ type Language = 'en' | 'ar'
 
 const STORAGE_KEY = 'baz-language'
 const EMAIL_ADDRESS = 'hi@bazintelligence.com'
+const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
 const ibmArabic = IBM_Plex_Sans_Arabic({
     subsets: ['arabic', 'latin'],
     weight: ['300', '400', '500', '600', '700'],
@@ -145,7 +146,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
                         <Link href={isArabic ? '/ar/services' : '/en/services'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
                         <a href="#articles" className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</a>
-                        <a href="#contact" className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</a>
+                        <a href={CAL_BOOKING_URL} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</a>
                     </div>
                 </nav>
             </div>
@@ -187,6 +188,9 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         variant="default"
                         size="default"
                         className="h-7 rounded-full border-0 ring-0 shadow-none px-2 py-0 text-xs"
+                        onClick={() => {
+                            window.location.href = CAL_BOOKING_URL
+                        }}
                         label={
                             <span>
                                 {t.buttons.talkTo} <span className={foundersFontClass}>{t.buttons.founders}</span>

@@ -26,6 +26,7 @@ type Service = {
 
 const STORAGE_KEY = 'baz-language'
 const EMAIL_ADDRESS = 'hi@bazintelligence.com'
+const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -554,7 +555,7 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
             </Link>
             <Link href={isArabic ? '/ar#articles' : '/en#articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
             <a
-              href="#contact"
+              href={CAL_BOOKING_URL}
               className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
             >
               {t.nav.sayHi}
