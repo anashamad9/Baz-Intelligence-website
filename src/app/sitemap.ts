@@ -57,5 +57,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
+    {
+      url: `${siteUrl}/articles`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/articles`,
+          ar: `${siteUrl}/ar/articles`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/ar/articles`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/articles`,
+          ar: `${siteUrl}/ar/articles`,
+        },
+      },
+    },
   ];
 }

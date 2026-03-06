@@ -16,6 +16,8 @@ type Language = 'en' | 'ar'
 const STORAGE_KEY = 'baz-language'
 const EMAIL_ADDRESS = 'hi@bazintelligence.com'
 const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
+const X_URL = 'https://x.com/Bazintelligence'
+const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
 const ibmArabic = IBM_Plex_Sans_Arabic({
     subsets: ['arabic', 'latin'],
     weight: ['300', '400', '500', '600', '700'],
@@ -145,7 +147,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     </div>
                     <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
                         <Link href={isArabic ? '/ar/services' : '/en/services'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
-                        <a href="#articles" className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</a>
+                        <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
                         <a href={CAL_BOOKING_URL} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</a>
                     </div>
                 </nav>
@@ -270,9 +272,9 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     </div>
                 </div>
                 <div className="flex items-center gap-3 text-base leading-6 font-light text-black/65">
-                    <a href="#" className="transition-colors hover:text-black">{t.contact.twitter}</a>
+                    <a href={X_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-black">{t.contact.twitter}</a>
                     <a href="#" className="transition-colors hover:text-black">{t.contact.instagram}</a>
-                    <a href="#" className="transition-colors hover:text-black">{t.contact.linkedIn}</a>
+                    <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-black">{t.contact.linkedIn}</a>
                 </div>
             </footer>
 

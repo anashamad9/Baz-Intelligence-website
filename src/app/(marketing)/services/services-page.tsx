@@ -6,6 +6,7 @@ import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Languages } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
+import { ComingSoonOverlay } from '@/components/coming-soon-overlay'
 
 type Language = 'en' | 'ar'
 
@@ -27,6 +28,8 @@ type Service = {
 const STORAGE_KEY = 'baz-language'
 const EMAIL_ADDRESS = 'hi@bazintelligence.com'
 const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
+const X_URL = 'https://x.com/Bazintelligence'
+const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -526,183 +529,190 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
   }
 
   return (
-    <main
-      id="top"
-      dir={isArabic ? 'rtl' : 'ltr'}
-      className={`flex min-h-screen flex-col bg-stone-50 px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
+    <ComingSoonOverlay
+      title={isArabic ? 'قريياً' : 'Soon'}
+      subtitle={isArabic ? 'موقعنا يقدر يتنظر، شغلك لا' : 'Our website can wait, your business can not'}
+      backLabel={isArabic ? 'رجوع' : 'Back'}
+      backHref={isArabic ? '/ar' : '/en'}
     >
-      <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-        <nav className="flex w-full max-w-[460px] items-center justify-between rounded-full bg-neutral-200/70 px-3.5 py-2 backdrop-blur-md">
-          <div className="flex items-center gap-1.5">
-            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-              {t.nav.logo}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setLanguage(current => (current === 'en' ? 'ar' : 'en'))}
-              aria-label={isArabic ? 'Switch language to English' : 'تغيير اللغة إلى العربية'}
-              className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
-            >
-              <Languages className="size-3.5" />
-            </button>
-          </div>
-          <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
-            <Link
-              href={isArabic ? '/ar/services' : '/en/services'}
-              className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
-            >
-              {t.nav.services}
-            </Link>
-            <Link href={isArabic ? '/ar#articles' : '/en#articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-            <a
-              href={CAL_BOOKING_URL}
-              className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
-            >
-              {t.nav.sayHi}
-            </a>
-          </div>
-        </nav>
-      </div>
-
-      <section className="mx-auto w-full max-w-xl flex-1">
-        <h1 className={`mx-auto max-w-xl text-xl leading-7 font-medium tracking-normal ${textAlignClass}`}>
-          {t.heading.beforeHighlight}{' '}
-          <span className={`${headlineHighlightFontClass} text-[#1063ff]`}>{t.heading.highlight}</span>{' '}
-          {t.heading.afterHighlight}
-        </h1>
-        <p
-          className={`mx-auto mt-2 max-w-xl text-base leading-6 font-light text-black/65 ${textAlignClass}`}
-        >
-          {t.subheading}
-        </p>
-
-        <div className="mt-5 md:hidden">
-          <div className="-mx-1 flex overflow-x-auto px-1">
-            {services.map(service => (
+      <main
+        id="top"
+        dir={isArabic ? 'rtl' : 'ltr'}
+        className={`flex min-h-screen flex-col bg-stone-50 px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
+      >
+        <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+          <nav className="flex w-full max-w-[460px] items-center justify-between rounded-full bg-neutral-200/70 px-3.5 py-2 backdrop-blur-md">
+            <div className="flex items-center gap-1.5">
+              <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
+                {t.nav.logo}
+              </Link>
               <button
-                key={`mobile-${service.id}`}
                 type="button"
-                onClick={() => selectService(service.id)}
-                className={`shrink-0 cursor-pointer px-2 py-1 text-sm leading-6 font-light whitespace-nowrap transition-colors ${
-                  selectedServiceId === service.id
-                    ? 'text-black underline decoration-black/70 underline-offset-4'
-                    : 'text-black/55'
-                }`}
+                onClick={() => setLanguage(current => (current === 'en' ? 'ar' : 'en'))}
+                aria-label={isArabic ? 'Switch language to English' : 'تغيير اللغة إلى العربية'}
+                className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
               >
-                {service.title[language]}
+                <Languages className="size-3.5" />
               </button>
-            ))}
-          </div>
+            </div>
+            <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
+              <Link
+                href={isArabic ? '/ar/services' : '/en/services'}
+                className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
+              >
+                {t.nav.services}
+              </Link>
+              <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
+              <a
+                href={CAL_BOOKING_URL}
+                className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
+              >
+                {t.nav.sayHi}
+              </a>
+            </div>
+          </nav>
         </div>
 
-        <div id="services-content" className="mt-8 grid gap-3 md:grid-cols-[6.75rem_minmax(0,1fr)]">
-          <aside
-            className={`hidden self-start md:sticky md:top-24 md:block md:border-black/10 ${isArabic ? 'md:border-l md:pl-2' : 'md:border-r md:pr-2'}`}
+        <section className="mx-auto w-full max-w-xl flex-1">
+          <h1 className={`mx-auto max-w-xl text-xl leading-7 font-medium tracking-normal ${textAlignClass}`}>
+            {t.heading.beforeHighlight}{' '}
+            <span className={`${headlineHighlightFontClass} text-[#1063ff]`}>{t.heading.highlight}</span>{' '}
+            {t.heading.afterHighlight}
+          </h1>
+          <p
+            className={`mx-auto mt-2 max-w-xl text-base leading-6 font-light text-black/65 ${textAlignClass}`}
           >
-            <div className="space-y-0.5 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+            {t.subheading}
+          </p>
+
+          <div className="mt-5 md:hidden">
+            <div className="-mx-1 flex overflow-x-auto px-1">
               {services.map(service => (
-                <section key={service.id}>
-                  <button
-                    type="button"
-                    onClick={() => selectService(service.id)}
-                    className={`w-full cursor-pointer text-base leading-6 font-medium tracking-normal transition-colors ${isArabic ? 'text-right' : 'text-left'} ${selectedServiceId === service.id ? 'text-black' : 'text-black/55 hover:text-black/80'}`}
-                  >
-                    {service.title[language]}
-                  </button>
-                  <div
-                    aria-hidden={selectedServiceId !== service.id}
-                    className={`grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-out ${
-                      selectedServiceId === service.id
-                        ? 'mt-0.5 grid-rows-[1fr] opacity-100'
-                        : 'mt-0 grid-rows-[0fr] opacity-0'
-                    }`}
-                  >
-                    <div className={`min-h-0 ${isArabic ? 'pr-2' : 'pl-2'}`}>
-                      {service.subServices.map(subService => {
-                        const isActive = activeSubServiceId === subService.id
-                        return (
-                          <button
-                            key={subService.id}
-                            type="button"
-                            onClick={() => scrollToSubService(subService.id)}
-                            className={`block w-full cursor-pointer text-[11px] leading-5 font-light transition-colors ${isArabic ? 'text-right' : 'text-left'} ${
-                              isActive
-                                ? 'text-black'
-                                : 'text-black/45 hover:text-black/75'
-                            }`}
-                          >
-                            {subService.title[language]}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </section>
+                <button
+                  key={`mobile-${service.id}`}
+                  type="button"
+                  onClick={() => selectService(service.id)}
+                  className={`shrink-0 cursor-pointer px-2 py-1 text-sm leading-6 font-light whitespace-nowrap transition-colors ${
+                    selectedServiceId === service.id
+                      ? 'text-black underline decoration-black/70 underline-offset-4'
+                      : 'text-black/55'
+                  }`}
+                >
+                  {service.title[language]}
+                </button>
               ))}
             </div>
-          </aside>
+          </div>
 
-          <div id="service-panel" className={`space-y-6 ${isArabic ? 'md:pr-1' : 'md:pl-1'}`}>
-            {selectedService && (
-              <section
-                key={selectedService.id}
-                id={`service-${selectedService.id}`}
-                className="scroll-mt-28 pb-1"
-              >
-                <h2 className={`text-base leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>
-                  {selectedService.title[language]}
-                </h2>
-                <p className={`mt-1 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-                  {selectedService.intro[language]}
-                </p>
-
-                <div className="mt-3 space-y-3">
-                  {selectedService.subServices.map(subService => (
-                    <div
-                      key={subService.id}
-                      id={`subservice-${subService.id}`}
-                      data-subservice-id={subService.id}
-                      data-service-id={selectedService.id}
-                      className="scroll-mt-28"
+          <div id="services-content" className="mt-8 grid gap-3 md:grid-cols-[6.75rem_minmax(0,1fr)]">
+            <aside
+              className={`hidden self-start md:sticky md:top-24 md:block md:border-black/10 ${isArabic ? 'md:border-l md:pl-2' : 'md:border-r md:pr-2'}`}
+            >
+              <div className="space-y-0.5 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto">
+                {services.map(service => (
+                  <section key={service.id}>
+                    <button
+                      type="button"
+                      onClick={() => selectService(service.id)}
+                      className={`w-full cursor-pointer text-base leading-6 font-medium tracking-normal transition-colors ${isArabic ? 'text-right' : 'text-left'} ${selectedServiceId === service.id ? 'text-black' : 'text-black/55 hover:text-black/80'}`}
                     >
-                      <h3
-                        className={`text-[15px] leading-6 font-light tracking-normal ${textAlignClass} ${
-                          activeSubServiceId === subService.id ? 'text-black' : 'text-black/75'
-                        }`}
-                      >
-                        {subService.title[language]}
-                      </h3>
-                      <p className={`mt-1 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-                        {subService.description[language]}
-                      </p>
+                      {service.title[language]}
+                    </button>
+                    <div
+                      aria-hidden={selectedServiceId !== service.id}
+                      className={`grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-out ${
+                        selectedServiceId === service.id
+                          ? 'mt-0.5 grid-rows-[1fr] opacity-100'
+                          : 'mt-0 grid-rows-[0fr] opacity-0'
+                      }`}
+                    >
+                      <div className={`min-h-0 ${isArabic ? 'pr-2' : 'pl-2'}`}>
+                        {service.subServices.map(subService => {
+                          const isActive = activeSubServiceId === subService.id
+                          return (
+                            <button
+                              key={subService.id}
+                              type="button"
+                              onClick={() => scrollToSubService(subService.id)}
+                              className={`block w-full cursor-pointer text-[11px] leading-5 font-light transition-colors ${isArabic ? 'text-right' : 'text-left'} ${
+                                isActive
+                                  ? 'text-black'
+                                  : 'text-black/45 hover:text-black/75'
+                              }`}
+                            >
+                              {subService.title[language]}
+                            </button>
+                          )
+                        })}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        </div>
-      </section>
+                  </section>
+                ))}
+              </div>
+            </aside>
 
-      <footer id="contact" className="mx-auto mt-8 flex w-full max-w-xl items-start justify-between border-t border-black/10 pt-6 pb-10">
-        <div className={`space-y-2 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-          <div className="flex items-center gap-0.5">
-            <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
-              {EMAIL_ADDRESS}
-            </a>
-            <CopyButton
-              value={EMAIL_ADDRESS}
-              size="sm"
-              className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
-            />
+            <div id="service-panel" className={`space-y-6 ${isArabic ? 'md:pr-1' : 'md:pl-1'}`}>
+              {selectedService && (
+                <section
+                  key={selectedService.id}
+                  id={`service-${selectedService.id}`}
+                  className="scroll-mt-28 pb-1"
+                >
+                  <h2 className={`text-base leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>
+                    {selectedService.title[language]}
+                  </h2>
+                  <p className={`mt-1 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+                    {selectedService.intro[language]}
+                  </p>
+
+                  <div className="mt-3 space-y-3">
+                    {selectedService.subServices.map(subService => (
+                      <div
+                        key={subService.id}
+                        id={`subservice-${subService.id}`}
+                        data-subservice-id={subService.id}
+                        data-service-id={selectedService.id}
+                        className="scroll-mt-28"
+                      >
+                        <h3
+                          className={`text-[15px] leading-6 font-light tracking-normal ${textAlignClass} ${
+                            activeSubServiceId === subService.id ? 'text-black' : 'text-black/75'
+                          }`}
+                        >
+                          {subService.title[language]}
+                        </h3>
+                        <p className={`mt-1 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+                          {subService.description[language]}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
           </div>
+        </section>
+
+        <footer id="contact" className="mx-auto mt-8 flex w-full max-w-xl items-start justify-between border-t border-black/10 pt-6 pb-10">
+          <div className={`space-y-2 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+            <div className="flex items-center gap-0.5">
+              <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
+                {EMAIL_ADDRESS}
+              </a>
+              <CopyButton
+                value={EMAIL_ADDRESS}
+                size="sm"
+                className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
+              />
+            </div>
         </div>
         <div className="flex items-center gap-3 text-base leading-6 font-light text-black/65">
-          <a href="#" className="transition-colors hover:text-black">{t.contact.twitter}</a>
+          <a href={X_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-black">{t.contact.twitter}</a>
           <a href="#" className="transition-colors hover:text-black">{t.contact.instagram}</a>
-          <a href="#" className="transition-colors hover:text-black">{t.contact.linkedIn}</a>
+          <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="transition-colors hover:text-black">{t.contact.linkedIn}</a>
         </div>
       </footer>
-    </main>
+      </main>
+    </ComingSoonOverlay>
   )
 }
