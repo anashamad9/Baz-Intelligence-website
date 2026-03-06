@@ -27,6 +27,7 @@ const avatars: AvatarPerson[] = [
     }
   },
   {
+    src: '/Mahmoud%20Asad.jpeg',
     fallback: 'MA',
     name: {
       en: 'Mahmoud Asad',

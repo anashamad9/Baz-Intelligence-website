@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Languages } from 'lucide-react'
+import { CopyButton } from '@/components/copy-button'
 
 type Language = 'en' | 'ar'
 
@@ -24,6 +25,7 @@ type Service = {
 }
 
 const STORAGE_KEY = 'baz-language'
+const EMAIL_ADDRESS = 'hi@bazintelligence.com'
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -36,8 +38,8 @@ const unixel = localFont({
   display: 'swap',
 })
 
-const csRobert = localFont({
-  src: '../../../../public/cs-robert-demo.regular.otf',
+const redaction50Italic = localFont({
+  src: '../../../../public/redaction/Redaction_50-Italic.woff2',
   display: 'swap',
 })
 
@@ -56,6 +58,11 @@ const uiCopy = {
     },
     subheading:
       'Explore six core service tracks. Click a main service to reveal its subservices and detailed scope.',
+    contact: {
+      twitter: 'X',
+      instagram: 'Instagram',
+      linkedIn: 'LinkedIn',
+    },
   },
   ar: {
     nav: {
@@ -71,6 +78,11 @@ const uiCopy = {
     },
     subheading:
       'استكشف ستة مسارات رئيسية للخدمات. اضغط على الخدمة الرئيسية لإظهار الخدمات الفرعية والتفاصيل.',
+    contact: {
+      twitter: 'إكس',
+      instagram: 'إنستغرام',
+      linkedIn: 'لينكدإن',
+    },
   },
 } as const
 
@@ -436,7 +448,7 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
 
   const isArabic = language === 'ar'
   const t = uiCopy[language]
-  const headlineHighlightFontClass = isArabic ? unixel.className : csRobert.className
+  const headlineHighlightFontClass = isArabic ? unixel.className : redaction50Italic.className
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const [selectedServiceId, setSelectedServiceId] = useState(services[0]?.id ?? '')
   const selectedService = services.find(service => service.id === selectedServiceId) ?? services[0]
@@ -521,7 +533,9 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
       <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
         <nav className="flex w-full max-w-[460px] items-center justify-between rounded-full bg-neutral-200/70 px-3.5 py-2 backdrop-blur-md">
           <div className="flex items-center gap-1.5">
-            <span className="text-sm leading-6 font-medium text-black">{t.nav.logo}</span>
+            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
+              {t.nav.logo}
+            </Link>
             <button
               type="button"
               onClick={() => setLanguage(current => (current === 'en' ? 'ar' : 'en'))}
@@ -590,7 +604,7 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
                   <button
                     type="button"
                     onClick={() => selectService(service.id)}
-                    className={`w-full cursor-pointer text-[13px] leading-[1.45] font-light transition-colors ${isArabic ? 'text-right' : 'text-left'} ${selectedServiceId === service.id ? 'text-black' : 'text-black/55 hover:text-black/80'}`}
+                    className={`w-full cursor-pointer text-base leading-6 font-medium tracking-normal transition-colors ${isArabic ? 'text-right' : 'text-left'} ${selectedServiceId === service.id ? 'text-black' : 'text-black/55 hover:text-black/80'}`}
                   >
                     {service.title[language]}
                   </button>
@@ -669,27 +683,23 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
         </div>
       </section>
 
-      <footer
-        id="contact"
-        className="mx-auto mt-auto flex w-full max-w-xl flex-col items-start gap-2 border-t border-black/10 pt-6 pb-10 sm:flex-row sm:items-start sm:justify-between sm:gap-0"
-      >
+      <footer id="contact" className="mx-auto mt-8 flex w-full max-w-xl items-start justify-between border-t border-black/10 pt-6 pb-10">
         <div className={`space-y-2 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-          <p>
-            <a href="mailto:hi@bazintelligence.com" className="transition-colors hover:text-black">
-              hi@bazintelligence.com
+          <div className="flex items-center gap-0.5">
+            <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
+              {EMAIL_ADDRESS}
             </a>
-          </p>
+            <CopyButton
+              value={EMAIL_ADDRESS}
+              size="sm"
+              className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
+            />
+          </div>
         </div>
         <div className="flex items-center gap-3 text-base leading-6 font-light text-black/65">
-          <a href="#" className="transition-colors hover:text-black">
-            {isArabic ? 'إكس' : 'X'}
-          </a>
-          <a href="#" className="transition-colors hover:text-black">
-            {isArabic ? 'إنستغرام' : 'Instagram'}
-          </a>
-          <a href="#" className="transition-colors hover:text-black">
-            {isArabic ? 'لينكدإن' : 'LinkedIn'}
-          </a>
+          <a href="#" className="transition-colors hover:text-black">{t.contact.twitter}</a>
+          <a href="#" className="transition-colors hover:text-black">{t.contact.instagram}</a>
+          <a href="#" className="transition-colors hover:text-black">{t.contact.linkedIn}</a>
         </div>
       </footer>
     </main>

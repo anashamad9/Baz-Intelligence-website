@@ -54,7 +54,7 @@ const content = {
         ],
         buttons: {
             talkTo: 'Talk to',
-            founders: 'Team',
+            founders: 'Founders',
             ourWork: 'Our Services',
         },
         articlesDescription: 'Intelligent systems designed to simplify complex workflows and deliver practical, measurable outcomes.',
@@ -86,7 +86,7 @@ const content = {
         ],
         buttons: {
             talkTo: 'تحدث مع',
-            founders: 'الفريق',
+            founders: 'المؤسسين',
             ourWork: 'خدماتنا',
         },
         articlesDescription: 'أنظمة ذكية مُصممة لتبسيط سير العمل المعقّد وتقديم نتائج عملية قابلة للقياس.',
@@ -130,7 +130,9 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
             <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
                 <nav className="flex w-full max-w-[460px] items-center justify-between rounded-full bg-neutral-200/70 px-3.5 py-2 backdrop-blur-md">
                     <div className="flex items-center gap-1.5">
-                        <span className="text-sm leading-6 font-medium text-black">{t.nav.logo}</span>
+                        <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
+                            {t.nav.logo}
+                        </Link>
                         <button
                             type="button"
                             onClick={() => setLanguage(current => (current === 'en' ? 'ar' : 'en'))}
