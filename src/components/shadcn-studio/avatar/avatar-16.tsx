@@ -3,7 +3,13 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 type Language = 'en' | 'ar'
 
-const avatars = [
+type AvatarPerson = {
+  src?: string
+  fallback: string
+  name: Record<Language, string>
+}
+
+const avatars: AvatarPerson[] = [
   {
     src: '/Anas%20Hamad.png',
     fallback: 'AH',
@@ -19,6 +25,13 @@ const avatars = [
       en: 'Mohammad Doleh',
       ar: 'محمد دوله'
     }
+  },
+  {
+    fallback: 'MA',
+    name: {
+      en: 'Mahmoud Asad',
+      ar: 'محمود أسعد'
+    }
   }
 ]
 
@@ -29,7 +42,7 @@ const AvatarGroupTooltipDemo = ({ language = 'en', tooltipClassName }: { languag
         <Tooltip key={index}>
           <TooltipTrigger asChild>
             <Avatar className='rounded-md border border-zinc-200/70 transition-all duration-300 ease-in-out hover:z-1 hover:-translate-y-1 hover:shadow-md'>
-              <AvatarImage src={avatar.src} alt={avatar.name[language]} className='rounded-md object-cover' />
+              {avatar.src ? <AvatarImage src={avatar.src} alt={avatar.name[language]} className='rounded-md object-cover' /> : null}
               <AvatarFallback className='rounded-md text-xs'>{avatar.fallback}</AvatarFallback>
             </Avatar>
           </TooltipTrigger>

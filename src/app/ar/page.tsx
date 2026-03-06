@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Home from "../(marketing)/(home)/page";
 
-const siteName = "باز إينتيليجنس";
-const siteTitle = "باز إينتيليجنس | مختبر تقنيات الذكاء الاصطناعي";
+const siteName = "باز إنتيليجينس";
+const siteTitle = "باز إنتيليجينس | مختبر تقنيات الذكاء الاصطناعي";
 const siteDescription =
-  "باز إينتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسين.";
+  "باز إنتيليجينس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
 const previewImage = "/Baz Intelligence Prev Ara.png";
 
 export const metadata: Metadata = {
@@ -13,8 +13,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/ar",
     languages: {
-      en: "/en",
+      en: "/",
       ar: "/ar",
+      "x-default": "/",
     },
   },
   openGraph: {

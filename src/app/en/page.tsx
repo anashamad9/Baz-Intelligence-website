@@ -4,22 +4,23 @@ import Home from "../(marketing)/(home)/page";
 const siteName = "Baz Intelligence";
 const siteTitle = "Baz Intelligence | AI Technologies Lab";
 const siteDescription =
-  "Baz Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and founders.";
+  "Baz Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const previewImage = "/Baz Intelligence Prev Eng.png";
 
 export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   alternates: {
-    canonical: "/en",
+    canonical: "/",
     languages: {
-      en: "/en",
+      en: "/",
       ar: "/ar",
+      "x-default": "/",
     },
   },
   openGraph: {
     type: "website",
-    url: "/en",
+    url: "/",
     siteName,
     title: siteTitle,
     description: siteDescription,

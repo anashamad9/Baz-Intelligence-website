@@ -55,7 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 420, damping: 28, mass: 0.6 }}
                 ref={ref}
-                {...props}
+                {...(props as React.ComponentPropsWithoutRef<typeof motion.button>)}
             />
         )
     }

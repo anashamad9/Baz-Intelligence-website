@@ -1,44 +1,61 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.com";
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.com").replace(
+  /\/+$/,
+  "",
+);
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
+
   return [
     {
       url: siteUrl,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
-    },
-    {
-      url: `${siteUrl}/en`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/en/services`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.85,
+      alternates: {
+        languages: {
+          en: siteUrl,
+          ar: `${siteUrl}/ar`,
+        },
+      },
     },
     {
       url: `${siteUrl}/ar`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
+      alternates: {
+        languages: {
+          en: siteUrl,
+          ar: `${siteUrl}/ar`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/services`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/services`,
+          ar: `${siteUrl}/ar/services`,
+        },
+      },
     },
     {
       url: `${siteUrl}/ar/services`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.85,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/services`,
+          ar: `${siteUrl}/ar/services`,
+        },
+      },
     },
   ];
 }

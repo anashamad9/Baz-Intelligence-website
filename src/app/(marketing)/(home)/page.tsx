@@ -54,11 +54,11 @@ const content = {
         ],
         buttons: {
             talkTo: 'Talk to',
-            founders: 'Founders',
+            founders: 'Team',
             ourWork: 'Our Services',
         },
         articlesDescription: 'Intelligent systems designed to simplify complex workflows and deliver practical, measurable outcomes.',
-        foundersTitle: 'Founders',
+        foundersTitle: 'Team',
         foundersTagline: '- We just love AI',
         contact: {
             twitter: 'X',
@@ -86,11 +86,11 @@ const content = {
         ],
         buttons: {
             talkTo: 'تحدث مع',
-            founders: 'المؤسسين',
+            founders: 'الفريق',
             ourWork: 'خدماتنا',
         },
         articlesDescription: 'أنظمة ذكية مُصممة لتبسيط سير العمل المعقّد وتقديم نتائج عملية قابلة للقياس.',
-        foundersTitle: 'المؤسسون',
+        foundersTitle: 'الفريق',
         foundersTagline: '- نحن نحب الذكاء الاصطناعي',
         contact: {
             twitter: 'إكس',
