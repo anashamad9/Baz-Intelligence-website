@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Languages, MinusIcon, PlusIcon } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
+import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 
 type Language = 'en' | 'ar'
 
@@ -25,10 +26,6 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 })
 const unixel = localFont({
     src: '../../../../public/unixel/font/unixel-Regular.woff2',
-    display: 'swap',
-})
-const csRobert = localFont({
-    src: '../../../../public/cs-robert-demo.regular.otf',
     display: 'swap',
 })
 const redaction50Italic = localFont({
@@ -81,7 +78,7 @@ const content = {
             highlight: 'تقنيات ذكاء إصطناعي',
             afterHighlight: 'يوفّر عليك الوقت والتكلفة، ويُبنى على يد مهندسين خبراء.',
         },
-        subheading: 'للـمؤسسين، والشركات الناشئة، والأعمال، والأفراد.',
+        subheading: 'للـمؤسسين، للشركات الناشئة، للأعمال، للأفراد.',
         introParagraphs: [
             'غالبًا ما يُنظر إلى الذكاء الاصطناعي كطبقة إضافية فوق الأنظمة البرمجية الحالية، لكن باز إينتيليجنس يتعامل معه بطريقة مختلفة. نحن مختبر هندسة وأبحاث يختص بتصميم وتدريب ونشر أنظمة ذكاء اصطناعي متقدمة، عبر النماذج اللغوية الكبيرة، وتخصيص النماذج حسب المجال، وبُنى تعلم الآلة، والنمذجة التنبؤية، والأنظمة التوليدية، ووكلاء الذكاء الاصطناعي الذاتيين. وعلى عكس الحلول التي تركز فقط على الواجهة، نحن نعمل على مستوى النموذج نفسه: تدريب وتكييف النماذج على بيانات خاصة، وتحسين خطوط الاستدلال، وتصميم سير الاستدلال، وبناء أنظمة الاسترجاع المعزز وأنظمة الوكلاء المتعددين.',
             'يجمع نهجنا بين البحث التطبيقي والهندسة الجاهزة للإنتاج. يُطوَّر كل نظام بعناية صارمة تجاه الأداء، وسلامة البيانات، والأمن، وقابلية التوسع، وسهولة الصيانة على المدى الطويل. ومن خلال استبدال العمليات اليدوية غير الفعّالة بأنظمة ذكية مصممة لكل بيئة عمل، تستطيع الشركات خفض الجهد التشغيلي والتكلفة بأكثر من 50٪ من حيث الوقت والمال.',
@@ -104,18 +101,24 @@ const content = {
 } as const
 
 export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
-    const [language, setLanguage] = useState<Language>(() => {
-        if (typeof window === 'undefined') {
-            return initialLanguage
-        }
-        const savedLanguage = window.localStorage.getItem(STORAGE_KEY)
-        return savedLanguage === 'ar' ? 'ar' : initialLanguage
-    })
+    const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
     const isArabic = language === 'ar'
     const t = content[language]
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
     const headlineHighlightFontClass = isArabic ? unixel.className : redaction50Italic.className
     const foundersFontClass = isArabic ? unixel.className : redaction50Italic.className
+    const badgeFontClass = isArabic ? '' : headlineHighlightFontClass
+    const subheadingBadges = t.subheading
+        .split(isArabic ? '،' : ',')
+        .map(item =>
+            item
+                .trim()
+                .replace(/^[Ff]or\s+/, '')
+                .replace(/^[Aa]nd\s+/, '')
+                .replace(/[.،]+$/, '')
+        )
+        .map(item => (isArabic ? item : item.charAt(0).toUpperCase() + item.slice(1)))
+        .filter(Boolean)
     const [isServicesOpen, setIsServicesOpen] = useState(false)
 
     const toggleServices = () => {
@@ -148,7 +151,14 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
                         <Link href={isArabic ? '/ar/services' : '/en/services'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
                         <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-                        <a href={CAL_BOOKING_URL} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</a>
+                        <a
+                            href={CAL_BOOKING_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
+                        >
+                            {t.nav.sayHi}
+                        </a>
                     </div>
                 </nav>
             </div>
@@ -158,17 +168,17 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         <Image
                             src="/Baz Intelligence Logo.png"
                             alt="Baz Intelligence logo"
-                            width={360}
-                            height={90}
-                            className="h-14 w-auto object-contain transition-opacity duration-200 group-hover:opacity-0"
+                            width={480}
+                            height={120}
+                            className="h-20 w-auto object-contain transition-opacity duration-200 group-hover:opacity-0"
                             priority
                         />
                         <Image
                             src="/baz intelligence logo white.png"
                             alt="Baz Intelligence logo white"
-                            width={360}
-                            height={90}
-                            className="absolute top-0 left-0 h-14 w-auto object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                            width={480}
+                            height={120}
+                            className="absolute top-0 left-0 h-20 w-auto object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                         />
                     </div>
                 </div>
@@ -177,9 +187,16 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <span className={`${headlineHighlightFontClass} text-[#1063ff]`}>{t.heading.highlight}</span>{' '}
                     {t.heading.afterHighlight}
                 </h1>
-                <p className={`mx-auto mt-1 max-w-xl text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-                    {t.subheading}
-                </p>
+                <div
+                    className={`mx-auto mt-1 flex w-full max-w-xl flex-wrap gap-1.5 ${isArabic ? 'flex-row-reverse justify-end' : 'justify-start'}`}
+                    dir={isArabic ? 'rtl' : 'ltr'}
+                >
+                    {subheadingBadges.map(badge => (
+                        <p className={`rounded-full border border-black/10 bg-white/70 px-2 py-0.5 text-xs leading-4 font-light text-black/70 ${badgeFontClass}`} key={badge}>
+                            {badge}
+                        </p>
+                    ))}
+                </div>
                 <div className={`mx-auto mt-4 max-w-xl space-y-5 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
                     {t.introParagraphs.map(paragraph => (
                         <p key={paragraph}>{paragraph}</p>
@@ -191,7 +208,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         size="default"
                         className="h-7 rounded-full border-0 ring-0 shadow-none px-2 py-0 text-xs"
                         onClick={() => {
-                            window.location.href = CAL_BOOKING_URL
+                            window.open(CAL_BOOKING_URL, '_blank', 'noopener,noreferrer')
                         }}
                         label={
                             <span>

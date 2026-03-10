@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Languages } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { ComingSoonOverlay } from '@/components/coming-soon-overlay'
+import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 
 type Language = 'en' | 'ar'
 type LocalizedText = Record<Language, string>
@@ -122,13 +123,7 @@ const articlePreviews: ArticlePreview[] = [
 ]
 
 export default function ArticlesPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === 'undefined') {
-      return initialLanguage
-    }
-    const savedLanguage = window.localStorage.getItem(STORAGE_KEY)
-    return savedLanguage === 'ar' ? 'ar' : initialLanguage
-  })
+  const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language)
@@ -181,6 +176,8 @@ export default function ArticlesPage({ initialLanguage = 'en' }: { initialLangua
               </Link>
               <a
                 href={CAL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
               >
                 {t.nav.sayHi}

@@ -7,6 +7,7 @@ import localFont from 'next/font/local'
 import { Languages } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { ComingSoonOverlay } from '@/components/coming-soon-overlay'
+import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 
 type Language = 'en' | 'ar'
 
@@ -442,13 +443,7 @@ const services: Service[] = [
 ]
 
 export default function ServicesPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === 'undefined') {
-      return initialLanguage
-    }
-    const savedLanguage = window.localStorage.getItem(STORAGE_KEY)
-    return savedLanguage === 'ar' ? 'ar' : initialLanguage
-  })
+  const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
 
   const isArabic = language === 'ar'
   const t = uiCopy[language]
@@ -565,6 +560,8 @@ export default function ServicesPage({ initialLanguage = 'en' }: { initialLangua
               <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
               <a
                 href={CAL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
               >
                 {t.nav.sayHi}
