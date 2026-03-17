@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import ButtonDemo from '@/components/button-demo'
-import AnimatedUnderlineTabsDemo from '@/components/shadcn-studio/tabs/tabs-29'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Languages, MinusIcon, PlusIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Languages } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 
@@ -44,13 +43,12 @@ const content = {
         heading: {
             beforeHighlight: 'An',
             highlight: 'AI technologies lab',
-            afterHighlight: 'that saves you time and money, built by expert engineers.',
+            afterHighlight:
+                'focused on helping you save time and reduce costs, built by expert engineers. We do not treat artificial intelligence as an add-on to existing software, but as a core layer that should be designed and engineered from the ground up.',
         },
         subheading: 'For founders, startups, businesses, and individuals.',
         introParagraphs: [
-            'Artificial intelligence is often treated as a layer added on top of existing software, but Baz Intelligence approaches it differently. We operate as an engineering and research lab dedicated to designing, training, and deploying advanced AI systems, working across large language models, domain-specific model fine-tuning, machine learning architectures, predictive modeling, generative systems, and autonomous AI agents. Unlike solutions that focus only on the interface, we work at the model level, training and adapting models on proprietary datasets, optimizing inference pipelines, designing reasoning workflows, and building retrieval-augmented and multi-agent systems.',
-            'Our approach combines applied research with production-grade engineering. Each system is developed with strict attention to performance, data integrity, security, scalability, and long-term maintainability. By replacing inefficient manual processes with intelligent systems tailored to each environment, businesses can reduce operational effort and overhead by more than 50%, both in time and cost.',
-            'Baz Intelligence operates as a true lab: we experiment, evaluate, iterate, and refine. Our objective is to build robust intelligent systems that go beyond superficial AI integrations and materially transform how organizations operate. We are focused on engineering intelligence, not just integrating it.',
+            'We operate as an engineering and research lab focused on designing, training, and deploying advanced AI systems, including large language models, domain-specific models, predictive analytics, generative systems, and autonomous agents. Rather than focusing only on interfaces, we work deeply at the model level, training on proprietary datasets, optimizing inference pipelines, and designing intelligent workflows powered by retrieval-augmented and multi-agent systems. Our approach combines applied research with production-grade engineering, ensuring high performance, security, scalability, and long-term maintainability. By replacing manual processes with tailored intelligent systems, we help businesses significantly reduce operational effort and costs, often by more than 50%, while improving how they operate.',
         ],
         buttons: {
             talkTo: 'Talk to',
@@ -102,29 +100,28 @@ const content = {
 
 export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
     const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
+    const [currentSlide, setCurrentSlide] = useState(0)
     const isArabic = language === 'ar'
     const t = content[language]
+    const articleSlides = Array.from({ length: 5 }, () => '/Baz Intelligence.HEIC')
+    const totalSlides = articleSlides.length
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
     const headlineHighlightFontClass = isArabic ? unixel.className : redaction50Italic.className
     const foundersFontClass = isArabic ? unixel.className : redaction50Italic.className
-    const badgeFontClass = isArabic ? '' : headlineHighlightFontClass
-    const subheadingBadges = t.subheading
-        .split(isArabic ? '،' : ',')
-        .map(item =>
-            item
-                .trim()
-                .replace(/^[Ff]or\s+/, '')
-                .replace(/^[Aa]nd\s+/, '')
-                .replace(/[.،]+$/, '')
-        )
-        .map(item => (isArabic ? item : item.charAt(0).toUpperCase() + item.slice(1)))
-        .filter(Boolean)
-    const [isServicesOpen, setIsServicesOpen] = useState(false)
-
-    const toggleServices = () => {
-        setIsServicesOpen(current => !current)
-    }
-
+    const paragraphWeightClass = isArabic ? 'font-[300]' : 'font-light'
+    const servicesPanel = isArabic
+        ? {
+            industriesTitle: 'القطاعات',
+            capabilitiesTitle: 'القدرات',
+            industries: ['تقنيات المناخ', 'الروبوتات', 'الذكاء الاصطناعي/تعلم الآلة/الذكاء الاصطناعي المادي', 'تقنيات الفضاء', 'التقنيات الصحية', 'التقنيات الحيوية', 'المواد المتقدمة', 'برمجيات B2B', 'صناديق الاستثمار'],
+            capabilities: ['الاستراتيجية', 'تصميم وتطوير الويب', 'أنظمة العلامة التجارية', 'الثلاثي الأبعاد والحركة', 'التواصل التقني', 'استراتيجية المنتج [قريبًا]', 'تجارب AR/VR الرقمية [قريبًا]'],
+        }
+        : {
+            industriesTitle: 'By Technogloy',
+            capabilitiesTitle: 'By Use Case',
+            industries: ['AI Agents', 'ML Models', 'LLMs', 'Deep Learning', 'Generative AI', 'Neural Networks', 'Data Engineering', 'MLOps/AIOps', 'Data Modeling'],
+            capabilities: ['Automation', 'Support Agent', 'Future Forecasting', 'AI Chatbot', 'AI Voice Agent', 'Fraud Detection', 'Voice Detection', 'Image/ideo Detection', '+ More'],
+        }
     useEffect(() => {
         window.localStorage.setItem(STORAGE_KEY, language)
         document.documentElement.lang = language
@@ -134,7 +131,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     return (
         <main dir={isArabic ? 'rtl' : 'ltr'} className={`min-h-screen bg-stone-50 px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}>
             <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-                <nav className="flex w-full max-w-[460px] items-center justify-between rounded-full bg-neutral-200/70 px-3.5 py-2 backdrop-blur-md">
+                <nav className="flex w-full max-w-[420px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
                     <div className="flex items-center gap-1.5">
                         <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
                             {t.nav.logo}
@@ -148,14 +145,14 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             <Languages className="size-3.5" />
                         </button>
                     </div>
-                    <div className={`flex items-center justify-end gap-3 ${isArabic ? 'ml-2' : 'ml-6'}`}>
-                        <Link href={isArabic ? '/ar/services' : '/en/services'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
-                        <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
+                    <div className={`flex items-center justify-end gap-2 ${isArabic ? 'ml-2' : 'ml-4'}`}>
+                        <Link href={isArabic ? '/ar/services' : '/en/services'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
+                        <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
                         <a
                             href={CAL_BOOKING_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-base leading-6 font-light text-black/65 transition-colors hover:text-black"
+                            className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black"
                         >
                             {t.nav.sayHi}
                         </a>
@@ -182,22 +179,12 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         />
                     </div>
                 </div>
-                <h1 className={`mx-auto max-w-xl text-xl leading-7 font-medium tracking-normal ${textAlignClass}`}>
+                <h1 className={`mx-auto max-w-xl text-xl leading-6 font-medium tracking-normal ${textAlignClass}`}>
                     {t.heading.beforeHighlight}{' '}
                     <span className={`${headlineHighlightFontClass} text-[#1063ff]`}>{t.heading.highlight}</span>{' '}
                     {t.heading.afterHighlight}
                 </h1>
-                <div
-                    className={`mx-auto mt-1 flex w-full max-w-xl flex-wrap gap-1.5 ${isArabic ? 'flex-row-reverse justify-end' : 'justify-start'}`}
-                    dir={isArabic ? 'rtl' : 'ltr'}
-                >
-                    {subheadingBadges.map(badge => (
-                        <p className={`rounded-full border border-black/10 bg-white/70 px-2 py-0.5 text-xs leading-4 font-light text-black/70 ${badgeFontClass}`} key={badge}>
-                            {badge}
-                        </p>
-                    ))}
-                </div>
-                <div className={`mx-auto mt-4 max-w-xl space-y-5 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+                <div className={`mx-auto mt-4 max-w-xl space-y-5 text-base leading-5 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
                     {t.introParagraphs.map(paragraph => (
                         <p key={paragraph}>{paragraph}</p>
                     ))}
@@ -206,7 +193,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <ButtonDemo
                         variant="default"
                         size="default"
-                        className="h-7 rounded-full border-0 ring-0 shadow-none px-2 py-0 text-xs"
+                        className="h-7 rounded-md border-0 ring-0 shadow-none px-2 py-0 text-xs"
                         onClick={() => {
                             window.open(CAL_BOOKING_URL, '_blank', 'noopener,noreferrer')
                         }}
@@ -219,52 +206,103 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <ButtonDemo
                         variant="outline"
                         size="default"
-                        className="h-7 rounded-full border-0 bg-neutral-200/70 px-2 py-0 text-xs ring-0 shadow-none hover:bg-neutral-200/85"
-                        onClick={toggleServices}
+                        className="h-7 rounded-md border-0 bg-neutral-200/70 px-2 py-0 text-xs ring-0 shadow-none hover:bg-neutral-200/85"
+                        onClick={() => {
+                            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        }}
                         aria-controls="services"
-                        aria-expanded={isServicesOpen}
+                        aria-expanded={true}
                         label={
-                            <span className={`inline-flex items-center gap-0.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                                <span className="relative inline-flex size-3 items-center justify-center">
-                                    <PlusIcon className={`absolute size-3 transition-all duration-300 ${isServicesOpen ? 'scale-75 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'}`} />
-                                    <MinusIcon className={`absolute size-3 transition-all duration-300 ${isServicesOpen ? 'scale-100 rotate-0 opacity-100' : 'scale-75 -rotate-90 opacity-0'}`} />
-                                </span>
-                                <span>{t.buttons.ourWork}</span>
-                            </span>
+                            <span>{t.buttons.ourWork}</span>
                         }
                     />
                 </div>
-                <section
-                    id="services"
-                    dir={isArabic ? 'rtl' : 'ltr'}
-                    aria-hidden={!isServicesOpen}
-                    className={`mx-auto max-w-xl scroll-mt-24 transition-[margin-top] duration-500 ease-out ${isServicesOpen ? 'mt-8' : 'mt-0'}`}
-                >
-                    <div
-                        className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-500 ease-out ${isServicesOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-                    >
-                        <div className="min-h-0">
-                            <div>
-                                <AnimatedUnderlineTabsDemo language={language} />
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </div>
 
             <section id="articles" className="mx-auto mt-10 max-w-xl">
                 <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md border border-black/15 bg-black/[0.03]">
-                    <Image
-                        src="/Baz Intelligence.HEIC"
-                        alt="Baz Intelligence article preview"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
+                    <div
+                        className="flex h-full w-full transition-transform duration-500 ease-out"
+                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                    >
+                        {articleSlides.map((slide, index) => (
+                            <div key={`article-slide-${index}`} className="relative h-full w-full shrink-0">
+                                <Image
+                                    src={slide}
+                                    alt={`Baz Intelligence article preview ${index + 1}`}
+                                    fill
+                                    unoptimized
+                                    className="object-cover"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
+                        <button
+                            type="button"
+                            aria-label={isArabic ? 'الصورة السابقة' : 'Previous image'}
+                            onClick={() => setCurrentSlide(current => (current - 1 + totalSlides) % totalSlides)}
+                            className="pointer-events-auto inline-flex size-6 items-center justify-center rounded-md bg-stone-50/90 text-black/75 backdrop-blur-sm transition-colors hover:bg-stone-50"
+                        >
+                            <ChevronLeft className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            aria-label={isArabic ? 'الصورة التالية' : 'Next image'}
+                            onClick={() => setCurrentSlide(current => (current + 1) % totalSlides)}
+                            className="pointer-events-auto inline-flex size-6 items-center justify-center rounded-md bg-stone-50/90 text-black/75 backdrop-blur-sm transition-colors hover:bg-stone-50"
+                        >
+                            <ChevronRight className="size-3.5" />
+                        </button>
+                    </div>
+                    <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1">
+                        {articleSlides.map((_, index) => (
+                            <button
+                                key={`slide-${index}`}
+                                type="button"
+                                aria-label={isArabic ? `الانتقال إلى الصورة ${index + 1}` : `Go to image ${index + 1}`}
+                                onClick={() => setCurrentSlide(index)}
+                                className={`size-1.5 rounded-full transition-colors ${index === currentSlide ? 'bg-black/70' : 'bg-black/25 hover:bg-black/45'}`}
+                            />
+                        ))}
+                    </div>
                 </div>
-                <p className={`mt-3 text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+                <p className={`mt-3 text-base leading-6 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
                     {t.articlesDescription}
                 </p>
+            </section>
+            <section
+                id="services"
+                dir={isArabic ? 'rtl' : 'ltr'}
+                aria-hidden={false}
+                className="mx-auto mt-8 max-w-xl scroll-mt-24"
+            >
+                <div className="grid overflow-hidden grid-rows-[1fr] opacity-100">
+                    <div className={`min-h-0 ${textAlignClass}`}>
+                        <div className="grid grid-cols-2 gap-6 pt-1">
+                            <div>
+                                <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.industriesTitle}</h3>
+                                <div className={`mt-3 flex flex-col gap-1 ${isArabic ? 'items-end' : 'items-start'}`}>
+                                    {servicesPanel.industries.map(item => (
+                                        <p key={item} className="inline-flex rounded-md bg-neutral-200/70 px-1 py-0.5 text-xs leading-4 font-light text-black/60">
+                                            {item}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.capabilitiesTitle}</h3>
+                                <div className={`mt-3 flex flex-col gap-1 ${isArabic ? 'items-end' : 'items-start'}`}>
+                                    {servicesPanel.capabilities.map(item => (
+                                        <p key={item} className="inline-flex rounded-md bg-neutral-200/70 px-1 py-0.5 text-xs leading-4 font-light text-black/60">
+                                            {item}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section className="mx-auto mt-12 max-w-xl">
