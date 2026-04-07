@@ -3,8 +3,9 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
-import { Languages } from 'lucide-react'
+import { Languages, Moon, Sun } from 'lucide-react'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
+import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 
 type Language = 'en' | 'ar'
 
@@ -20,6 +21,7 @@ type PageCopy = {
 }
 
 const STORAGE_KEY = 'baz-language'
+const THEME_STORAGE_KEY = 'baz-theme'
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -52,14 +54,17 @@ const copy: Record<Language, PageCopy> = {
 
 export default function ArticlesPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
+  const [theme, setTheme] = usePersistedTheme('light', THEME_STORAGE_KEY)
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language)
     document.documentElement.lang = language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
-  }, [language])
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [language, theme])
 
   const isArabic = language === 'ar'
+  const isDark = theme === 'dark'
   const t = copy[language]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
@@ -82,6 +87,14 @@ export default function ArticlesPage({ initialLanguage = 'en' }: { initialLangua
               className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
             >
               <Languages className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+              aria-label={isDark ? (isArabic ? 'تفعيل الوضع الفاتح' : 'Switch to light mode') : (isArabic ? 'تفعيل الوضع الداكن' : 'Switch to dark mode')}
+              className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
+            >
+              {isDark ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
             </button>
           </div>
           <div className="flex items-center justify-end gap-2">

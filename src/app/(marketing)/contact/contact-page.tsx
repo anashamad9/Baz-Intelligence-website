@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Check, ChevronDown, Languages } from 'lucide-react'
+import { Check, ChevronDown, Languages, Moon, Sun } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
+import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 
 type Language = 'en' | 'ar'
 type ContactIntent = 'learn' | 'know'
@@ -63,6 +64,7 @@ type ContactCopy = {
 }
 
 const STORAGE_KEY = 'baz-language'
+const THEME_STORAGE_KEY = 'baz-theme'
 const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
 const ARAB_COUNTRY_CODES = [
   'DZ', 'BH', 'KM', 'DJ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MR',
@@ -276,6 +278,7 @@ function CustomSelect({ value, onChange, placeholder, sections, isArabic, hasErr
 
 export default function ContactPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
+  const [theme, setTheme] = usePersistedTheme('light', THEME_STORAGE_KEY)
   const [showForm, setShowForm] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [skippedMeeting, setSkippedMeeting] = useState(false)
@@ -303,9 +306,11 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
     window.localStorage.setItem(STORAGE_KEY, language)
     document.documentElement.lang = language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
-  }, [language])
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [language, theme])
 
   const isArabic = language === 'ar'
+  const isDark = theme === 'dark'
   const t = content[language]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const homeHref = isArabic ? '/ar' : '/en'
@@ -425,6 +430,14 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
               className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
             >
               <Languages className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+              aria-label={isDark ? (isArabic ? 'تفعيل الوضع الفاتح' : 'Switch to light mode') : (isArabic ? 'تفعيل الوضع الداكن' : 'Switch to dark mode')}
+              className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
+            >
+              {isDark ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
             </button>
           </div>
           <div className="flex items-center justify-end gap-2">
