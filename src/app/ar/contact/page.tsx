@@ -1,26 +1,26 @@
 import type { Metadata } from 'next'
-import ArticlesPage from '../../(marketing)/articles/articles-page'
+import ContactPage from '../../(marketing)/contact/contact-page'
 
 const siteName = 'إنتيليجنس'
-const title = 'المقالات | إنتيليجنس'
+const title = 'تواصل | إنتيليجنس'
 const description =
-  'اطلع على مقالات إنتيليجنس حول هندسة الذكاء الاصطناعي التطبيقية ونشر النماذج وبنية البيانات والأتمتة.'
+  'تواصل مع إنتيليجنس لحجز اجتماع مباشر أو إرسال تفاصيل مشروعك للحصول على نطاق تنفيذ ذكاء اصطناعي مناسب.'
 const previewImage = '/baz-intelligence-prev-ara.png'
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: '/ar/articles',
+    canonical: '/ar/contact',
     languages: {
-      en: '/articles',
-      ar: '/ar/articles',
-      'x-default': '/articles',
+      en: '/contact',
+      ar: '/ar/contact',
+      'x-default': '/contact',
     },
   },
   openGraph: {
     type: 'website',
-    url: '/ar/articles',
+    url: '/ar/contact',
     siteName,
     title,
     description,
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'معاينة مقالات إنتيليجنس',
+        alt: 'معاينة صفحة التواصل في إنتيليجنس',
       },
     ],
   },
@@ -43,6 +43,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ArabicArticlesPage() {
-  return <ArticlesPage initialLanguage="ar" />
+export default function ArabicContactPage() {
+  return <ContactPage initialLanguage="ar" />
 }

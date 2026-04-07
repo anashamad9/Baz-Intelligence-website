@@ -34,30 +34,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
-      url: `${siteUrl}/services`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.85,
-      alternates: {
-        languages: {
-          en: `${siteUrl}/services`,
-          ar: `${siteUrl}/ar/services`,
-        },
-      },
-    },
-    {
-      url: `${siteUrl}/ar/services`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.85,
-      alternates: {
-        languages: {
-          en: `${siteUrl}/services`,
-          ar: `${siteUrl}/ar/services`,
-        },
-      },
-    },
-    {
       url: `${siteUrl}/articles`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -78,6 +54,54 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${siteUrl}/articles`,
           ar: `${siteUrl}/ar/articles`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/what-we-do`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/what-we-do`,
+          ar: `${siteUrl}/ar/what-we-do`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/ar/what-we-do`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/what-we-do`,
+          ar: `${siteUrl}/ar/what-we-do`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/contact`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/contact`,
+          ar: `${siteUrl}/ar/contact`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/ar/contact`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: `${siteUrl}/contact`,
+          ar: `${siteUrl}/ar/contact`,
         },
       },
     },

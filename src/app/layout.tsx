@@ -8,11 +8,11 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.co
   /\/+$/,
   "",
 );
-const siteName = "Baz Intelligence";
-const siteNameArabic = "باز إنتيليجينس";
-const siteTitle = "Baz Intelligence | AI Technologies Lab";
+const siteName = "Intellegince";
+const siteNameArabic = "إنتيليجنس";
+const siteTitle = "Intellegince | AI Technologies Lab";
 const siteDescription =
-  "Baz Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Intellegince is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/baz-intelligence-prev-eng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -23,14 +23,14 @@ const structuredData = {
       name: siteName,
       alternateName: siteNameArabic,
       url: siteUrl,
-      logo: `${siteUrl}/baz-logoo.png`,
-      email: "hi@bazintelligence.com",
+      logo: `${siteUrl}/intelligence%201.png`,
+      email: "hi@intelligence.com",
       telephone: "+962795874662",
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "hi@bazintelligence.com",
+          email: "hi@intelligence.com",
           availableLanguage: ["English", "Arabic"],
         },
       ],
@@ -57,31 +57,9 @@ const structuredData = {
       "@type": "WebPage",
       "@id": `${siteUrl}/ar#webpage`,
       url: `${siteUrl}/ar`,
-      name: "باز إنتيليجينس | مختبر تقنيات الذكاء الاصطناعي",
+      name: "إنتيليجنس | مختبر تقنيات الذكاء الاصطناعي",
       description:
-        "باز إنتيليجينس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
-      inLanguage: "ar",
-      isPartOf: { "@id": `${siteUrl}#website` },
-      about: { "@id": `${siteUrl}#organization` },
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${siteUrl}/services#webpage`,
-      url: `${siteUrl}/services`,
-      name: "Services | Baz Intelligence",
-      description:
-        "Browse Baz Intelligence services across ML models, AI agents, LLM systems, data engineering, automation, and generative AI.",
-      inLanguage: "en",
-      isPartOf: { "@id": `${siteUrl}#website` },
-      about: { "@id": `${siteUrl}#organization` },
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${siteUrl}/ar/services#webpage`,
-      url: `${siteUrl}/ar/services`,
-      name: "الخدمات | باز إنتيليجينس",
-      description:
-        "استكشف خدمات باز إنتيليجينس في نماذج تعلم الآلة ووكلاء الذكاء الاصطناعي وحلول LLM والبيانات والأتمتة والذكاء التوليدي.",
+        "إنتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
       inLanguage: "ar",
       isPartOf: { "@id": `${siteUrl}#website` },
       about: { "@id": `${siteUrl}#organization` },
@@ -93,18 +71,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Baz Intelligence",
+    template: "%s | Intellegince",
   },
   description: siteDescription,
   applicationName: siteName,
   icons: {
-    icon: [{ url: "/baz-int-fav-icon.png", type: "image/png", sizes: "330x451" }],
-    shortcut: ["/baz-int-fav-icon.png"],
-    apple: [{ url: "/baz-int-fav-icon-square.png", type: "image/png", sizes: "512x512" }],
+    icon: [{ url: "/intelligence%20fav%20icon.png", type: "image/png" }],
+    shortcut: ["/intelligence%20fav%20icon.png"],
+    apple: [{ url: "/intelligence%20fav%20icon.png", type: "image/png" }],
   },
   keywords: [
-    "Baz Intelligence",
-    "باز إنتيليجينس",
+    "Intellegince",
+    "إنتيليجنس",
     "AI lab",
     "machine learning",
     "LLM solutions",
@@ -136,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Baz Intelligence English preview",
+        alt: "Intellegince English preview",
       },
     ],
   },
@@ -172,8 +150,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} font-sans antialiased`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('baz-theme');if(t==='dark'){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

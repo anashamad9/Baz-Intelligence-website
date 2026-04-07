@@ -1,26 +1,26 @@
 import type { Metadata } from 'next'
-import ServicesPage from './services-page'
+import WhatWeDoPage from '../../(marketing)/what-we-do/what-we-do-page'
 
-const siteName = 'Baz Intelligence'
-const title = 'Services | Baz Intelligence'
+const siteName = 'Intellegince'
+const title = 'What We Do | Intellegince'
 const description =
-  'Browse Baz Intelligence services across ML models, AI agents, LLM systems, data engineering, automation, and generative AI.'
+  'Explore what Intellegince does across AI strategy, systems implementation, growth operations, and custom technical execution.'
 const previewImage = '/baz-intelligence-prev-eng.png'
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: '/services',
+    canonical: '/what-we-do',
     languages: {
-      en: '/services',
-      ar: '/ar/services',
-      'x-default': '/services',
+      en: '/what-we-do',
+      ar: '/ar/what-we-do',
+      'x-default': '/what-we-do',
     },
   },
   openGraph: {
     type: 'website',
-    url: '/services',
+    url: '/what-we-do',
     siteName,
     title,
     description,
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'Baz Intelligence services preview',
+        alt: 'Intellegince what we do preview',
       },
     ],
   },
@@ -43,6 +43,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ServicesRoute() {
-  return <ServicesPage initialLanguage="en" />
+export default function EnglishWhatWeDoPage() {
+  return <WhatWeDoPage initialLanguage="en" />
 }

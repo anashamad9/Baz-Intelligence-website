@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Home from "../(marketing)/(home)/page";
 
-const siteName = "باز إنتيليجينس";
-const siteTitle = "باز إنتيليجينس | مختبر تقنيات الذكاء الاصطناعي";
+const siteName = "إنتيليجنس";
+const siteTitle = "إنتيليجنس | مختبر تقنيات الذكاء الاصطناعي";
 const siteDescription =
-  "باز إنتيليجينس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
+  "إنتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
 const previewImage = "/baz-intelligence-prev-ara.png";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: "Baz Intelligence Arabic preview",
+        alt: "Intellegince Arabic preview",
       },
     ],
   },

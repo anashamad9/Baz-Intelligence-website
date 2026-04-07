@@ -5,8 +5,8 @@ type Language = 'en' | 'ar'
 const items = [
   {
     title: {
-      en: 'What services does Baz Intelligence provide?',
-      ar: 'ما الخدمات التي تقدمها باز إينتيليجنس؟'
+      en: 'What services does Intellegince provide?',
+      ar: 'ما الخدمات التي تقدمها إنتيليجنس؟'
     },
     content: {
       en: 'We design and deploy custom AI systems across ML models, LLM solutions, AI agents, workflow automation, and data pipelines. Each engagement is tailored to your business processes, data, and operational goals.',

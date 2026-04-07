@@ -1,26 +1,26 @@
 import type { Metadata } from 'next'
-import ArticlesPage from '../../(marketing)/articles/articles-page'
+import WhatWeDoPage from './what-we-do-page'
 
 const siteName = 'Intellegince'
-const title = 'Articles | Intellegince'
+const title = 'What We Do | Intellegince'
 const description =
-  'Read Intellegince articles on applied AI engineering, model deployment, data systems, and automation strategy.'
+  'Explore what Intellegince does across AI strategy, systems implementation, growth operations, and custom technical execution.'
 const previewImage = '/baz-intelligence-prev-eng.png'
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: '/articles',
+    canonical: '/what-we-do',
     languages: {
-      en: '/articles',
-      ar: '/ar/articles',
-      'x-default': '/articles',
+      en: '/what-we-do',
+      ar: '/ar/what-we-do',
+      'x-default': '/what-we-do',
     },
   },
   openGraph: {
     type: 'website',
-    url: '/articles',
+    url: '/what-we-do',
     siteName,
     title,
     description,
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'Intellegince articles preview',
+        alt: 'Intellegince what we do preview',
       },
     ],
   },
@@ -43,6 +43,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function EnglishArticlesPage() {
-  return <ArticlesPage initialLanguage="en" />
+export default function WhatWeDoRoute() {
+  return <WhatWeDoPage initialLanguage="en" />
 }
