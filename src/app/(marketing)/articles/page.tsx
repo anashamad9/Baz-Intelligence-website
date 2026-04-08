@@ -5,7 +5,7 @@ const siteName = 'Intellegince'
 const title = 'Articles | Intellegince'
 const description =
   'Read Intellegince articles on applied AI engineering, model deployment, data systems, and automation strategy.'
-const previewImage = '/baz-intelligence-prev-eng.png'
+const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
   title,

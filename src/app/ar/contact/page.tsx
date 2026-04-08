@@ -5,7 +5,7 @@ const siteName = 'إنتيليجنس'
 const title = 'تواصل | إنتيليجنس'
 const description =
   'تواصل مع إنتيليجنس لحجز اجتماع مباشر أو إرسال تفاصيل مشروعك للحصول على نطاق تنفيذ ذكاء اصطناعي مناسب.'
-const previewImage = '/baz-intelligence-prev-ara.png'
+const previewImage = '/IntArabic.png'
 
 export const metadata: Metadata = {
   title,

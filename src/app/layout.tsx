@@ -13,7 +13,7 @@ const siteNameArabic = "إنتيليجنس";
 const siteTitle = "Intellegince | AI Technologies Lab";
 const siteDescription =
   "Intellegince is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
-const englishPreviewImage = "/baz-intelligence-prev-eng.png";
+const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [

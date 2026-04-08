@@ -5,7 +5,7 @@ const siteName = 'إنتيليجنس'
 const title = 'ماذا نفعل | إنتيليجنس'
 const description =
   'تعرّف على ما تقدمه إنتيليجنس عبر الاستراتيجية وتنفيذ الأنظمة الذكية والتشغيل والنطاقات المخصصة.'
-const previewImage = '/baz-intelligence-prev-ara.png'
+const previewImage = '/IntArabic.png'
 
 export const metadata: Metadata = {
   title,

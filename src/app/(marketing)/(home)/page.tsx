@@ -460,7 +460,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                     {activeShowcaseSlide.features.map((item) => (
                                         <span
                                             key={item}
-                                            className="inline-flex rounded-md bg-site-gray-ui px-1 py-0.5 text-xs leading-4 font-light text-black/60"
+                                            className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
                                         >
                                             {item}
                                         </span>
@@ -485,7 +485,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                     </div>
                                 ))}
                             </div>
-                            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm">
+                            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm dark:bg-white/10">
                                 {showcaseSlides.map((slide, index) => (
                                     <button
                                         key={`${slide.badge}-dot-${index}`}
@@ -513,7 +513,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.industriesTitle}</h3>
                                 <div className="mt-3 flex flex-wrap justify-start gap-1.5">
                                     {servicesPanel.industries.map(item => (
-                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1 py-0.5 text-xs leading-4 font-light text-black/60">
+                                        <p key={item} className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
                                             {item}
                                         </p>
                                     ))}
@@ -523,7 +523,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.capabilitiesTitle}</h3>
                                 <div className="mt-3 flex flex-wrap justify-start gap-1.5">
                                     {servicesPanel.capabilities.map(item => (
-                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1 py-0.5 text-xs leading-4 font-light text-black/60">
+                                        <p key={item} className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
                                             {item}
                                         </p>
                                     ))}
@@ -543,7 +543,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         key={`${activeTestimonial.clientName}-${activeTestimonial.company}-${activeTestimonialIndex}`}
                         className="transition-opacity duration-300"
                     >
-                        <span className={`-mb-1 block text-[30px] leading-[0.7] text-black/25 ${textAlignClass}`}>“</span>
+                        <span className={`-mb-1 block text-[30px] leading-[0.7] text-black/35 ${textAlignClass}`}>“</span>
                         <p className={`mt-0 text-xl leading-6 font-light text-black sm:text-[22px] sm:leading-7 ${textAlignClass}`}>
                             {activeTestimonial.quote}
                         </p>
@@ -572,8 +572,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                     aria-label={isArabic ? `الانتقال إلى الشهادة ${index + 1}` : `Go to testimonial ${index + 1}`}
                                     className={`h-1.5 rounded-full transition-all duration-300 ${
                                         index === activeTestimonialIndex
-                                            ? 'w-4 bg-black/65'
-                                            : 'w-1.5 bg-black/20 hover:bg-black/35'
+                                            ? 'w-4 bg-black/65 dark:bg-white/65'
+                                            : 'w-1.5 bg-black/20 hover:bg-black/35 dark:bg-white/25 dark:hover:bg-white/40'
                                     }`}
                                 />
                             ))}
@@ -628,7 +628,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         href={X_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.x}
                         <ArrowUpRight className="size-3.5" />
@@ -637,7 +637,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         href={INSTAGRAM_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.instagram}
                         <ArrowUpRight className="size-3.5" />
@@ -646,7 +646,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         href={LINKEDIN_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.linkedIn}
                         <ArrowUpRight className="size-3.5" />

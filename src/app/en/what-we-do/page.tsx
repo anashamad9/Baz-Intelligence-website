@@ -5,7 +5,7 @@ const siteName = 'Intellegince'
 const title = 'What We Do | Intellegince'
 const description =
   'Explore what Intellegince does across AI strategy, systems implementation, growth operations, and custom technical execution.'
-const previewImage = '/baz-intelligence-prev-eng.png'
+const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
   title,

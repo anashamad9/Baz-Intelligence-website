@@ -5,7 +5,7 @@ const siteName = "Intellegince";
 const siteTitle = "Intellegince | AI Technologies Lab";
 const siteDescription =
   "Intellegince is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
-const previewImage = "/baz-intelligence-prev-eng.png";
+const previewImage = "/IntEng.png";
 
 export const metadata: Metadata = {
   title: siteTitle,

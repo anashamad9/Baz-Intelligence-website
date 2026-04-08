@@ -5,7 +5,7 @@ const siteName = 'Intellegince'
 const title = 'Contact | Intellegince'
 const description =
   'Contact Intellegince to book a direct meeting or send your project details for a tailored AI implementation scope.'
-const previewImage = '/baz-intelligence-prev-eng.png'
+const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
   title,

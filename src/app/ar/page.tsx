@@ -5,7 +5,7 @@ const siteName = "إنتيليجنس";
 const siteTitle = "إنتيليجنس | مختبر تقنيات الذكاء الاصطناعي";
 const siteDescription =
   "إنتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
-const previewImage = "/baz-intelligence-prev-ara.png";
+const previewImage = "/IntArabic.png";
 
 export const metadata: Metadata = {
   title: siteTitle,

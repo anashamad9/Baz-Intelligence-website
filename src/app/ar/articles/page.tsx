@@ -5,7 +5,7 @@ const siteName = 'إنتيليجنس'
 const title = 'المقالات | إنتيليجنس'
 const description =
   'اطلع على مقالات إنتيليجنس حول هندسة الذكاء الاصطناعي التطبيقية ونشر النماذج وبنية البيانات والأتمتة.'
-const previewImage = '/baz-intelligence-prev-ara.png'
+const previewImage = '/IntArabic.png'
 
 export const metadata: Metadata = {
   title,
