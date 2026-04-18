@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Home from "../(marketing)/(home)/page";
 
 const siteName = "إنتيليجنس";
-const siteTitle = "إنتيليجنس | مختبر تقنيات الذكاء الاصطناعي";
+const siteTitle = "إنتيليجنس | مختبر تقنيات ذكاء إصطناعي";
 const siteDescription =
   "إنتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
 const previewImage = "/IntArabic.png";

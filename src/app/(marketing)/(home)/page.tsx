@@ -117,10 +117,10 @@ const content = {
             sayHi: 'تواصل',
         },
         brandTitle: 'إنتيليجنس',
-        brandSubtitle: 'مختبر تقنيات الذكاء الاصطناعي',
+        brandSubtitle: 'مختبر تقنيات ذكاء إصطناعي',
         heading: {
             beforeHighlight: 'مختبر',
-            highlight: 'تقنيات الذكاء الاصطناعي',
+            highlight: 'تقنيات ذكاء إصطناعي',
             afterHighlight:
                 'يركّز على مساعدتك في توفير الوقت وخفض التكاليف، ويُبنى على يد مهندسين خبراء. نحن لا نتعامل مع الذكاء الاصطناعي كإضافة سطحية فوق البرمجيات الحالية، بل كطبقة أساسية يجب تصميمها وهندستها من الجذور.',
         },
@@ -180,7 +180,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const [activeShowcaseIndex, setActiveShowcaseIndex] = useState(0)
     const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
     const [isAtmetTooltipOpen, setIsAtmetTooltipOpen] = useState(false)
-    const atmetTooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const atmetTooltipTimeoutRef = useRef<number | null>(null)
     const isArabic = language === 'ar'
     const isDark = theme === 'dark'
     const t = content[language]
