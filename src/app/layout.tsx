@@ -8,11 +8,11 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.co
   /\/+$/,
   "",
 );
-const siteName = "Intellegince";
+const siteName = "Intelligence";
 const siteNameArabic = "إنتيليجنس";
-const siteTitle = "Intellegince | AI Technologies Lab";
+const siteTitle = "Intelligence | AI Technologies Lab";
 const siteDescription =
-  "Intellegince is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Intellegince",
+    template: "%s | Intelligence",
   },
   description: siteDescription,
   applicationName: siteName,
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/intelligence%20fav%20icon.png", type: "image/png" }],
   },
   keywords: [
-    "Intellegince",
+    "Intelligence",
     "إنتيليجنس",
     "AI lab",
     "machine learning",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Intellegince English preview",
+        alt: "Intelligence English preview",
       },
     ],
   },

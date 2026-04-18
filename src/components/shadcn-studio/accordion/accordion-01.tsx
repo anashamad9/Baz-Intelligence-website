@@ -5,7 +5,7 @@ type Language = 'en' | 'ar'
 const items = [
   {
     title: {
-      en: 'What services does Intellegince provide?',
+      en: 'What services does Intelligence provide?',
       ar: 'ما الخدمات التي تقدمها إنتيليجنس؟'
     },
     content: {

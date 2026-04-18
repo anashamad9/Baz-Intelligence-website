@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: "Intellegince Arabic preview",
+        alt: "Intelligence Arabic preview",
       },
     ],
   },

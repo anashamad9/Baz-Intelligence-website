@@ -47,12 +47,12 @@ const redaction50Italic = localFont({
 const content = {
     en: {
         nav: {
-            logo: 'Intellegince',
+            logo: 'Intelligence',
             services: 'What We Do',
             articles: 'Articles',
             sayHi: 'Say hi',
         },
-        brandTitle: 'Intellegince',
+        brandTitle: 'Intelligence',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'An',
@@ -83,7 +83,7 @@ const content = {
                 {
                     clientName: 'Lina K.',
                     company: 'Nexa Health',
-                    quote: 'Working with Intellegince felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
+                    quote: 'Working with Intelligence felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
                     avatarFallback: 'LK',
                     avatarSrc: '',
                 },
@@ -203,7 +203,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const showcaseSlides: ShowcaseSlide[] = isArabic
         ? [
             {
-                badge: 'Intellegince Use Case 1',
+                badge: 'Intelligence Use Case 1',
                 title: 'وكيل صوتي',
                 subtitle: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
                 cta: 'اكتشف الحالة',
@@ -212,7 +212,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 imageAlt: 'واجهة عرض إنتيليجنس 1',
             },
             {
-                badge: 'Intellegince Use Case 2',
+                badge: 'Intelligence Use Case 2',
                 title: 'أتمتة سير العمل',
                 subtitle: 'يؤتمت الموافقات والتقارير وتسليم المهام، فيلغي التكرار ويوفّر ساعات عمل أسبوعيًا.',
                 cta: 'اكتشف الحالة',
@@ -221,7 +221,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 imageAlt: 'واجهة عرض إنتيليجنس 2',
             },
             {
-                badge: 'Intellegince Use Case 3',
+                badge: 'Intelligence Use Case 3',
                 title: 'نموذج تعلم آلة',
                 subtitle: 'يتنبأ بالطلب والمخاطر والتسرّب مبكرًا، لتقليل الهدر وتجنب قرارات مكلفة.',
                 cta: 'اكتشف الحالة',
@@ -230,7 +230,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 imageAlt: 'واجهة عرض إنتيليجنس 3',
             },
             {
-                badge: 'Intellegince Use Case 4',
+                badge: 'Intelligence Use Case 4',
                 title: 'نموذج لغوي كبير (LLM)',
                 subtitle: 'يسرّع البحث الداخلي والتلخيص وكتابة المسودات، فيختصر الوقت التشغيلي اليومي.',
                 cta: 'اكتشف الحالة',
@@ -239,7 +239,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 imageAlt: 'واجهة عرض إنتيليجنس 4',
             },
             {
-                badge: 'Intellegince Use Case 5',
+                badge: 'Intelligence Use Case 5',
                 title: 'ذكاء اصطناعي توليدي',
                 subtitle: 'ينتج محتوى وأصولًا وتسويقًا بسرعة، ما يقلل وقت التنفيذ وتكلفة الإنتاج.',
                 cta: 'اكتشف الحالة',
@@ -250,49 +250,49 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
         ]
         : [
             {
-                badge: 'Intellegince Use Case 1',
+                badge: 'Intelligence Use Case 1',
                 title: 'Voice Agent',
                 subtitle: 'Handles customer calls 24/7, reduces response time, and lowers support payroll costs.',
                 cta: 'Explore use case',
                 features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
                 imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'Intellegince showcase preview 1',
+                imageAlt: 'Intelligence showcase preview 1',
             },
             {
-                badge: 'Intellegince Use Case 2',
+                badge: 'Intelligence Use Case 2',
                 title: 'Workflow Automation',
                 subtitle: 'Automates approvals, reporting, and handoffs to remove repetitive work and save weekly team hours.',
                 cta: 'Explore use case',
                 features: ['Fewer manual tasks', 'Faster operations', 'Lower ops cost'],
                 imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'Intellegince showcase preview 2',
+                imageAlt: 'Intelligence showcase preview 2',
             },
             {
-                badge: 'Intellegince Use Case 3',
+                badge: 'Intelligence Use Case 3',
                 title: 'ML Model',
                 subtitle: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
                 cta: 'Explore use case',
                 features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
                 imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'Intellegince showcase preview 3',
+                imageAlt: 'Intelligence showcase preview 3',
             },
             {
-                badge: 'Intellegince Use Case 4',
+                badge: 'Intelligence Use Case 4',
                 title: 'LLM',
                 subtitle: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
                 cta: 'Explore use case',
                 features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
                 imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'Intellegince showcase preview 4',
+                imageAlt: 'Intelligence showcase preview 4',
             },
             {
-                badge: 'Intellegince Use Case 5',
+                badge: 'Intelligence Use Case 5',
                 title: 'Generative AI',
                 subtitle: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
                 cta: 'Explore use case',
                 features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
                 imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'Intellegince showcase preview 5',
+                imageAlt: 'Intelligence showcase preview 5',
             },
         ]
     const activeShowcaseSlide = showcaseSlides[activeShowcaseIndex] ?? showcaseSlides[0]
@@ -361,7 +361,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         <div className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white">
                             <Image
                                 src="/intelligence%201.png"
-                                alt="Intellegince logo primary"
+                                alt="Intelligence logo primary"
                                 width={96}
                                 height={96}
                                 className="h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
@@ -369,7 +369,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             />
                             <Image
                                 src="/intelligence%202.png"
-                                alt="Intellegince logo alternate"
+                                alt="Intelligence logo alternate"
                                 width={96}
                                 height={96}
                                 className="absolute h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -389,8 +389,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </h1>
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                     <Image
-                        src="/IMG_3201.heic"
-                        alt={isArabic ? 'صورة واجهة إنتيليجنس' : 'Intellegince hero image'}
+                        src="/IMG_3221.heic"
+                        alt={isArabic ? 'صورة واجهة إنتيليجنس' : 'Intelligence hero image'}
                         width={1800}
                         height={1200}
                         unoptimized

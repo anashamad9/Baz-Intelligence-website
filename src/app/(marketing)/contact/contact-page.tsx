@@ -105,7 +105,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const content: Record<Language, ContactCopy> = {
   en: {
     nav: {
-      logo: 'Intellegince',
+      logo: 'Intelligence',
       whatWeDo: 'What We Do',
       articles: 'Articles',
       sayHi: 'Contact',
