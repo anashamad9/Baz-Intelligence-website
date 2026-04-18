@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight, ChevronDown, Languages, Moon, Sun } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
+import { CopyButton } from '@/components/copy-button'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 
@@ -53,6 +54,7 @@ type PageCopy = {
 
 const STORAGE_KEY = 'baz-language'
 const THEME_STORAGE_KEY = 'baz-theme'
+const EMAIL_ADDRESS = 'hi@intelligence.com'
 const X_URL = 'https://x.com/Bazintelligence'
 const INSTAGRAM_URL = '#'
 const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
@@ -124,20 +126,32 @@ const content: Record<Language, PageCopy> = {
       title: 'FAQ',
       items: [
         {
-          question: 'How long does a typical project take?',
-          answer: 'Most engagements start with a 2-4 week strategy phase, then execution timelines depend on scope.',
+          question: 'Who is this for?',
+          answer: 'For startups, businesses, and individuals who want practical AI systems that save time and reduce costs.',
         },
         {
-          question: 'Do you work with startups only?',
-          answer: 'No. We work with startups, established businesses, and teams that need AI systems with clear business value.',
+          question: 'How do we work?',
+          answer: "If you don't know how this helps, we do a meeting to understand your business. If you already know what you want, then ignore this question :)",
         },
         {
-          question: 'Can we start with one focused service?',
-          answer: 'Yes. We can begin with a scoped module, audit, or sprint and then expand based on results.',
+          question: 'What are the prices?',
+          answer: 'We are defintly less than your costs.',
         },
         {
-          question: 'Do you provide ongoing support?',
-          answer: 'Yes. We offer monthly support for optimization, campaigns, content systems, and AI workflow updates.',
+          question: 'What services you are doing?',
+          answer: 'Agents, automation, LLMs and chatbots, generative AI, and ML models.',
+        },
+        {
+          question: 'What is the time for each project?',
+          answer: 'Most projects start with a 2-4 week strategy phase, then execution time depends on scope.',
+        },
+        {
+          question: 'Why us?',
+          answer: 'Because we focus on measurable outcomes, clear execution, and lower operational cost.',
+        },
+        {
+          question: 'Where we are located?',
+          answer: 'We work remotely and support clients across different locations.',
         },
       ],
     },
@@ -426,41 +440,46 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
         </div>
       </section>
 
-      <footer className={`mx-auto mt-8 flex w-full max-w-2xl items-start justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
+      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-start justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
         <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-          <div className="flex items-center justify-start gap-1">
-            <a href="mailto:hi@intelligence.com" className="transition-colors hover:text-black">
-              hi@intelligence.com
+          <div className="flex flex-wrap items-center justify-start gap-2">
+            <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
+              {EMAIL_ADDRESS}
             </a>
+            <CopyButton
+              value={EMAIL_ADDRESS}
+              size="sm"
+              className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
+            />
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-sm leading-5 font-light text-black/70">
+        <div className="flex flex-wrap items-center gap-1.5 text-xs leading-4 font-light text-black/70">
           <a
             href={X_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
           >
             {t.contact.x}
-            <ArrowUpRight className="size-3.5" />
+            <ArrowUpRight className="size-3" />
           </a>
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
           >
             {t.contact.instagram}
-            <ArrowUpRight className="size-3.5" />
+            <ArrowUpRight className="size-3" />
           </a>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
           >
             {t.contact.linkedIn}
-            <ArrowUpRight className="size-3.5" />
+            <ArrowUpRight className="size-3" />
           </a>
         </div>
       </footer>

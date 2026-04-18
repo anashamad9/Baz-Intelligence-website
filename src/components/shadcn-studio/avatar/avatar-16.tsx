@@ -34,7 +34,7 @@ const AvatarGroupTooltipDemo = ({ language = 'en', tooltipClassName }: { languag
       {avatars.map((avatar, index) => (
         <Tooltip key={index}>
           <TooltipTrigger asChild>
-            <Avatar className='rounded-md border border-zinc-200/70 transition-all duration-300 ease-in-out hover:z-1 hover:-translate-y-1 hover:shadow-md'>
+            <Avatar className='rounded-md border-[1px] border-zinc-200/70 transition-all duration-300 ease-in-out hover:z-1 hover:-translate-y-1 hover:shadow-md'>
               {avatar.src ? <AvatarImage src={avatar.src} alt={avatar.name[language]} className='rounded-md object-cover' /> : null}
               <AvatarFallback className='rounded-md text-xs'>{avatar.fallback}</AvatarFallback>
             </Avatar>

@@ -494,7 +494,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         <div className={`min-w-0 p-4 sm:p-5 flex h-full flex-col ${textAlignClass}`}>
                             <div>
                                 <div className="flex justify-start">
-                                    <Badge variant="blue" className="bg-[#1063ff] text-white">
+                                    <Badge variant="blue" className="bg-[#1063ff] text-white dark:bg-[#1063ff] dark:text-white">
                                         {activeShowcaseSlide.badge}
                                     </Badge>
                                 </div>
@@ -570,7 +570,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.industriesTitle}</h3>
                                 <div className="mt-3 flex flex-wrap justify-start gap-1.5">
                                     {servicesPanel.industries.map(item => (
-                                        <p key={item} className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
+                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
                                             {item}
                                         </p>
                                     ))}
@@ -580,7 +580,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.capabilitiesTitle}</h3>
                                 <div className="mt-3 flex flex-wrap justify-start gap-1.5">
                                     {servicesPanel.capabilities.map(item => (
-                                        <p key={item} className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
+                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
                                             {item}
                                         </p>
                                     ))}
@@ -605,7 +605,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             {activeTestimonial.quote}
                         </p>
                         <div className="mt-6 flex items-center gap-3">
-                            <Avatar className="size-10 border border-black/10 bg-site-gray-ui">
+                            <Avatar className="size-10 border-[1px] border-black/10 bg-site-gray-ui">
                                 {activeTestimonial.avatarSrc ? <AvatarImage src={activeTestimonial.avatarSrc} alt={activeTestimonial.clientName} className="object-cover" /> : null}
                                 <AvatarFallback className="bg-site-gray-ui text-xs text-black/65">{activeTestimonial.avatarFallback}</AvatarFallback>
                             </Avatar>
@@ -680,33 +680,33 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         />
                     </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-sm leading-5 font-light text-black/70">
+                <div className="flex flex-wrap items-center gap-1.5 text-xs leading-4 font-light text-black/70">
                     <a
                         href={X_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.x}
-                        <ArrowUpRight className="size-3.5" />
+                        <ArrowUpRight className="size-3" />
                     </a>
                     <a
                         href={INSTAGRAM_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.instagram}
-                        <ArrowUpRight className="size-3.5" />
+                        <ArrowUpRight className="size-3" />
                     </a>
                     <a
                         href={LINKEDIN_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-site-gray-ui px-3.5 py-1 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
                     >
                         {t.contact.linkedIn}
-                        <ArrowUpRight className="size-3.5" />
+                        <ArrowUpRight className="size-3" />
                     </a>
                 </div>
             </footer>

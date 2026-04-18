@@ -53,6 +53,7 @@ type ContactCopy = {
     otherPhoneCodesSection: string
     selectRequired: string
     submit: string
+    submitFailed: string
   }
   postSubmit: {
     title: string
@@ -108,7 +109,7 @@ const content: Record<Language, ContactCopy> = {
       logo: 'Intelligence',
       whatWeDo: 'What We Do',
       articles: 'Articles',
-      sayHi: 'Contact',
+      sayHi: 'Say hi',
     },
     title: 'How would you like to continue?',
     subtitle: 'Choose a direct meeting, or fill the form and we will follow up with the right scope.',
@@ -137,6 +138,7 @@ const content: Record<Language, ContactCopy> = {
       otherPhoneCodesSection: 'International Keys',
       selectRequired: 'Please select an option.',
       submit: 'Submit',
+      submitFailed: 'Something went wrong while saving your form. Please try again.',
     },
     postSubmit: {
       title: 'Would you like to book a direct meeting now?',
@@ -180,6 +182,7 @@ const content: Record<Language, ContactCopy> = {
       otherPhoneCodesSection: 'المفاتيح الدولية',
       selectRequired: 'يرجى اختيار قيمة.',
       submit: 'إرسال',
+      submitFailed: 'حدث خطأ أثناء حفظ النموذج. يرجى المحاولة مرة أخرى.',
     },
     postSubmit: {
       title: 'هل تريد حجز اجتماع مباشر الآن؟',
@@ -198,9 +201,22 @@ type CustomSelectProps = {
   sections: SelectSection[]
   isArabic: boolean
   hasError?: boolean
+  rootClassName?: string
+  triggerClassName?: string
+  getTriggerLabel?: (selectedOption: SelectOption | undefined) => string
 }
 
-function CustomSelect({ value, onChange, placeholder, sections, isArabic, hasError = false }: CustomSelectProps) {
+function CustomSelect({
+  value,
+  onChange,
+  placeholder,
+  sections,
+  isArabic,
+  hasError = false,
+  rootClassName = '',
+  triggerClassName = '',
+  getTriggerLabel,
+}: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement | null>(null)
 
@@ -219,26 +235,55 @@ function CustomSelect({ value, onChange, placeholder, sections, isArabic, hasErr
 
   const selectedOption = sections.flatMap((section) => section.options).find((option) => option.value === value)
 
+  const triggerText = selectedOption
+    ? (getTriggerLabel ? getTriggerLabel(selectedOption) : selectedOption.label)
+    : placeholder
+
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className={`relative ${rootClassName}`}>
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
+        onFocus={(event) => {
+          if (event.currentTarget.matches(':focus-visible')) {
+            setIsOpen(true)
+          }
+        }}
+        onBlur={(event) => {
+          const nextTarget = event.relatedTarget as Node | null
+          if (!rootRef.current?.contains(nextTarget)) {
+            setIsOpen(false)
+          }
+        }}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            setIsOpen(false)
+            return
+          }
+          if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            setIsOpen(true)
+          }
+        }}
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
         className={`flex w-full items-center justify-between rounded-md border bg-white px-3 py-2 text-sm outline-none transition-colors ${
           hasError
             ? 'border-red-400'
             : isOpen
               ? 'border-[#1063ff]'
               : 'border-black/15 hover:border-black/25 focus-visible:border-[#1063ff]'
-        }`}
+        } ${triggerClassName}`}
       >
         <span className={selectedOption ? 'text-black' : 'text-black/55'}>
-          {selectedOption ? selectedOption.label : placeholder}
+          {triggerText}
         </span>
         <ChevronDown className={`size-4 shrink-0 text-black/55 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       <div
+        role="listbox"
+        aria-hidden={!isOpen}
         className={`absolute z-30 mt-1 w-full overflow-hidden rounded-md border border-black/15 bg-white shadow-sm transition-all duration-200 ${
           isOpen ? 'pointer-events-auto max-h-64 opacity-100' : 'pointer-events-none max-h-0 opacity-0'
         }`}
@@ -255,6 +300,7 @@ function CustomSelect({ value, onChange, placeholder, sections, isArabic, hasErr
                   <button
                     key={option.value}
                     type="button"
+                    tabIndex={-1}
                     onClick={() => {
                       onChange(option.value)
                       setIsOpen(false)
@@ -282,6 +328,8 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const [showForm, setShowForm] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [skippedMeeting, setSkippedMeeting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [intent, setIntent] = useState<ContactIntent>('learn')
   const [fieldErrors, setFieldErrors] = useState({
     role: false,
@@ -379,7 +427,10 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
       label: displayNames.of(code) ?? code,
     })
     const arabCodeSet = new Set(ARAB_COUNTRY_CODES)
-    const arabOptions = ARAB_COUNTRY_CODES.filter((code) => mergedCodes.includes(code)).map(toOption)
+    const arabOptions = ARAB_COUNTRY_CODES
+      .filter((code) => mergedCodes.includes(code))
+      .map(toOption)
+      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
     const otherOptions = mergedCodes
       .filter((code) => !arabCodeSet.has(code))
       .map(toOption)
@@ -400,7 +451,10 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
         label: `${countryLabel} (${dialCode})`,
       }
     }
-    const arabOptions = ARAB_COUNTRY_CODES.filter((code) => DIAL_CODE_BY_COUNTRY[code]).map(formatOption)
+    const arabOptions = ARAB_COUNTRY_CODES
+      .filter((code) => DIAL_CODE_BY_COUNTRY[code])
+      .map(formatOption)
+      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
     const otherCodes = Object.keys(DIAL_CODE_BY_COUNTRY).filter((code) => !ARAB_COUNTRY_CODES.includes(code))
     const otherOptions = otherCodes
       .map(formatOption)
@@ -443,7 +497,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
           <div className="flex items-center justify-end gap-2">
             <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
             <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-            <Link href={contactHref} className="text-sm leading-6 font-light text-black transition-colors hover:text-black">{t.nav.sayHi}</Link>
+            <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</Link>
           </div>
         </nav>
       </div>
@@ -477,7 +531,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
           <div className={`grid transition-all duration-500 ease-out ${showForm ? 'mt-5 grid-rows-[1fr] overflow-visible opacity-100' : 'mt-0 grid-rows-[0fr] overflow-hidden opacity-0'}`}>
             <div className={showForm ? 'overflow-visible' : 'overflow-hidden'}>
               <form
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault()
                   if (!event.currentTarget.reportValidity()) {
                     return
@@ -492,10 +546,44 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                   if (nextErrors.role || nextErrors.employees || nextErrors.phoneCode || nextErrors.country) {
                     return
                   }
-                  setSkippedMeeting(false)
-                  setSubmitted(true)
+                  setSubmitError('')
+                  setIsSubmitting(true)
+                  try {
+                    const response = await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        language,
+                        intent,
+                        fullName: formData.fullName,
+                        companyName: formData.companyName,
+                        role: formData.role,
+                        roleElse: formData.roleElse,
+                        employees: formData.employees,
+                        email: formData.email,
+                        phoneCode: formData.phoneCode,
+                        phone: formData.phone,
+                        country: formData.country,
+                        details: formData.details,
+                      }),
+                    })
+
+                    if (!response.ok) {
+                      throw new Error(`Request failed with status ${response.status}`)
+                    }
+
+                    setSkippedMeeting(false)
+                    setSubmitted(true)
+                  } catch (error) {
+                    console.error('Failed to submit contact form:', error)
+                    setSubmitError(t.form.submitFailed)
+                  } finally {
+                    setIsSubmitting(false)
+                  }
                 }}
-                className="space-y-3"
+                className="preserve-form-borders space-y-3"
               >
                 <h2 className="text-base font-medium text-black">{t.form.title}</h2>
 
@@ -570,32 +658,43 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
                   />
                   <div>
-                    <CustomSelect
-                      value={formData.phoneCode}
-                      onChange={(value) => {
-                        setFormData((current) => ({ ...current, phoneCode: value }))
-                        setFieldErrors((current) => ({ ...current, phoneCode: false }))
-                      }}
-                      placeholder={t.form.phoneCode}
-                      sections={phoneCodeSections}
-                      isArabic={isArabic}
-                      hasError={fieldErrors.phoneCode}
-                    />
+                    <div className="flex items-stretch gap-2">
+                      <CustomSelect
+                        value={formData.phoneCode}
+                        onChange={(value) => {
+                          setFormData((current) => ({ ...current, phoneCode: value }))
+                          setFieldErrors((current) => ({ ...current, phoneCode: false }))
+                        }}
+                        placeholder="+000"
+                        sections={phoneCodeSections}
+                        isArabic={isArabic}
+                        hasError={fieldErrors.phoneCode}
+                        rootClassName="w-28 shrink-0"
+                        triggerClassName="px-2"
+                        getTriggerLabel={(selectedOption) => {
+                          if (!selectedOption) {
+                            return '+000'
+                          }
+                          const [, dialCode = ''] = selectedOption.value.split(':')
+                          return dialCode
+                        }}
+                      />
+                      <input
+                        required
+                        value={formData.phone}
+                        onChange={(event) => setFormData((current) => ({ ...current, phone: event.target.value }))}
+                        placeholder={t.form.phone}
+                        type="tel"
+                        inputMode="tel"
+                        dir={isArabic ? 'rtl' : 'ltr'}
+                        disabled={!formData.phoneCode}
+                        className={`flex-1 rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] disabled:cursor-not-allowed disabled:bg-site-gray-surface disabled:text-black/45 ${isArabic ? 'text-right' : 'text-left'}`}
+                      />
+                    </div>
                     {fieldErrors.phoneCode ? (
                       <p className="mt-1 text-xs text-red-500">{t.form.selectRequired}</p>
                     ) : null}
                   </div>
-                  <input
-                    required
-                    value={formData.phone}
-                    onChange={(event) => setFormData((current) => ({ ...current, phone: event.target.value }))}
-                    placeholder={t.form.phone}
-                    type="tel"
-                    inputMode="tel"
-                    dir={isArabic ? 'rtl' : 'ltr'}
-                    disabled={!formData.phoneCode}
-                    className={`rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] disabled:cursor-not-allowed disabled:bg-site-gray-surface disabled:text-black/45 ${isArabic ? 'text-right' : 'text-left'}`}
-                  />
                   <div>
                     <CustomSelect
                       value={formData.country}
@@ -647,10 +746,14 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex items-center rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black/85"
                 >
                   {t.form.submit}
                 </button>
+                {submitError ? (
+                  <p className="text-sm text-red-500">{submitError}</p>
+                ) : null}
               </form>
             </div>
           </div>

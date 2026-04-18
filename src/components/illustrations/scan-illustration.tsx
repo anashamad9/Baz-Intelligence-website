@@ -73,9 +73,9 @@ export const ScanIllustration = () => {
 
 export const CardDecorator = ({ className }: { className?: string }) => (
     <>
-        <span className={cn('absolute -left-px -top-px block size-2.5 rounded-tl border-l-[1.5px] border-t-[1.5px] border-white', className)}></span>
-        <span className={cn('absolute -right-px -top-px block size-2.5 rounded-tr border-r-[1.5px] border-t-[1.5px] border-white', className)}></span>
-        <span className={cn('absolute -bottom-px -left-px block size-2.5 rounded-bl border-b-[1.5px] border-l-[1.5px] border-white', className)}></span>
-        <span className={cn('absolute -bottom-px -right-px block size-2.5 rounded-br border-b-[1.5px] border-r-[1.5px] border-white', className)}></span>
+        <span className={cn('absolute -left-px -top-px block size-2.5 rounded-tl border-l-[0.1875px] border-t-[0.1875px] border-white', className)}></span>
+        <span className={cn('absolute -right-px -top-px block size-2.5 rounded-tr border-r-[0.1875px] border-t-[0.1875px] border-white', className)}></span>
+        <span className={cn('absolute -bottom-px -left-px block size-2.5 rounded-bl border-b-[0.1875px] border-l-[0.1875px] border-white', className)}></span>
+        <span className={cn('absolute -bottom-px -right-px block size-2.5 rounded-br border-b-[0.1875px] border-r-[0.1875px] border-white', className)}></span>
     </>
 )
