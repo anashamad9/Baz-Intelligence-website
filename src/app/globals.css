@@ -145,12 +145,22 @@
     @apply bg-white text-foreground;
     scroll-behavior: smooth;
     overscroll-behavior-y: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-white text-foreground;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

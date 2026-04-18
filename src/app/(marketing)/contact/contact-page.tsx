@@ -620,14 +620,14 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     <button
                       type="button"
                       onClick={() => setIntent('learn')}
-                      className={`rounded-md px-3 py-1.5 text-sm transition-colors ${intent === 'learn' ? 'bg-[#1063ff] text-white' : 'bg-site-gray-ui text-black hover:bg-site-gray-ui'}`}
+                      className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${intent === 'learn' ? 'border-[#1063ff] bg-[#1063ff] text-white' : 'border-black/15 bg-white text-black hover:bg-white'}`}
                     >
                       {t.form.intentLearn}
                     </button>
                     <button
                       type="button"
                       onClick={() => setIntent('know')}
-                      className={`rounded-md px-3 py-1.5 text-sm transition-colors ${intent === 'know' ? 'bg-[#1063ff] text-white' : 'bg-site-gray-ui text-black hover:bg-site-gray-ui'}`}
+                      className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${intent === 'know' ? 'border-[#1063ff] bg-[#1063ff] text-white' : 'border-black/15 bg-white text-black hover:bg-white'}`}
                     >
                       {t.form.intentKnow}
                     </button>

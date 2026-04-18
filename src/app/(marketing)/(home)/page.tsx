@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import ButtonDemo from '@/components/button-demo'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Languages, Moon, Sun } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { Badge } from '@/components/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import { usePersistedTheme } from '@/hooks/use-persisted-theme'
@@ -62,7 +63,7 @@ const content = {
         },
         subheading: 'For founders, startups, businesses, and individuals.',
         introParagraphs: [
-            'We operate as an engineering and research lab focused on designing, training, and deploying advanced AI systems, including large language models, domain-specific models, predictive analytics, generative systems, and autonomous agents. Rather than focusing only on interfaces, we work deeply at the model level, training on proprietary datasets, optimizing inference pipelines, and designing intelligent workflows powered by retrieval-augmented and multi-agent systems. Our approach combines applied research with production-grade engineering, ensuring high performance, security, scalability, and long-term maintainability. By replacing manual processes with tailored intelligent systems, we help businesses significantly reduce operational effort and costs, often by more than 50%, while improving how they operate.',
+            'We operate as an engineering and research lab focused on designing, training, and deploying advanced AI systems, including large language models, domain-specific models, predictive analytics, generative systems, and autonomous agents. Rather than focusing only on interfaces, we work deeply at the model level, training on proprietary datasets, optimizing inference pipelines, and designing intelligent workflows powered by retrieval-augmented and multi-agent systems. Our approach combines applied research with production-grade engineering, ensuring high performance, security, scalability, and long-term maintainability. By replacing manual processes with tailored intelligent systems, we help businesses significantly reduce operational effort and costs, often by more than 50%, while improving how they operate. We are also building Atmet AI, an agent for your business, and it is coming soon.',
         ],
         buttons: {
             talkTo: 'Talk to',
@@ -81,24 +82,24 @@ const content = {
             title: 'Testimonials',
             items: [
                 {
-                    clientName: 'Lina K.',
-                    company: 'Nexa Health',
+                    clientName: 'Randa Mitwalli',
+                    company: 'Randa Academy',
                     quote: 'Working with Intelligence felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
-                    avatarFallback: 'LK',
+                    avatarFallback: 'RM',
                     avatarSrc: '',
                 },
                 {
-                    clientName: 'Omar R.',
-                    company: 'Atlas Logistics',
+                    clientName: 'Ehab Mousa',
+                    company: 'Aivomed',
                     quote: 'Execution quality was exceptional. Their system gave our team better visibility, faster decisions, and a much clearer way to scale internal processes.',
-                    avatarFallback: 'OR',
+                    avatarFallback: 'EM',
                     avatarSrc: '',
                 },
                 {
-                    clientName: 'Sara M.',
-                    company: 'Orbit Learning',
+                    clientName: 'Yazan Billeh',
+                    company: 'Dark Quanta',
                     quote: 'From strategy to rollout, every step was practical and measurable. The final product matched our business goals and improved our day-to-day operations.',
-                    avatarFallback: 'SM',
+                    avatarFallback: 'YB',
                     avatarSrc: '',
                 },
             ],
@@ -125,7 +126,7 @@ const content = {
         },
         subheading: 'للمؤسسين، للشركات الناشئة، للأعمال، وللأفراد.',
         introParagraphs: [
-            'نعمل كمختبر هندسة وأبحاث يركّز على تصميم وتدريب ونشر أنظمة ذكاء اصطناعي متقدمة، بما يشمل النماذج اللغوية الكبيرة، والنماذج المتخصصة حسب المجال، والتحليلات التنبؤية، والأنظمة التوليدية، والوكلاء الذاتيين. وبدل التركيز على الواجهات فقط، نعمل بعمق على مستوى النموذج: تدريب على بيانات خاصة، وتحسين خطوط الاستدلال، وتصميم تدفقات ذكية مدعومة بأنظمة الاسترجاع المعزّز والوكلاء المتعددين. يجمع نهجنا بين البحث التطبيقي والهندسة الجاهزة للإنتاج، مع عناية عالية بالأداء والأمان وقابلية التوسع وسهولة الصيانة على المدى الطويل. ومن خلال استبدال العمليات اليدوية بأنظمة ذكية مخصصة، نساعد الشركات على خفض الجهد التشغيلي والتكلفة بشكل كبير، غالبًا بأكثر من 50٪، مع تحسين طريقة العمل.',
+            'نعمل كمختبر هندسة وأبحاث يركّز على تصميم وتدريب ونشر أنظمة ذكاء اصطناعي متقدمة، بما يشمل النماذج اللغوية الكبيرة، والنماذج المتخصصة حسب المجال، والتحليلات التنبؤية، والأنظمة التوليدية، والوكلاء الذاتيين. وبدل التركيز على الواجهات فقط، نعمل بعمق على مستوى النموذج: تدريب على بيانات خاصة، وتحسين خطوط الاستدلال، وتصميم تدفقات ذكية مدعومة بأنظمة الاسترجاع المعزّز والوكلاء المتعددين. يجمع نهجنا بين البحث التطبيقي والهندسة الجاهزة للإنتاج، مع عناية عالية بالأداء والأمان وقابلية التوسع وسهولة الصيانة على المدى الطويل. ومن خلال استبدال العمليات اليدوية بأنظمة ذكية مخصصة، نساعد الشركات على خفض الجهد التشغيلي والتكلفة بشكل كبير، غالبًا بأكثر من 50٪، مع تحسين طريقة العمل. كما نعمل حاليًا على بناء Atmet AI، وهو وكيل لأعمالك، وسيتم إطلاقه قريبًا.',
         ],
         buttons: {
             talkTo: 'تحدث مع',
@@ -144,24 +145,24 @@ const content = {
             title: 'آراء العملاء',
             items: [
                 {
-                    clientName: 'لينا',
-                    company: 'Nexa Health',
+                    clientName: 'Randa Mitwalli',
+                    company: 'Randa Academy',
                     quote: 'العمل مع إنتيليجنس كان كأنه فتح قدرة تشغيلية جديدة. بسّطوا طريقة عمل الفريق وساعدونا على إطلاق تدفقات ذكاء اصطناعي فعالة بدون تعقيد.',
-                    avatarFallback: 'ل',
+                    avatarFallback: 'RM',
                     avatarSrc: '',
                 },
                 {
-                    clientName: 'عمر',
-                    company: 'Atlas Logistics',
+                    clientName: 'Ehab Mousa',
+                    company: 'Aivomed',
                     quote: 'جودة التنفيذ كانت ممتازة. النظام أعطى فريقنا وضوحًا أكبر، وقرارات أسرع، وخطة أوضح للتوسع في العمليات.',
-                    avatarFallback: 'ع',
+                    avatarFallback: 'EM',
                     avatarSrc: '',
                 },
                 {
-                    clientName: 'سارة',
-                    company: 'Orbit Learning',
+                    clientName: 'Yazan Billeh',
+                    company: 'Dark Quanta',
                     quote: 'من الاستراتيجية إلى الإطلاق، كل خطوة كانت عملية وقابلة للقياس، والنتيجة النهائية انسجمت مع أهداف العمل بشكل واضح.',
-                    avatarFallback: 'س',
+                    avatarFallback: 'YB',
                     avatarSrc: '',
                 },
             ],
@@ -178,6 +179,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const [theme, setTheme] = usePersistedTheme('light', THEME_STORAGE_KEY)
     const [activeShowcaseIndex, setActiveShowcaseIndex] = useState(0)
     const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
+    const [isAtmetTooltipOpen, setIsAtmetTooltipOpen] = useState(false)
+    const atmetTooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const isArabic = language === 'ar'
     const isDark = theme === 'dark'
     const t = content[language]
@@ -321,6 +324,27 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
         document.documentElement.classList.toggle('dark', isDark)
     }, [isArabic, isDark, language])
 
+    useEffect(() => {
+        return () => {
+            if (atmetTooltipTimeoutRef.current) {
+                window.clearTimeout(atmetTooltipTimeoutRef.current)
+            }
+        }
+    }, [])
+
+    const handleAtmetClick = (event: MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault()
+        setIsAtmetTooltipOpen(true)
+
+        if (atmetTooltipTimeoutRef.current) {
+            window.clearTimeout(atmetTooltipTimeoutRef.current)
+        }
+
+        atmetTooltipTimeoutRef.current = window.setTimeout(() => {
+            setIsAtmetTooltipOpen(false)
+        }, 1400)
+    }
+
     return (
         <main dir={isArabic ? 'rtl' : 'ltr'} className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}>
             <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
@@ -389,7 +413,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </h1>
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                     <Image
-                        src="/IMG_3221.heic"
+                        src="/IMG_3233.heic"
                         alt={isArabic ? 'صورة واجهة إنتيليجنس' : 'Intelligence hero image'}
                         width={1800}
                         height={1200}
@@ -399,9 +423,42 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     />
                 </div>
                 <div className={`mx-auto mt-4 max-w-2xl space-y-5 text-base leading-5 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
-                    {t.introParagraphs.map(paragraph => (
-                        <p key={paragraph}>{paragraph}</p>
-                    ))}
+                    {t.introParagraphs.map(paragraph => {
+                        const atmetText = 'Atmet AI'
+
+                        if (!paragraph.includes(atmetText)) {
+                            return <p key={paragraph}>{paragraph}</p>
+                        }
+
+                        const [beforeAtmet, afterAtmet] = paragraph.split(atmetText)
+
+                        return (
+                            <p key={paragraph}>
+                                {beforeAtmet}
+                                <Tooltip
+                                    open={isAtmetTooltipOpen}
+                                    onOpenChange={(open) => {
+                                        if (!open) {
+                                            setIsAtmetTooltipOpen(false)
+                                        }
+                                    }}
+                                >
+                                    <TooltipTrigger asChild>
+                                        <a
+                                            href="#"
+                                            onClick={handleAtmetClick}
+                                            className="underline decoration-current underline-offset-2"
+                                            aria-label="Atmet AI (coming soon)"
+                                        >
+                                            {atmetText}
+                                        </a>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="top">soon</TooltipContent>
+                                </Tooltip>
+                                {afterAtmet}
+                            </p>
+                        )
+                    })}
                 </div>
                 <div className="mx-auto mt-4 flex max-w-2xl flex-wrap items-center justify-start gap-2">
                     <ButtonDemo
