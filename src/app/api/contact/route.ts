@@ -228,14 +228,34 @@ async function appendToSheet(submission: ContactSubmission, userAgent: string) {
 }
 
 function toUserSafeError(message: string): string {
+  const normalized = message.toLowerCase()
+
   if (message.includes('Missing required env var')) {
     return 'Server env vars are missing. Check GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, and GOOGLE_SHEETS_SPREADSHEET_ID in Vercel.'
+  }
+  if (
+    normalized.includes('pem') ||
+    normalized.includes('decoder routines') ||
+    normalized.includes('no start line') ||
+    normalized.includes('asn1') ||
+    normalized.includes('bad base64 decode')
+  ) {
+    return 'Private key format is invalid. Copy GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY exactly from JSON private_key, keep BEGIN/END lines, and use \\n (not /n).'
   }
   if (message.includes('invalid_grant') || message.includes('Invalid JWT')) {
     return 'Google credentials look invalid. Re-check service account email/private key formatting (use \\n, not /n).'
   }
   if (message.includes('PERMISSION_DENIED') || message.includes('The caller does not have permission')) {
     return 'Google service account has no access to the sheet. Share the sheet with the service account email as Editor.'
+  }
+  if (message.includes('(404)')) {
+    return 'Spreadsheet was not found. Re-check GOOGLE_SHEETS_SPREADSHEET_ID and confirm the sheet exists.'
+  }
+  if (message.includes('(403)')) {
+    return 'Access denied by Google Sheets. Share the sheet with the service account email and make sure Google Sheets API is enabled in the same project.'
+  }
+  if (message.includes('(400)')) {
+    return 'Google rejected the request. Check sheet tab name/range and service account configuration.'
   }
   if (message.includes('Unable to parse range')) {
     return 'Sheet tab name is invalid. Set GOOGLE_SHEETS_SHEET_NAME to an existing tab name.'
