@@ -11,7 +11,7 @@ type AvatarPerson = {
 
 const avatars: AvatarPerson[] = [
   {
-    src: '/Anas%20Hamad.png',
+    src: '/avatars/anas-hamad.png',
     fallback: 'AH',
     name: {
       en: 'Anas Hamad',
@@ -19,7 +19,7 @@ const avatars: AvatarPerson[] = [
     }
   },
   {
-    src: '/Mohammad%20Doleh.png',
+    src: '/avatars/mohammad-doleh.png',
     fallback: 'MD',
     name: {
       en: 'Mohammad Doleh',
@@ -35,7 +35,15 @@ const AvatarGroupTooltipDemo = ({ language = 'en', tooltipClassName }: { languag
         <Tooltip key={index}>
           <TooltipTrigger asChild>
             <Avatar className='rounded-md border-[1px] border-zinc-200/70 transition-all duration-300 ease-in-out hover:z-1 hover:-translate-y-1 hover:shadow-md'>
-              {avatar.src ? <AvatarImage src={avatar.src} alt={avatar.name[language]} className='rounded-md object-cover' /> : null}
+              {avatar.src ? (
+                <AvatarImage
+                  src={avatar.src}
+                  alt={avatar.name[language]}
+                  loading='eager'
+                  decoding='async'
+                  className='rounded-md object-cover'
+                />
+              ) : null}
               <AvatarFallback className='rounded-md text-xs'>{avatar.fallback}</AvatarFallback>
             </Avatar>
           </TooltipTrigger>

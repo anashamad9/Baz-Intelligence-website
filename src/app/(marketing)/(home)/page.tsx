@@ -525,7 +525,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 </div>
                             </div>
                         </div>
-                        <div className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-full">
+                        <div dir="ltr" className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-full">
                             <div
                                 className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                                 style={{ transform: `translateX(-${activeShowcaseIndex * 100}%)` }}
