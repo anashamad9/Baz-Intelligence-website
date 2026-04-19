@@ -413,7 +413,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </h1>
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                     <Image
-                        src="/IMG_3233.heic"
+                        src="/IMG_3241.heic"
                         alt={isArabic ? 'صورة واجهة إنتيليجنس' : 'Intelligence hero image'}
                         width={1800}
                         height={1200}
