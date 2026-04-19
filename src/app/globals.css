@@ -395,6 +395,14 @@
     border-color: rgb(0 0 0 / 0.25) !important;
   }
 
+  .preserve-form-borders .focus\:border-\[\#1063ff\]:focus {
+    border-color: #1063ff !important;
+  }
+
+  .preserve-form-borders .focus-visible\:border-\[\#1063ff\]:focus-visible {
+    border-color: #1063ff !important;
+  }
+
   .avatar-border-preserve.border {
     border-width: 1px !important;
   }
@@ -466,5 +474,42 @@
 
   .disabled\:bg-site-gray-surface:disabled {
     background-color: var(--site-gray-surface);
+  }
+
+  :where(
+    :not(.preserve-form-borders):not(.preserve-form-borders *):not(.avatar-border-preserve):not(.avatar-border-preserve *)
+  ) {
+    border-width: 0 !important;
+    border-inline-width: 0 !important;
+    border-block-width: 0 !important;
+    border-top-width: 0 !important;
+    border-right-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
+  }
+
+  :where(
+    :not(.preserve-form-borders):not(.preserve-form-borders *):not(.avatar-border-preserve):not(.avatar-border-preserve *)
+  )::before,
+  :where(
+    :not(.preserve-form-borders):not(.preserve-form-borders *):not(.avatar-border-preserve):not(.avatar-border-preserve *)
+  )::after {
+    border-width: 0 !important;
+    border-inline-width: 0 !important;
+    border-block-width: 0 !important;
+    border-top-width: 0 !important;
+    border-right-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
+  }
+
+  .divide-x > :not(:last-child) {
+    border-inline-start-width: 0 !important;
+    border-inline-end-width: 0 !important;
+  }
+
+  .divide-y > :not(:last-child) {
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
   }
 }

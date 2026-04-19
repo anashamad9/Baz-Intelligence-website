@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Check, ChevronDown, Languages, Moon, Sun } from 'lucide-react'
+import { Check, ChevronDown, Languages, Loader2, Moon, Sun } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
@@ -83,19 +83,6 @@ const FALLBACK_COUNTRY_CODES = [
   'KR', 'SS', 'ES', 'LK', 'SD', 'SR', 'SE', 'CH', 'SY', 'TJ', 'TZ', 'TH', 'TL', 'TG', 'TO', 'TT', 'TN', 'TR', 'TM', 'TV',
   'UG', 'UA', 'AE', 'GB', 'US', 'UY', 'UZ', 'VU', 'VA', 'VE', 'VN', 'YE', 'ZM', 'ZW', 'PS',
 ]
-const DIAL_CODE_BY_COUNTRY: Record<string, string> = {
-  DZ: '+213', BH: '+973', KM: '+269', DJ: '+253', EG: '+20', IQ: '+964', JO: '+962', KW: '+965', LB: '+961', LY: '+218',
-  MR: '+222', MA: '+212', OM: '+968', PS: '+970', QA: '+974', SA: '+966', SO: '+252', SD: '+249', SY: '+963', TN: '+216',
-  AE: '+971', YE: '+967',
-  US: '+1', CA: '+1', GB: '+44', FR: '+33', DE: '+49', IT: '+39', ES: '+34', NL: '+31', SE: '+46', NO: '+47',
-  CH: '+41', AT: '+43', BE: '+32', IE: '+353', PT: '+351', PL: '+48', CZ: '+420', RO: '+40', HU: '+36', GR: '+30',
-  TR: '+90', RU: '+7', UA: '+380',
-  IN: '+91', PK: '+92', BD: '+880', LK: '+94', NP: '+977', CN: '+86', JP: '+81', KR: '+82', MY: '+60', SG: '+65',
-  ID: '+62', PH: '+63', TH: '+66', VN: '+84',
-  AU: '+61', NZ: '+64',
-  MX: '+52', BR: '+55', AR: '+54', CL: '+56', CO: '+57', PE: '+51',
-  ZA: '+27', NG: '+234', KE: '+254', ET: '+251', GH: '+233',
-}
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -141,7 +128,7 @@ const content: Record<Language, ContactCopy> = {
       submitFailed: 'Something went wrong while saving your form. Please try again.',
     },
     postSubmit: {
-      title: 'Would you like to book a direct meeting now?',
+      title: "Form submitted successfully, if you don't want to wait you can pick a meeting now.",
       bookMeeting: 'Book meeting',
       skip: 'Skip',
       skippedMessage: 'Great, we received your details and will contact you soon.',
@@ -185,7 +172,7 @@ const content: Record<Language, ContactCopy> = {
       submitFailed: 'حدث خطأ أثناء حفظ النموذج. يرجى المحاولة مرة أخرى.',
     },
     postSubmit: {
-      title: 'هل تريد حجز اجتماع مباشر الآن؟',
+      title: 'تم إرسال النموذج بنجاح، وإذا كنت لا تريد الانتظار يمكنك حجز اجتماع الآن.',
       bookMeeting: 'حجز اجتماع',
       skip: 'تخطي',
       skippedMessage: 'ممتاز، استلمنا بياناتك وسنتواصل معك قريبًا.',
@@ -334,7 +321,6 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const [fieldErrors, setFieldErrors] = useState({
     role: false,
     employees: false,
-    phoneCode: false,
     country: false,
   })
   const [formData, setFormData] = useState({
@@ -344,7 +330,6 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
     roleElse: '',
     employees: '',
     email: '',
-    phoneCode: '',
     phone: '',
     country: '',
     details: '',
@@ -441,31 +426,6 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
       { label: t.form.otherCountriesSection, options: otherOptions },
     ]
   }, [isArabic, t.form.arabCountriesSection, t.form.otherCountriesSection])
-  const phoneCodeSections: SelectSection[] = useMemo(() => {
-    const displayNames = new Intl.DisplayNames([isArabic ? 'ar' : 'en'], { type: 'region' })
-    const formatOption = (countryCode: string): SelectOption => {
-      const dialCode = DIAL_CODE_BY_COUNTRY[countryCode] ?? ''
-      const countryLabel = displayNames.of(countryCode) ?? countryCode
-      return {
-        value: `${countryCode}:${dialCode}`,
-        label: `${countryLabel} (${dialCode})`,
-      }
-    }
-    const arabOptions = ARAB_COUNTRY_CODES
-      .filter((code) => DIAL_CODE_BY_COUNTRY[code])
-      .map(formatOption)
-      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
-    const otherCodes = Object.keys(DIAL_CODE_BY_COUNTRY).filter((code) => !ARAB_COUNTRY_CODES.includes(code))
-    const otherOptions = otherCodes
-      .map(formatOption)
-      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
-
-    return [
-      { label: t.form.arabPhoneCodesSection, options: arabOptions },
-      { label: t.form.otherPhoneCodesSection, options: otherOptions },
-    ]
-  }, [isArabic, t.form.arabPhoneCodesSection, t.form.otherPhoneCodesSection])
-
   return (
     <main
       dir={isArabic ? 'rtl' : 'ltr'}
@@ -539,11 +499,10 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                   const nextErrors = {
                     role: formData.role.length === 0,
                     employees: formData.employees.length === 0,
-                    phoneCode: formData.phoneCode.length === 0,
                     country: formData.country.length === 0,
                   }
                   setFieldErrors(nextErrors)
-                  if (nextErrors.role || nextErrors.employees || nextErrors.phoneCode || nextErrors.country) {
+                  if (nextErrors.role || nextErrors.employees || nextErrors.country) {
                     return
                   }
                   setSubmitError('')
@@ -563,7 +522,6 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                         roleElse: formData.roleElse,
                         employees: formData.employees,
                         email: formData.email,
-                        phoneCode: formData.phoneCode,
                         phone: formData.phone,
                         country: formData.country,
                         details: formData.details,
@@ -596,14 +554,14 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     value={formData.fullName}
                     onChange={(event) => setFormData((current) => ({ ...current, fullName: event.target.value }))}
                     placeholder={t.form.fullName}
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
+                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
                   />
                   <input
                     required
                     value={formData.companyName}
                     onChange={(event) => setFormData((current) => ({ ...current, companyName: event.target.value }))}
                     placeholder={t.form.companyName}
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
+                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
                   />
                   <div>
                     <CustomSelect
@@ -632,7 +590,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                         value={formData.roleElse}
                         onChange={(event) => setFormData((current) => ({ ...current, roleElse: event.target.value }))}
                         placeholder={t.form.roleElse}
-                        className="w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
+                        className="w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
                       />
                     </div>
                   </div>
@@ -658,46 +616,18 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))}
                     placeholder={t.form.email}
                     type="email"
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
+                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
                   />
-                  <div>
-                    <div className="flex items-stretch gap-2">
-                      <CustomSelect
-                        value={formData.phoneCode}
-                        onChange={(value) => {
-                          setFormData((current) => ({ ...current, phoneCode: value }))
-                          setFieldErrors((current) => ({ ...current, phoneCode: false }))
-                        }}
-                        placeholder="+000"
-                        sections={phoneCodeSections}
-                        isArabic={isArabic}
-                        hasError={fieldErrors.phoneCode}
-                        rootClassName="w-28 shrink-0"
-                        triggerClassName="px-2"
-                        getTriggerLabel={(selectedOption) => {
-                          if (!selectedOption) {
-                            return '+000'
-                          }
-                          const [, dialCode = ''] = selectedOption.value.split(':')
-                          return dialCode
-                        }}
-                      />
-                      <input
-                        required
-                        value={formData.phone}
-                        onChange={(event) => setFormData((current) => ({ ...current, phone: event.target.value }))}
-                        placeholder={t.form.phone}
-                        type="tel"
-                        inputMode="tel"
-                        dir={isArabic ? 'rtl' : 'ltr'}
-                        disabled={!formData.phoneCode}
-                        className={`flex-1 rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] disabled:cursor-not-allowed disabled:bg-site-gray-surface disabled:text-black/45 ${isArabic ? 'text-right' : 'text-left'}`}
-                      />
-                    </div>
-                    {fieldErrors.phoneCode ? (
-                      <p className="mt-1 text-xs text-red-500">{t.form.selectRequired}</p>
-                    ) : null}
-                  </div>
+                  <input
+                    required
+                    value={formData.phone}
+                    onChange={(event) => setFormData((current) => ({ ...current, phone: event.target.value }))}
+                    placeholder="+962xxxxxxxxx"
+                    type="tel"
+                    inputMode="tel"
+                    dir={isArabic ? 'rtl' : 'ltr'}
+                    className={`rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff] ${isArabic ? 'text-right' : 'text-left'}`}
+                  />
                   <div>
                     <CustomSelect
                       value={formData.country}
@@ -742,7 +672,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                       value={formData.details}
                       onChange={(event) => setFormData((current) => ({ ...current, details: event.target.value }))}
                       placeholder={t.form.tellUsMore}
-                      className="min-h-24 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff]"
+                      className="min-h-24 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
                     />
                   </div>
                 </div>
@@ -752,6 +682,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                   disabled={isSubmitting}
                   className="inline-flex items-center rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black/85"
                 >
+                  {isSubmitting ? <Loader2 className="mr-1 size-3.5 animate-spin" /> : null}
                   {t.form.submit}
                 </button>
                 {submitError ? (

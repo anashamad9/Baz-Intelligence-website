@@ -144,7 +144,6 @@ function validateSubmission(input: unknown): ContactSubmission {
     'role',
     'employees',
     'email',
-    'phoneCode',
     'phone',
     'country',
   ]
@@ -174,7 +173,7 @@ function validateSubmission(input: unknown): ContactSubmission {
     roleElse: typeof data.roleElse === 'string' ? data.roleElse.trim() : '',
     employees: (data.employees as string).trim(),
     email: (data.email as string).trim(),
-    phoneCode: (data.phoneCode as string).trim(),
+    phoneCode: typeof data.phoneCode === 'string' ? data.phoneCode.trim() : '',
     phone: (data.phone as string).trim(),
     country: (data.country as string).trim(),
     details: typeof data.details === 'string' ? data.details.trim() : '',
