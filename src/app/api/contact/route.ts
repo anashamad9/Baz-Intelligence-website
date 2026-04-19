@@ -36,6 +36,18 @@ function encodeBase64Url(value: string | Buffer): string {
     .replace(/=+$/g, '')
 }
 
+function normalizePrivateKey(rawPrivateKey: string): string {
+  let privateKey = rawPrivateKey.trim()
+  if (
+    (privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+    (privateKey.startsWith("'") && privateKey.endsWith("'"))
+  ) {
+    privateKey = privateKey.slice(1, -1)
+  }
+
+  return privateKey.replace(/\r/g, '').replace(/\\n/g, '\n')
+}
+
 function createJwt(serviceAccountEmail: string, rawPrivateKey: string): string {
   const now = Math.floor(Date.now() / 1000)
   const header = { alg: 'RS256', typ: 'JWT' }
@@ -47,7 +59,7 @@ function createJwt(serviceAccountEmail: string, rawPrivateKey: string): string {
     exp: now + 3600,
   }
   const unsignedToken = `${encodeBase64Url(JSON.stringify(header))}.${encodeBase64Url(JSON.stringify(payload))}`
-  const privateKey = rawPrivateKey.replace(/\\n/g, '\n')
+  const privateKey = normalizePrivateKey(rawPrivateKey)
   const signer = createSign('RSA-SHA256')
   signer.update(unsignedToken)
   signer.end()
@@ -86,6 +98,37 @@ async function getGoogleAccessToken(): Promise<string> {
   }
 
   return tokenData.access_token
+}
+
+async function resolveSheetName(spreadsheetId: string, accessToken: string): Promise<string> {
+  const explicitName = process.env.GOOGLE_SHEETS_SHEET_NAME?.trim()
+  if (explicitName) {
+    return explicitName
+  }
+
+  const metadataUrl = `${GOOGLE_SHEETS_API_BASE}/${spreadsheetId}?fields=sheets.properties.title`
+  const metadataResponse = await fetch(metadataUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: 'no-store',
+  })
+
+  if (!metadataResponse.ok) {
+    const errorText = await metadataResponse.text()
+    throw new Error(`Google Sheets metadata failed (${metadataResponse.status}): ${errorText}`)
+  }
+
+  const metadata = (await metadataResponse.json()) as {
+    sheets?: Array<{ properties?: { title?: string } }>
+  }
+  const firstSheetName = metadata.sheets?.[0]?.properties?.title
+  if (!firstSheetName) {
+    throw new Error('Spreadsheet has no readable sheet tabs')
+  }
+
+  return firstSheetName
 }
 
 function validateSubmission(input: unknown): ContactSubmission {
@@ -142,9 +185,9 @@ function validateSubmission(input: unknown): ContactSubmission {
 
 async function appendToSheet(submission: ContactSubmission, userAgent: string) {
   const spreadsheetId = getRequiredEnv('GOOGLE_SHEETS_SPREADSHEET_ID')
-  const sheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || 'Form Responses 1'
-  const range = encodeURIComponent(`${sheetName}!A:Z`)
   const accessToken = await getGoogleAccessToken()
+  const sheetName = await resolveSheetName(spreadsheetId, accessToken)
+  const range = encodeURIComponent(`${sheetName}!A:Z`)
   const [phoneCountryCode = '', phoneDialCode = ''] = submission.phoneCode.split(':')
 
   const values = [
@@ -184,17 +227,37 @@ async function appendToSheet(submission: ContactSubmission, userAgent: string) {
   }
 }
 
+function toUserSafeError(message: string): string {
+  if (message.includes('Missing required env var')) {
+    return 'Server env vars are missing. Check GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, and GOOGLE_SHEETS_SPREADSHEET_ID in Vercel.'
+  }
+  if (message.includes('invalid_grant') || message.includes('Invalid JWT')) {
+    return 'Google credentials look invalid. Re-check service account email/private key formatting (use \\n, not /n).'
+  }
+  if (message.includes('PERMISSION_DENIED') || message.includes('The caller does not have permission')) {
+    return 'Google service account has no access to the sheet. Share the sheet with the service account email as Editor.'
+  }
+  if (message.includes('Unable to parse range')) {
+    return 'Sheet tab name is invalid. Set GOOGLE_SHEETS_SHEET_NAME to an existing tab name.'
+  }
+  if (message.includes('Spreadsheet has no readable sheet tabs')) {
+    return 'Could not find a readable sheet tab. Check sheet permissions and tab visibility.'
+  }
+
+  return 'Failed to save submission to Google Sheets.'
+}
+
 export async function POST(request: Request) {
   try {
     const payload = validateSubmission(await request.json())
     await appendToSheet(payload, request.headers.get('user-agent') || '')
     return NextResponse.json({ ok: true })
   } catch (error) {
-    console.error('Contact form submission failed:', error)
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Contact form submission failed:', message)
     return NextResponse.json(
-      { ok: false, error: 'Failed to save submission' },
+      { ok: false, error: toUserSafeError(message) },
       { status: 500 },
     )
   }
 }
-

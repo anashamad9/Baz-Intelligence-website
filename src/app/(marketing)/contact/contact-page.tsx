@@ -571,14 +571,17 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     })
 
                     if (!response.ok) {
-                      throw new Error(`Request failed with status ${response.status}`)
+                      const responseBody = (await response.json().catch(() => null)) as
+                        | { error?: string }
+                        | null
+                      throw new Error(responseBody?.error || `Request failed with status ${response.status}`)
                     }
 
                     setSkippedMeeting(false)
                     setSubmitted(true)
                   } catch (error) {
                     console.error('Failed to submit contact form:', error)
-                    setSubmitError(t.form.submitFailed)
+                    setSubmitError(error instanceof Error ? error.message : t.form.submitFailed)
                   } finally {
                     setIsSubmitting(false)
                   }
