@@ -254,12 +254,12 @@ function CustomSelect({
         }}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        className={`flex w-full items-center justify-between rounded-md border bg-white px-3 py-2 text-sm outline-none transition-colors ${
+        className={`form-focus-input flex w-full items-center justify-between rounded-md border bg-white px-3 py-2 text-sm outline-none transition-[border-color,background-color] duration-120 ease-out ${
           hasError
             ? 'border-red-400'
             : isOpen
               ? 'border-[#1063ff]'
-              : 'border-black/15 hover:border-black/25 focus-visible:border-[#1063ff]'
+              : 'border-black/15 hover:border-black/25 focus:!border-[#1063ff] focus-visible:!border-[#1063ff]'
         } ${triggerClassName}`}
       >
         <span className={selectedOption ? 'text-black' : 'text-black/55'}>
@@ -554,14 +554,14 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     value={formData.fullName}
                     onChange={(event) => setFormData((current) => ({ ...current, fullName: event.target.value }))}
                     placeholder={t.form.fullName}
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
+                    className="form-focus-input rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
                   />
                   <input
                     required
                     value={formData.companyName}
                     onChange={(event) => setFormData((current) => ({ ...current, companyName: event.target.value }))}
                     placeholder={t.form.companyName}
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
+                    className="form-focus-input rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
                   />
                   <div>
                     <CustomSelect
@@ -590,7 +590,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                         value={formData.roleElse}
                         onChange={(event) => setFormData((current) => ({ ...current, roleElse: event.target.value }))}
                         placeholder={t.form.roleElse}
-                        className="w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
+                        className="form-focus-input w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
                       />
                     </div>
                   </div>
@@ -616,7 +616,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))}
                     placeholder={t.form.email}
                     type="email"
-                    className="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
+                    className="form-focus-input rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
                   />
                   <input
                     required
@@ -626,7 +626,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                     type="tel"
                     inputMode="tel"
                     dir={isArabic ? 'rtl' : 'ltr'}
-                    className={`rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff] ${isArabic ? 'text-right' : 'text-left'}`}
+                    className={`form-focus-input rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff] ${isArabic ? 'text-right' : 'text-left'}`}
                   />
                   <div>
                     <CustomSelect
@@ -672,7 +672,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                       value={formData.details}
                       onChange={(event) => setFormData((current) => ({ ...current, details: event.target.value }))}
                       placeholder={t.form.tellUsMore}
-                      className="min-h-24 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-colors focus:border-[#1063ff] focus-visible:border-[#1063ff]"
+                      className="form-focus-input min-h-24 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
                     />
                   </div>
                 </div>

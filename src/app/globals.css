@@ -254,69 +254,92 @@
   }
 
   .border {
-    border-width: 0.125px !important;
+    border-width: 0 !important;
   }
 
   .border-2 {
-    border-width: 0.25px !important;
+    border-width: 0 !important;
   }
 
   .border-4 {
-    border-width: 0.5px !important;
+    border-width: 0 !important;
   }
 
   .border-8 {
-    border-width: 1px !important;
+    border-width: 0 !important;
   }
 
   .border-x {
-    border-inline-width: 0.125px !important;
+    border-inline-width: 0 !important;
   }
 
   .border-y {
-    border-block-width: 0.125px !important;
+    border-block-width: 0 !important;
   }
 
   .border-t {
-    border-top-width: 0.125px !important;
+    border-top-width: 0 !important;
   }
 
   .border-r {
-    border-right-width: 0.125px !important;
+    border-right-width: 0 !important;
   }
 
   .border-b {
-    border-bottom-width: 0.125px !important;
+    border-bottom-width: 0 !important;
   }
 
   .border-l {
-    border-left-width: 0.125px !important;
+    border-left-width: 0 !important;
   }
 
   .before\:border:before {
-    border-width: 0.125px !important;
+    border-width: 0 !important;
   }
 
   .before\:border-y:before {
-    border-block-width: 0.125px !important;
+    border-block-width: 0 !important;
   }
 
   .after\:border:after {
-    border-width: 0.125px !important;
+    border-width: 0 !important;
   }
 
   .after\:border-y:after {
-    border-block-width: 0.125px !important;
+    border-block-width: 0 !important;
+  }
+
+  .border-\[0\.0625px\],
+  .border-\[0\.125px\],
+  .border-\[0\.1875px\],
+  .border-\[0\.375px\],
+  .border-\[0\.5px\],
+  .border-\[1px\] {
+    border-width: 0 !important;
+  }
+
+  .border-t-\[0\.1875px\],
+  .border-r-\[0\.1875px\],
+  .border-b-\[0\.1875px\],
+  .border-l-\[0\.1875px\],
+  .border-t-\[0\.375px\],
+  .border-r-\[0\.375px\],
+  .border-b-\[0\.375px\],
+  .border-l-\[0\.375px\] {
+    border-top-width: 0 !important;
+    border-right-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
   }
 
   .divide-x > :not(:last-child) {
-    border-inline-start-width: calc(0.125px * var(--tw-divide-x-reverse)) !important;
-    border-inline-end-width: calc(0.125px * calc(1 - var(--tw-divide-x-reverse))) !important;
+    border-inline-start-width: 0 !important;
+    border-inline-end-width: 0 !important;
   }
 
   .divide-y > :not(:last-child) {
-    border-top-width: calc(0.125px * var(--tw-divide-y-reverse)) !important;
-    border-bottom-width: calc(0.125px * calc(1 - var(--tw-divide-y-reverse))) !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
   }
 
   html:not(.dark) .border-black\/10 {
@@ -352,31 +375,31 @@
   }
 
   .preserve-form-borders .border {
-    border-width: 0.25px !important;
+    border-width: 0.75px !important;
   }
 
   .preserve-form-borders .border-2 {
-    border-width: 0.5px !important;
+    border-width: 1.5px !important;
   }
 
   .preserve-form-borders .border-x {
-    border-inline-width: 0.25px !important;
+    border-inline-width: 0.75px !important;
   }
 
   .preserve-form-borders .border-t {
-    border-top-width: 0.25px !important;
+    border-top-width: 0.75px !important;
   }
 
   .preserve-form-borders .border-r {
-    border-right-width: 0.25px !important;
+    border-right-width: 0.75px !important;
   }
 
   .preserve-form-borders .border-b {
-    border-bottom-width: 0.25px !important;
+    border-bottom-width: 0.75px !important;
   }
 
   .preserve-form-borders .border-l {
-    border-left-width: 0.25px !important;
+    border-left-width: 0.75px !important;
   }
 
   html:not(.dark) .preserve-form-borders .border-black\/10 {
@@ -409,6 +432,10 @@
 
   .avatar-border-preserve.border-2 {
     border-width: 2px !important;
+  }
+
+  .avatar-border-preserve.border-\[1px\] {
+    border-width: 1px !important;
   }
 
   html:not(.dark) .avatar-border-preserve.border-black\/10 {
@@ -511,5 +538,35 @@
   .divide-y > :not(:last-child) {
     border-top-width: 0 !important;
     border-bottom-width: 0 !important;
+  }
+
+  .preserve-form-borders .form-focus-input {
+    transition: border-color 120ms ease-out;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+
+  .preserve-form-borders .form-focus-input:focus,
+  .preserve-form-borders .form-focus-input:focus-visible {
+    border-color: #1063ff !important;
+    outline: none !important;
+    border-style: solid !important;
+    border-width: 0.75px !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    transform: none;
+  }
+
+  .preserve-form-borders input.form-focus-input:focus,
+  .preserve-form-borders input.form-focus-input:focus-visible,
+  .preserve-form-borders textarea.form-focus-input:focus,
+  .preserve-form-borders textarea.form-focus-input:focus-visible,
+  .preserve-form-borders button.form-focus-input:focus,
+  .preserve-form-borders button.form-focus-input:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    border-color: #1063ff !important;
   }
 }

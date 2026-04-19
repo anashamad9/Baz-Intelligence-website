@@ -143,7 +143,7 @@ const content: Record<Language, PageCopy> = {
         },
         {
           question: 'What is the time for each project?',
-          answer: 'Most projects start with a 2-4 week strategy phase, then execution time depends on scope.',
+          answer: 'Most projects start with a 1-2 week strategy phase, then execution time depends on scope.',
         },
         {
           question: 'Why us?',
@@ -151,7 +151,7 @@ const content: Record<Language, PageCopy> = {
         },
         {
           question: 'Where we are located?',
-          answer: 'We work remotely and support clients across different locations.',
+          answer: 'We are based in Amman, Jordan, and we work remotely with clients globally.',
         },
       ],
     },
@@ -221,20 +221,32 @@ const content: Record<Language, PageCopy> = {
       title: 'الأسئلة الشائعة',
       items: [
         {
-          question: 'كم يستغرق المشروع عادة؟',
-          answer: 'غالبًا نبدأ بمرحلة استراتيجية لمدة 2-4 أسابيع، ثم تتحدد مدة التنفيذ حسب نطاق العمل.',
+          question: 'لمن هذه الخدمة؟',
+          answer: 'للشركات الناشئة والأعمال والأفراد الذين يريدون أنظمة ذكاء اصطناعي عملية توفّر الوقت وتقلّل التكاليف.',
         },
         {
-          question: 'هل تعملون فقط مع الشركات الناشئة؟',
-          answer: 'لا. نعمل مع الشركات الناشئة والأعمال القائمة والفرق التي تحتاج أنظمة ذكاء اصطناعي ذات أثر واضح.',
+          question: 'كيف نعمل؟',
+          answer: 'إذا لم تكن تعرف كيف سيساعدك هذا، نعقد اجتماعًا لفهم نشاطك. وإذا كنت تعرف ما تريده بالفعل، يمكنك تجاهل هذا السؤال :)',
         },
         {
-          question: 'هل يمكن البدء بخدمة واحدة فقط؟',
-          answer: 'نعم. يمكن البدء بنطاق صغير مثل وحدة محددة أو مراجعة تقنية أو دورة تنفيذ قصيرة.',
+          question: 'ما هي الأسعار؟',
+          answer: 'نحن بالتأكيد أقل من تكاليفك الحالية.',
         },
         {
-          question: 'هل تقدمون دعمًا مستمرًا بعد الإطلاق؟',
-          answer: 'نعم. نوفر دعمًا شهريًا للتحسين المستمر وتشغيل الحملات وتطوير تدفقات الذكاء الاصطناعي.',
+          question: 'ما الخدمات التي تقدمونها؟',
+          answer: 'الوكلاء، الأتمتة، النماذج اللغوية والدردشة الذكية، الذكاء الاصطناعي التوليدي، ونماذج تعلم الآلة.',
+        },
+        {
+          question: 'ما المدة الزمنية لكل مشروع؟',
+          answer: 'غالبًا تبدأ المشاريع بمرحلة استراتيجية لمدة 1-2 أسابيع، ثم تعتمد مدة التنفيذ على نطاق العمل.',
+        },
+        {
+          question: 'لماذا نحن؟',
+          answer: 'لأننا نركّز على نتائج قابلة للقياس، وتنفيذ واضح، وخفض التكلفة التشغيلية.',
+        },
+        {
+          question: 'أين نحن موجودون؟',
+          answer: 'نحن مقرّنا في عمّان، الأردن، ونعمل عن بُعد مع عملاء حول العالم.',
         },
       ],
     },
