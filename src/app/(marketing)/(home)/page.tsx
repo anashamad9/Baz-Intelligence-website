@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import ButtonDemo from '@/components/button-demo'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -40,10 +40,19 @@ const unixel = localFont({
     src: '../../../../public/unixel/font/unixel-Regular.woff2',
     display: 'swap',
 })
+const thmanyahSerifDisplay = localFont({
+    src: '../../../../public/thmanyah typeface/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2',
+    display: 'swap',
+})
 const redaction50Italic = localFont({
     src: '../../../../public/redaction/Redaction_50-Italic.woff2',
     display: 'swap',
 })
+const thmanyahOpenTypeStyles: CSSProperties = {
+    // Enable stylistic alternates and contextual Arabic shaping when available in the font.
+    fontFeatureSettings: '"salt" 1, "calt" 1, "liga" 1, "kern" 1, "ss01" 1, "ss02" 1',
+    fontKerning: 'normal',
+}
 
 const content = {
     en: {
@@ -56,14 +65,14 @@ const content = {
         brandTitle: 'Intelligence',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
-            beforeHighlight: 'An',
-            highlight: 'AI technologies lab',
-            afterHighlight:
-                'focused on helping you save time and reduce costs, built by expert engineers. We do not treat artificial intelligence as an add-on to existing software, but as a core layer that should be designed and engineered from the ground up.',
+            beforeHighlight: 'Save your time and reduce your operating costs for real with an',
+            highlight: 'artificial intelligence',
+            afterHighlight: 'technology and research lab that builds custom solutions around how you work for companies, institutions, and individuals.',
         },
         subheading: 'For founders, startups, businesses, and individuals.',
         introParagraphs: [
-            'We operate as an engineering and research lab focused on designing, training, and deploying advanced AI systems, including large language models, domain-specific models, predictive analytics, generative systems, and autonomous agents. Rather than focusing only on interfaces, we work deeply at the model level, training on proprietary datasets, optimizing inference pipelines, and designing intelligent workflows powered by retrieval-augmented and multi-agent systems. Our approach combines applied research with production-grade engineering, ensuring high performance, security, scalability, and long-term maintainability. By replacing manual processes with tailored intelligent systems, we help businesses significantly reduce operational effort and costs, often by more than 50%, while improving how they operate. We are also building Atmet AI, an agent for your business, and it is coming soon.',
+            'Most companies today use artificial intelligence in a shallow way: ready-made tools, limited results, and almost no real impact. We work differently. We go deep into your business, analyze every step, and identify exactly where your time and money are being lost, then turn those operations into intelligent systems that run on their own. From AI agents that execute full tasks without intervention, to advanced automation that connects all your systems, to language models and machine learning models built specifically on your data, everything is designed to serve how you work, not the other way around.',
+            'The result? Real cost reduction, faster execution, and greater ability to scale without adding complexity. Instead of your team losing time on repetitive tasks, they focus on decisions and growth. We have worked with teams across finance, operations, and marketing, helping them transform entire workflows from daily burden into near-autonomous systems. If AI in your company is still just an extra tool, then you have not really started yet. We turn it into the core infrastructure your business runs on.',
         ],
         buttons: {
             talkTo: 'Talk to',
@@ -119,14 +128,14 @@ const content = {
         brandTitle: 'إنتيليجنس',
         brandSubtitle: 'مختبر تقنيات ذكاء إصطناعي',
         heading: {
-            beforeHighlight: 'مختبر',
-            highlight: 'تقنيات ذكاء إصطناعي',
-            afterHighlight:
-                'يركّز على مساعدتك في توفير الوقت وخفض التكاليف، ويُبنى على يد مهندسين خبراء. نحن لا نتعامل مع الذكاء الاصطناعي كإضافة سطحية فوق البرمجيات الحالية، بل كطبقة أساسية يجب تصميمها وهندستها من الجذور.',
+            beforeHighlight: 'وفّر وقتك وقلّل تكاليف شغلك بشكل فعلي مع مختبر تقنيات وأبحاث',
+            highlight: 'ذكاء اصطناعي',
+            afterHighlight: 'يبني لك حلول مخصصة حسب طريقة عملك ،للشركات، المؤسسات، وحتى الأفراد',
         },
         subheading: 'للمؤسسين، للشركات الناشئة، للأعمال، وللأفراد.',
         introParagraphs: [
-            'نعمل كمختبر هندسة وأبحاث يركّز على تصميم وتدريب ونشر أنظمة ذكاء اصطناعي متقدمة، بما يشمل النماذج اللغوية الكبيرة، والنماذج المتخصصة حسب المجال، والتحليلات التنبؤية، والأنظمة التوليدية، والوكلاء الذاتيين. وبدل التركيز على الواجهات فقط، نعمل بعمق على مستوى النموذج: تدريب على بيانات خاصة، وتحسين خطوط الاستدلال، وتصميم تدفقات ذكية مدعومة بأنظمة الاسترجاع المعزّز والوكلاء المتعددين. يجمع نهجنا بين البحث التطبيقي والهندسة الجاهزة للإنتاج، مع عناية عالية بالأداء والأمان وقابلية التوسع وسهولة الصيانة على المدى الطويل. ومن خلال استبدال العمليات اليدوية بأنظمة ذكية مخصصة، نساعد الشركات على خفض الجهد التشغيلي والتكلفة بشكل كبير، غالبًا بأكثر من 50٪، مع تحسين طريقة العمل. كما نعمل حاليًا على بناء Atmet AI، وهو وكيل لأعمالك، وسيتم إطلاقه قريبًا.',
+            'معظم الشركات اليوم تستخدم الذكاء الاصطناعي بشكل سطحي… أدوات جاهزة، نتائج محدودة، وتأثير شبه معدوم. احنا نشتغل بشكل مختلف. بنتعمق داخل شغلك، نحلل كل خطوة، ونحدد وين يضيع وقتك وفلوسك فعلياً، ثم نحوّل هذه العمليات إلى أنظمة ذكية تشتغل لحالها. من وكلاء ذكاء اصطناعي ينفذوا مهام كاملة بدون تدخل، إلى أتمتة متقدمة تربط كل أنظمتك ببعض، وصولًا إلى نماذج لغوية وتعلم آلة مبنية خصيصًا على بياناتك، كل شيء مصمم ليخدم طريقة عملك أنت، مش العكس.',
+            'النتيجة؟ تقليل حقيقي في التكاليف، تسريع واضح في التنفيذ، وقدرة أعلى على التوسع بدون زيادة التعقيد. بدل ما فريقك يضيع وقته في مهام متكررة، بيصير يركز على القرارات والنمو. اشتغلنا مع فرق في مجالات مثل المالية، التشغيل، والتسويق، وساعدناهم يحولوا عمليات كاملة من عبء يومي إلى أنظمة تعمل بشكل شبه ذاتي. إذا الذكاء الاصطناعي عندك لسه مجرد أداة إضافية، فأنت فعليًا ما بدأت. احنا بنحوله إلى البنية الأساسية اللي يقوم عليها شغلك.',
         ],
         buttons: {
             talkTo: 'تحدث مع',
@@ -185,8 +194,9 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const isDark = theme === 'dark'
     const t = content[language]
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
-    const headlineHighlightFontClass = isArabic ? unixel.className : redaction50Italic.className
-    const foundersFontClass = isArabic ? unixel.className : redaction50Italic.className
+    const heroHeadingLineHeightClass = isArabic ? 'leading-7' : 'leading-6'
+    const headlineHighlightFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
+    const foundersFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
     const paragraphWeightClass = isArabic ? 'font-[300]' : 'font-light'
     const contactHref = isArabic ? '/ar/contact' : '/en/contact'
     const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
@@ -406,9 +416,14 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         </div>
                     </div>
                 </div>
-                <h1 className={`mx-auto max-w-2xl text-xl leading-6 font-medium tracking-normal ${textAlignClass}`}>
+                <h1 className={`mx-auto max-w-2xl text-xl font-medium tracking-normal ${heroHeadingLineHeightClass} ${textAlignClass}`}>
                     {t.heading.beforeHighlight}{' '}
-                    <span className={`${headlineHighlightFontClass} text-[#1063ff]`}>{t.heading.highlight}</span>{' '}
+                    <span
+                        className={`${headlineHighlightFontClass} text-[#1063ff] ${isArabic ? '' : 'font-semibold'}`}
+                        style={isArabic ? thmanyahOpenTypeStyles : undefined}
+                    >
+                        {t.heading.highlight}
+                    </span>{' '}
                     {t.heading.afterHighlight}
                 </h1>
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
@@ -470,7 +485,10 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         }}
                         label={
                             <span>
-                                {t.buttons.talkTo} <span className={foundersFontClass}>{t.buttons.founders}</span>
+                                {t.buttons.talkTo}{' '}
+                                <span className={foundersFontClass} style={isArabic ? thmanyahOpenTypeStyles : undefined}>
+                                    {t.buttons.founders}
+                                </span>
                             </span>
                         }
                     />
@@ -658,7 +676,10 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 }}
                                 label={
                                     <span>
-                                        {t.buttons.talkTo} <span className={foundersFontClass}>{t.buttons.founders}</span>
+                                        {t.buttons.talkTo}{' '}
+                                        <span className={foundersFontClass} style={isArabic ? thmanyahOpenTypeStyles : undefined}>
+                                            {t.buttons.founders}
+                                        </span>
                                     </span>
                                 }
                             />
