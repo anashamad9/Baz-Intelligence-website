@@ -57,12 +57,12 @@ const thmanyahOpenTypeStyles: CSSProperties = {
 const content = {
     en: {
         nav: {
-            logo: 'Intelligence',
+            logo: 'AI Labs',
             services: 'What We Do',
             articles: 'Articles',
             sayHi: 'Say hi',
         },
-        brandTitle: 'Intelligence',
+        brandTitle: 'AI Labs+',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'Save your time and reduce your operating costs for real with an',
@@ -93,7 +93,7 @@ const content = {
                 {
                     clientName: 'Randa Mitwalli',
                     company: 'Randa Academy',
-                    quote: 'Working with Intelligence felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
+                    quote: 'Working with AI Labs+ felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
                     avatarFallback: 'RM',
                     avatarSrc: '',
                 },
@@ -120,12 +120,12 @@ const content = {
     },
     ar: {
         nav: {
-            logo: 'إنتيليجنس',
+            logo: 'إي آي لابس',
             services: 'ماذا نفعل',
             articles: 'المقالات',
             sayHi: 'تواصل',
         },
-        brandTitle: 'إنتيليجنس',
+        brandTitle: 'إي آي لابس',
         brandSubtitle: 'مختبر تقنيات ذكاء إصطناعي',
         heading: {
             beforeHighlight: 'وفّر وقتك وقلّل تكاليف شغلك بشكل فعلي مع مختبر تقنيات وأبحاث',
@@ -156,7 +156,7 @@ const content = {
                 {
                     clientName: 'Randa Mitwalli',
                     company: 'Randa Academy',
-                    quote: 'العمل مع إنتيليجنس كان كأنه فتح قدرة تشغيلية جديدة. بسّطوا طريقة عمل الفريق وساعدونا على إطلاق تدفقات ذكاء اصطناعي فعالة بدون تعقيد.',
+                    quote: 'العمل مع AI Labs+ كان كأنه فتح قدرة تشغيلية جديدة. بسّطوا طريقة عمل الفريق وساعدونا على إطلاق تدفقات ذكاء اصطناعي فعالة بدون تعقيد.',
                     avatarFallback: 'RM',
                     avatarSrc: '',
                 },
@@ -216,96 +216,96 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const showcaseSlides: ShowcaseSlide[] = isArabic
         ? [
             {
-                badge: 'Intelligence Use Case 1',
+                badge: 'AI Labs+ Use Case 1',
                 title: 'وكيل صوتي',
                 subtitle: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
                 cta: 'اكتشف الحالة',
                 features: ['تغطية 24/7', 'تكلفة دعم أقل', 'استجابة أسرع'],
                 imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'واجهة عرض إنتيليجنس 1',
+                imageAlt: 'واجهة عرض AI Labs+ 1',
             },
             {
-                badge: 'Intelligence Use Case 2',
+                badge: 'AI Labs+ Use Case 2',
                 title: 'أتمتة سير العمل',
                 subtitle: 'يؤتمت الموافقات والتقارير وتسليم المهام، فيلغي التكرار ويوفّر ساعات عمل أسبوعيًا.',
                 cta: 'اكتشف الحالة',
                 features: ['مهام يدوية أقل', 'تشغيل أسرع', 'تكلفة تشغيل أقل'],
                 imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'واجهة عرض إنتيليجنس 2',
+                imageAlt: 'واجهة عرض AI Labs+ 2',
             },
             {
-                badge: 'Intelligence Use Case 3',
+                badge: 'AI Labs+ Use Case 3',
                 title: 'نموذج تعلم آلة',
                 subtitle: 'يتنبأ بالطلب والمخاطر والتسرّب مبكرًا، لتقليل الهدر وتجنب قرارات مكلفة.',
                 cta: 'اكتشف الحالة',
                 features: ['تنبؤ أدق', 'هدر أقل', 'قرارات أسرع'],
                 imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'واجهة عرض إنتيليجنس 3',
+                imageAlt: 'واجهة عرض AI Labs+ 3',
             },
             {
-                badge: 'Intelligence Use Case 4',
+                badge: 'AI Labs+ Use Case 4',
                 title: 'نموذج لغوي كبير (LLM)',
                 subtitle: 'يسرّع البحث الداخلي والتلخيص وكتابة المسودات، فيختصر الوقت التشغيلي اليومي.',
                 cta: 'اكتشف الحالة',
                 features: ['وصول أسرع للمعرفة', 'وقت إداري أقل', 'إنتاجية أعلى'],
                 imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'واجهة عرض إنتيليجنس 4',
+                imageAlt: 'واجهة عرض AI Labs+ 4',
             },
             {
-                badge: 'Intelligence Use Case 5',
+                badge: 'AI Labs+ Use Case 5',
                 title: 'ذكاء اصطناعي توليدي',
                 subtitle: 'ينتج محتوى وأصولًا وتسويقًا بسرعة، ما يقلل وقت التنفيذ وتكلفة الإنتاج.',
                 cta: 'اكتشف الحالة',
                 features: ['إنتاج محتوى أسرع', 'تكلفة إنتاج أقل', 'جودة متسقة'],
                 imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'واجهة عرض إنتيليجنس 5',
+                imageAlt: 'واجهة عرض AI Labs+ 5',
             },
         ]
         : [
             {
-                badge: 'Intelligence Use Case 1',
+                badge: 'AI Labs+ Use Case 1',
                 title: 'Voice Agent',
                 subtitle: 'Handles customer calls 24/7, reduces response time, and lowers support payroll costs.',
                 cta: 'Explore use case',
                 features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
                 imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'Intelligence showcase preview 1',
+                imageAlt: 'AI Labs+ showcase preview 1',
             },
             {
-                badge: 'Intelligence Use Case 2',
+                badge: 'AI Labs+ Use Case 2',
                 title: 'Workflow Automation',
                 subtitle: 'Automates approvals, reporting, and handoffs to remove repetitive work and save weekly team hours.',
                 cta: 'Explore use case',
                 features: ['Fewer manual tasks', 'Faster operations', 'Lower ops cost'],
                 imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'Intelligence showcase preview 2',
+                imageAlt: 'AI Labs+ showcase preview 2',
             },
             {
-                badge: 'Intelligence Use Case 3',
+                badge: 'AI Labs+ Use Case 3',
                 title: 'ML Model',
                 subtitle: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
                 cta: 'Explore use case',
                 features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
                 imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'Intelligence showcase preview 3',
+                imageAlt: 'AI Labs+ showcase preview 3',
             },
             {
-                badge: 'Intelligence Use Case 4',
+                badge: 'AI Labs+ Use Case 4',
                 title: 'LLM',
                 subtitle: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
                 cta: 'Explore use case',
                 features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
                 imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'Intelligence showcase preview 4',
+                imageAlt: 'AI Labs+ showcase preview 4',
             },
             {
-                badge: 'Intelligence Use Case 5',
+                badge: 'AI Labs+ Use Case 5',
                 title: 'Generative AI',
                 subtitle: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
                 cta: 'Explore use case',
                 features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
                 imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'Intelligence showcase preview 5',
+                imageAlt: 'AI Labs+ showcase preview 5',
             },
         ]
     const activeShowcaseSlide = showcaseSlides[activeShowcaseIndex] ?? showcaseSlides[0]
@@ -361,7 +361,15 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
                     <div className="flex items-center gap-1.5">
                         <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-                            {t.nav.logo}
+                            <span className="inline-flex items-start">
+                                {t.nav.logo}
+                                <span
+                                    aria-hidden
+                                    className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
+                                >
+                                    +
+                                </span>
+                            </span>
                         </Link>
                         <button
                             type="button"
@@ -394,16 +402,16 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <div className="inline-flex items-center gap-2.5">
                         <div className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white">
                             <Image
-                                src="/intelligence%201.png"
-                                alt="Intelligence logo primary"
+                                src="/AI%20Labs%20%2B%20Main.png"
+                                alt="AI Labs logo primary"
                                 width={96}
                                 height={96}
                                 className="h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
                                 priority
                             />
                             <Image
-                                src="/intelligence%202.png"
-                                alt="Intelligence logo alternate"
+                                src="/AI%20Labs%20%2B%20second.png"
+                                alt="AI Labs logo secondary"
                                 width={96}
                                 height={96}
                                 className="absolute h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -411,7 +419,17 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             />
                         </div>
                         <div className="flex h-12 flex-col justify-center">
-                            <p className="text-[16px] leading-5 font-medium text-black">{t.brandTitle}</p>
+                            <p className="text-[16px] leading-5 font-medium text-black">
+                                <span className="inline-flex items-start">
+                                    {t.brandTitle.replace(/\+\s*$/, '')}
+                                    <span
+                                        aria-hidden
+                                        className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
+                                    >
+                                        +
+                                    </span>
+                                </span>
+                            </p>
                             <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{t.brandSubtitle}</p>
                         </div>
                     </div>
@@ -429,7 +447,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                     <Image
                         src="/IMG_3242.heic"
-                        alt={isArabic ? 'صورة واجهة إنتيليجنس' : 'Intelligence hero image'}
+                        alt={isArabic ? 'صورة واجهة AI Labs+' : 'AI Labs+ hero image'}
                         width={1800}
                         height={1200}
                         unoptimized

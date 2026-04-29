@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import WhatWeDoPage from '../../(marketing)/what-we-do/what-we-do-page'
 
-const siteName = 'إنتيليجنس'
-const title = 'ماذا نفعل | إنتيليجنس'
+const siteName = 'إي آي لابس+'
+const title = 'ماذا نفعل | إي آي لابس+'
 const description =
-  'تعرّف على ما تقدمه إنتيليجنس عبر الاستراتيجية وتنفيذ الأنظمة الذكية والتشغيل والنطاقات المخصصة.'
+  'تعرّف على ما تقدمه إي آي لابس+ عبر الاستراتيجية وتنفيذ الأنظمة الذكية والتشغيل والنطاقات المخصصة.'
 const previewImage = '/IntArabic.png'
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'معاينة صفحة ماذا نفعل في إنتيليجنس',
+        alt: 'معاينة صفحة ماذا نفعل في إي آي لابس+',
       },
     ],
   },

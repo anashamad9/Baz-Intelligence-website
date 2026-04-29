@@ -8,11 +8,11 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.co
   /\/+$/,
   "",
 );
-const siteName = "Intelligence";
-const siteNameArabic = "إنتيليجنس";
-const siteTitle = "Intelligence | AI Technologies Lab";
+const siteName = "AI Labs+";
+const siteNameArabic = "إي آي لابس+";
+const siteTitle = "AI Labs+ | AI Technologies Lab";
 const siteDescription =
-  "Intelligence is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "AI Labs+ is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -23,7 +23,7 @@ const structuredData = {
       name: siteName,
       alternateName: siteNameArabic,
       url: siteUrl,
-      logo: `${siteUrl}/intelligence%201.png`,
+      logo: `${siteUrl}/AI%20Labs%20%2B%20Main.png`,
       email: "hi@intelligence.com",
       telephone: "+962795874662",
       contactPoint: [
@@ -57,9 +57,9 @@ const structuredData = {
       "@type": "WebPage",
       "@id": `${siteUrl}/ar#webpage`,
       url: `${siteUrl}/ar`,
-      name: "إنتيليجنس | مختبر تقنيات ذكاء إصطناعي",
+      name: "إي آي لابس+ | مختبر تقنيات ذكاء إصطناعي",
       description:
-        "إنتيليجنس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
+        "إي آي لابس+ هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
       inLanguage: "ar",
       isPartOf: { "@id": `${siteUrl}#website` },
       about: { "@id": `${siteUrl}#organization` },
@@ -71,18 +71,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Intelligence",
+    template: "%s | AI Labs+",
   },
   description: siteDescription,
   applicationName: siteName,
   icons: {
-    icon: [{ url: "/intelligence%20fav%20icon.png", type: "image/png" }],
-    shortcut: ["/intelligence%20fav%20icon.png"],
-    apple: [{ url: "/intelligence%20fav%20icon.png", type: "image/png" }],
+    icon: [{ url: "/Fav%20icon.png", type: "image/png" }],
+    shortcut: ["/Fav%20icon.png"],
+    apple: [{ url: "/Fav%20icon.png", type: "image/png" }],
   },
   keywords: [
-    "Intelligence",
-    "إنتيليجنس",
+    "AI Labs+",
+    "AI Labs Plus",
     "AI lab",
     "machine learning",
     "LLM solutions",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Intelligence English preview",
+        alt: "AI Labs+ English preview",
       },
     ],
   },

@@ -5,8 +5,8 @@ type Language = 'en' | 'ar'
 const items = [
   {
     title: {
-      en: 'What services does Intelligence provide?',
-      ar: 'ما الخدمات التي تقدمها إنتيليجنس؟'
+      en: 'What services does AI Labs+ provide?',
+      ar: 'ما الخدمات التي تقدمها AI Labs+؟'
     },
     content: {
       en: 'We design and deploy custom AI systems across ML models, LLM solutions, AI agents, workflow automation, and data pipelines. Each engagement is tailored to your business processes, data, and operational goals.',

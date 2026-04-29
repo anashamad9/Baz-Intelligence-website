@@ -32,7 +32,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const copy: Record<Language, PageCopy> = {
   en: {
     nav: {
-      logo: 'Intelligence',
+      logo: 'AI Labs',
       whatWeDo: 'What We Do',
       articles: 'Articles',
       sayHi: 'Say hi',
@@ -42,7 +42,7 @@ const copy: Record<Language, PageCopy> = {
   },
   ar: {
     nav: {
-      logo: 'إنتيليجنس',
+      logo: 'إي آي لابس',
       whatWeDo: 'ماذا نفعل',
       articles: 'المقالات',
       sayHi: 'تواصل',
@@ -78,7 +78,15 @@ export default function ArticlesPage({ initialLanguage = 'en' }: { initialLangua
         <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
           <div className="flex items-center gap-1.5">
             <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-              {t.nav.logo}
+              <span className="inline-flex items-start">
+                {t.nav.logo}
+                <span
+                  aria-hidden
+                  className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
+                >
+                  +
+                </span>
+              </span>
             </Link>
             <button
               type="button"
