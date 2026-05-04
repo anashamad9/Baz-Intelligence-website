@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react'
 import Link from 'next/link'
-import { Check, ChevronDown, Loader2 } from 'lucide-react'
+import { Check, ChevronDown, Globe, Languages, Loader2, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
@@ -43,6 +43,7 @@ type ContactCopy = {
     phoneCode: string
     phone: string
     country: string
+    searchCountry: string
     intentQuestion: string
     intentLearn: string
     intentKnow: string
@@ -115,6 +116,7 @@ const content: Record<Language, ContactCopy> = {
       phoneCode: 'Country key',
       phone: 'Phone',
       country: 'Country',
+      searchCountry: 'Search country...',
       intentQuestion: 'What best describes your need?',
       intentLearn: 'I want to know what you provide',
       intentKnow: 'I know what I want',
@@ -159,6 +161,7 @@ const content: Record<Language, ContactCopy> = {
       phoneCode: 'مفتاح الدولة',
       phone: 'رقم الهاتف',
       country: 'الدولة',
+      searchCountry: 'ابحث عن الدولة...',
       intentQuestion: 'ما الذي يصف احتياجك بشكل أدق؟',
       intentLearn: 'أريد معرفة ما الذي تقدمونه',
       intentKnow: 'أنا أعرف ما أريده',
@@ -191,6 +194,9 @@ type CustomSelectProps = {
   rootClassName?: string
   triggerClassName?: string
   getTriggerLabel?: (selectedOption: SelectOption | undefined) => string
+  searchable?: boolean
+  searchPlaceholder?: string
+  noResultsText?: string
 }
 
 function CustomSelect({
@@ -203,8 +209,12 @@ function CustomSelect({
   rootClassName = '',
   triggerClassName = '',
   getTriggerLabel,
+  searchable = false,
+  searchPlaceholder = 'Search...',
+  noResultsText = 'No results',
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const rootRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -221,6 +231,17 @@ function CustomSelect({
   }, [])
 
   const selectedOption = sections.flatMap((section) => section.options).find((option) => option.value === value)
+  const normalizedQuery = searchQuery.trim().toLocaleLowerCase(isArabic ? 'ar' : 'en')
+  const filteredSections = sections
+    .map((section) => ({
+      ...section,
+      options: section.options.filter((option) =>
+        option.label.toLocaleLowerCase(isArabic ? 'ar' : 'en').includes(normalizedQuery),
+      ),
+    }))
+    .filter((section) => section.options.length > 0)
+  const visibleSections = searchable ? filteredSections : sections
+  const hasVisibleOptions = visibleSections.some((section) => section.options.length > 0)
 
   const triggerText = selectedOption
     ? (getTriggerLabel ? getTriggerLabel(selectedOption) : selectedOption.label)
@@ -276,7 +297,17 @@ function CustomSelect({
         }`}
       >
         <div className={`max-h-64 overflow-y-auto p-1 ${isArabic ? 'text-right' : 'text-left'}`}>
-          {sections.map((section) => (
+          {searchable ? (
+            <div className="px-1 pb-2">
+              <input
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder={searchPlaceholder}
+                className="form-focus-input w-full rounded-md border border-black/15 bg-white px-2 py-1.5 text-sm text-black outline-none transition-[border-color] duration-120 ease-out focus:!border-[#1063ff] focus-visible:!border-[#1063ff]"
+              />
+            </div>
+          ) : null}
+          {hasVisibleOptions ? visibleSections.map((section) => (
             <div key={section.label ?? 'default-section'} className="pb-1 last:pb-0">
               {section.label ? (
                 <p className="px-2 py-1 text-xs font-medium text-black/45">{section.label}</p>
@@ -290,6 +321,7 @@ function CustomSelect({
                     tabIndex={-1}
                     onClick={() => {
                       onChange(option.value)
+                      setSearchQuery('')
                       setIsOpen(false)
                     }}
                     className={`flex w-full items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
@@ -302,7 +334,9 @@ function CustomSelect({
                 )
               })}
             </div>
-          ))}
+          )) : (
+            <p className="px-2 py-1.5 text-sm text-black/55">{noResultsText}</p>
+          )}
         </div>
       </div>
     </div>
@@ -312,6 +346,7 @@ function CustomSelect({
 export default function ContactPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
   const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
+  const footerMenusRef = useRef<HTMLDivElement | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [skippedMeeting, setSkippedMeeting] = useState(false)
@@ -358,6 +393,20 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const homeHref = isArabic ? '/ar' : '/en'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
+  const activeThemeLabel =
+    theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')
+  const handleMenuToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
+    if (!event.currentTarget.open) {
+      return
+    }
+    const menu = event.currentTarget
+    const allMenus = footerMenusRef.current?.querySelectorAll('details')
+    allMenus?.forEach((details) => {
+      if (details !== menu) {
+        details.removeAttribute('open')
+      }
+    })
+  }
   const employeeSections: SelectSection[] = useMemo(
     () => [
       {
@@ -631,6 +680,9 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
                       sections={countrySections}
                       isArabic={isArabic}
                       hasError={fieldErrors.country}
+                      searchable
+                      searchPlaceholder={t.form.searchCountry}
+                      noResultsText={isArabic ? 'لا توجد نتائج' : 'No results found'}
                     />
                     {fieldErrors.country ? (
                       <p className="mt-1 text-xs text-red-500">{t.form.selectRequired}</p>
@@ -724,26 +776,78 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
         </div>
       </section>
       <section className="mx-auto mt-4 flex w-full max-w-2xl justify-end pb-10">
-        <div className="flex items-center gap-2">
-          <select
-            aria-label={isArabic ? 'اختيار اللغة' : 'Choose language'}
-            value={language}
-            onChange={(event) => setLanguage(event.target.value as Language)}
-            className="h-8 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/70 outline-none transition-colors hover:border-black/25 focus:border-black/25"
-          >
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-          </select>
-          <select
-            aria-label={isArabic ? 'اختيار النمط' : 'Choose theme'}
-            value={theme}
-            onChange={(event) => setTheme(event.target.value as 'light' | 'dark' | 'system')}
-            className="h-8 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/70 outline-none transition-colors hover:border-black/25 focus:border-black/25"
-          >
-            <option value="light">{isArabic ? 'فاتح' : 'Light'}</option>
-            <option value="dark">{isArabic ? 'داكن' : 'Dark'}</option>
-            <option value="system">{isArabic ? 'النظام' : 'System'}</option>
-          </select>
+        <div ref={footerMenusRef} className="flex items-center gap-2">
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Globe className="size-3.5" />
+              <span>{isArabic ? 'العربية' : 'English'}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('en')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>English</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('ar')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>العربية</span>
+              </button>
+            </div>
+          </details>
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Palette className="size-3.5" />
+              <span>{activeThemeLabel}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('light')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Sun className="size-3.5" />
+                <span>{isArabic ? 'فاتح' : 'Light'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('dark')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Moon className="size-3.5" />
+                <span>{isArabic ? 'داكن' : 'Dark'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('system')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Monitor className="size-3.5" />
+                <span>{isArabic ? 'النظام' : 'System'}</span>
+              </button>
+            </div>
+          </details>
         </div>
       </section>
     </main>
