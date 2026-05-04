@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import ContactPage from '../../(marketing)/contact/contact-page'
 
-const siteName = 'AI Labs+'
-const title = 'Contact | AI Labs+'
+const siteName = 'Intelligence Lab'
+const title = 'Contact | Intelligence Lab'
 const description =
-  'Contact AI Labs+ to book a direct meeting or send your project details for a tailored AI implementation scope.'
+  'Contact Intelligence Lab to book a direct meeting or send your project details for a tailored AI implementation scope.'
 const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'AI Labs+ contact preview',
+        alt: 'Intelligence Lab contact preview',
       },
     ],
   },

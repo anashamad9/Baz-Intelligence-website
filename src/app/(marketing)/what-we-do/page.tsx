@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import WhatWeDoPage from './what-we-do-page'
 
-const siteName = 'AI Labs+'
-const title = 'What We Do | AI Labs+'
+const siteName = 'Intelligence Lab'
+const title = 'What We Do | Intelligence Lab'
 const description =
-  'Explore what AI Labs+ does across AI strategy, systems implementation, growth operations, and custom technical execution.'
+  'Explore what Intelligence Lab does across AI strategy, systems implementation, growth operations, and custom technical execution.'
 const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'AI Labs+ what we do preview',
+        alt: 'Intelligence Lab what we do preview',
       },
     ],
   },

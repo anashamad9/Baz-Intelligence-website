@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, ChevronDown, Languages, Moon, Sun } from 'lucide-react'
+import { ArrowUpRight, ChevronDown, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { CopyButton } from '@/components/copy-button'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
@@ -54,7 +54,7 @@ type PageCopy = {
 
 const STORAGE_KEY = 'baz-language'
 const THEME_STORAGE_KEY = 'baz-theme'
-const EMAIL_ADDRESS = 'hi@intelligence.com'
+const EMAIL_ADDRESS = 'hi@intelligence.dev'
 const X_URL = 'https://x.com/Bazintelligence'
 const INSTAGRAM_URL = '#'
 const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
@@ -68,7 +68,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const content: Record<Language, PageCopy> = {
   en: {
     nav: {
-      logo: 'AI Labs',
+      logo: 'Intelligence Lab',
       whatWeDo: 'What We Do',
       articles: 'Articles',
       sayHi: 'Say hi',
@@ -163,7 +163,7 @@ const content: Record<Language, PageCopy> = {
   },
   ar: {
     nav: {
-      logo: 'إي آي لابس',
+      logo: 'إنتيلجنس لاب',
       whatWeDo: 'ماذا نفعل',
       articles: 'المقالات',
       sayHi: 'تواصل',
@@ -260,19 +260,55 @@ const content: Record<Language, PageCopy> = {
 
 export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
-  const [theme, setTheme] = usePersistedTheme('light', THEME_STORAGE_KEY)
+  const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
   const [openFaqItem, setOpenFaqItem] = useState<string | null>(null)
   const [monthlyCostsInput, setMonthlyCostsInput] = useState('')
+  const footerMenusRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language)
     document.documentElement.lang = language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
-    document.documentElement.classList.toggle('dark', theme === 'dark')
-  }, [language, theme])
+  }, [language])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const applyTheme = () => {
+      const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
+      document.documentElement.classList.toggle('dark', shouldUseDark)
+    }
+
+    applyTheme()
+    mediaQuery.addEventListener('change', applyTheme)
+    return () => mediaQuery.removeEventListener('change', applyTheme)
+  }, [theme])
+
+  useEffect(() => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (!footerMenusRef.current?.contains(event.target as Node)) {
+        footerMenusRef.current
+          ?.querySelectorAll<HTMLDetailsElement>('details[open]')
+          .forEach((menu) => menu.removeAttribute('open'))
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [])
+
+  const handleMenuToggle = (event: { currentTarget: HTMLDetailsElement }) => {
+    const currentMenu = event.currentTarget
+    if (!currentMenu.open) return
+    footerMenusRef.current
+      ?.querySelectorAll<HTMLDetailsElement>('details[open]')
+      .forEach((menu) => {
+        if (menu !== currentMenu) {
+          menu.removeAttribute('open')
+        }
+      })
+  }
 
   const isArabic = language === 'ar'
-  const isDark = theme === 'dark'
   const t = content[language]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
@@ -313,7 +349,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
           <div className="mt-4 space-y-2">
             {offer.items.map((item) => (
               <p key={item} className="flex items-start gap-2 text-sm leading-5 font-light text-black/70">
-                <span className="mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full bg-[#1063ff] text-[11px] text-white">
+                <span className="mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-md bg-[#1063ff] text-[11px] text-white">
                   ✓
                 </span>
                 <span>{item}</span>
@@ -369,33 +405,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
       <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
         <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
           <div className="flex items-center gap-1.5">
-            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-              <span className="inline-flex items-start">
-                {t.nav.logo}
-                <span
-                  aria-hidden
-                  className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
-                >
-                  +
-                </span>
-              </span>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setLanguage((current) => (current === 'en' ? 'ar' : 'en'))}
-              aria-label={isArabic ? 'Switch language to English' : 'تغيير اللغة إلى العربية'}
-              className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
-            >
-              <Languages className="size-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-              aria-label={isDark ? (isArabic ? 'تفعيل الوضع الفاتح' : 'Switch to light mode') : (isArabic ? 'تفعيل الوضع الداكن' : 'Switch to dark mode')}
-              className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
-            >
-              {isDark ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
-            </button>
+            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
           </div>
           <div className="flex items-center justify-end gap-2">
             <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
@@ -460,7 +470,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
         </div>
       </section>
 
-      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-start justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
+      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-center justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
         <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
           <div className="flex flex-wrap items-center justify-start gap-2">
             <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
@@ -473,12 +483,85 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
             />
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-1.5 text-xs leading-4 font-light text-black/70">
+        <div ref={footerMenusRef} className="flex items-center gap-2">
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Globe className="size-3.5" />
+              <span>{isArabic ? 'العربية' : 'English'}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('en')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>English</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('ar')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>العربية</span>
+              </button>
+            </div>
+          </details>
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Palette className="size-3.5" />
+              <span>{theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('light')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Sun className="size-3.5" />
+                <span>{isArabic ? 'فاتح' : 'Light'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('dark')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Moon className="size-3.5" />
+                <span>{isArabic ? 'داكن' : 'Dark'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('system')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Monitor className="size-3.5" />
+                <span>{isArabic ? 'النظام' : 'System'}</span>
+              </button>
+            </div>
+          </details>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5 text-base leading-6 font-light text-black/65">
           <a
             href={X_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 transition-colors hover:text-black"
           >
             {t.contact.x}
             <ArrowUpRight className="size-3" />
@@ -487,7 +570,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 transition-colors hover:text-black"
           >
             {t.contact.instagram}
             <ArrowUpRight className="size-3" />
@@ -496,7 +579,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
             href={LINKEDIN_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+            className="inline-flex items-center gap-1 transition-colors hover:text-black"
           >
             {t.contact.linkedIn}
             <ArrowUpRight className="size-3" />

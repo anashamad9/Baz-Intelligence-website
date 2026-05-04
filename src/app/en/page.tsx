@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Home from "../(marketing)/(home)/page";
 
-const siteName = "AI Labs+";
-const siteTitle = "AI Labs+ | AI Technologies Lab";
+const siteName = "Intelligence Lab";
+const siteTitle = "Intelligence Lab";
 const siteDescription =
-  "AI Labs+ is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Intelligence Lab is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const previewImage = "/IntEng.png";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: "AI Labs+ English preview",
+        alt: "Intelligence Lab English preview",
       },
     ],
   },

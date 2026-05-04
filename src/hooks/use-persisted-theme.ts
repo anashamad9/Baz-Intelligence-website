@@ -2,7 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from 'react'
 
-type Theme = 'light' | 'dark'
+export type Theme = 'light' | 'dark' | 'system'
 type ThemeUpdater = Theme | ((currentTheme: Theme) => Theme)
 
 const THEME_CHANGE_EVENT = 'baz-theme-change'
@@ -13,7 +13,7 @@ function readTheme(storageKey: string, fallbackTheme: Theme): Theme {
   }
 
   const savedTheme = window.localStorage.getItem(storageKey)
-  if (savedTheme === 'dark' || savedTheme === 'light') {
+  if (savedTheme === 'dark' || savedTheme === 'light' || savedTheme === 'system') {
     return savedTheme
   }
 

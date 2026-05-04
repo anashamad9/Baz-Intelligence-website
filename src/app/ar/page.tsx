@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Home from "../(marketing)/(home)/page";
 
-const siteName = "إي آي لابس+";
-const siteTitle = "إي آي لابس+ | مختبر تقنيات ذكاء إصطناعي";
+const siteName = "إنتيلجنس لاب";
+const siteTitle = "إنتيلجنس لاب";
 const siteDescription =
-  "إي آي لابس+ هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
+  "إنتيلجنس لاب هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
 const previewImage = "/IntArabic.png";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: "AI Labs+ Arabic preview",
+        alt: "Intelligence Lab Arabic preview",
       },
     ],
   },

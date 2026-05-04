@@ -6,7 +6,7 @@ import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Languages, Moon, Sun } from 'lucide-react'
+import { ArrowUpRight, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { Badge } from '@/components/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -27,7 +27,7 @@ type ShowcaseSlide = {
 
 const STORAGE_KEY = 'baz-language'
 const THEME_STORAGE_KEY = 'baz-theme'
-const EMAIL_ADDRESS = 'hi@intelligence.com'
+const EMAIL_ADDRESS = 'hi@intelligence.dev'
 const X_URL = 'https://x.com/Bazintelligence'
 const INSTAGRAM_URL = '#'
 const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
@@ -57,12 +57,12 @@ const thmanyahOpenTypeStyles: CSSProperties = {
 const content = {
     en: {
         nav: {
-            logo: 'AI Labs',
+            logo: 'Intelligence Lab',
             services: 'What We Do',
             articles: 'Articles',
             sayHi: 'Say hi',
         },
-        brandTitle: 'AI Labs+',
+        brandTitle: 'Intelligence Lab',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'Save your time and reduce your operating costs for real with an',
@@ -93,7 +93,7 @@ const content = {
                 {
                     clientName: 'Randa Mitwalli',
                     company: 'Randa Academy',
-                    quote: 'Working with AI Labs+ felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
+                    quote: 'Working with Intelligence Lab felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
                     avatarFallback: 'RM',
                     avatarSrc: '',
                 },
@@ -120,12 +120,12 @@ const content = {
     },
     ar: {
         nav: {
-            logo: 'إي آي لابس',
+            logo: 'إنتيلجنس لاب',
             services: 'ماذا نفعل',
             articles: 'المقالات',
             sayHi: 'تواصل',
         },
-        brandTitle: 'إي آي لابس',
+        brandTitle: 'إنتيلجنس لاب',
         brandSubtitle: 'مختبر تقنيات ذكاء إصطناعي',
         heading: {
             beforeHighlight: 'وفّر وقتك وقلّل تكاليف شغلك بشكل فعلي مع مختبر تقنيات وأبحاث',
@@ -156,7 +156,7 @@ const content = {
                 {
                     clientName: 'Randa Mitwalli',
                     company: 'Randa Academy',
-                    quote: 'العمل مع AI Labs+ كان كأنه فتح قدرة تشغيلية جديدة. بسّطوا طريقة عمل الفريق وساعدونا على إطلاق تدفقات ذكاء اصطناعي فعالة بدون تعقيد.',
+                    quote: 'العمل مع Intelligence Lab كان كأنه فتح قدرة تشغيلية جديدة. بسّطوا طريقة عمل الفريق وساعدونا على إطلاق تدفقات ذكاء اصطناعي فعالة بدون تعقيد.',
                     avatarFallback: 'RM',
                     avatarSrc: '',
                 },
@@ -185,13 +185,13 @@ const content = {
 
 export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
     const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
-    const [theme, setTheme] = usePersistedTheme('light', THEME_STORAGE_KEY)
+    const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
     const [activeShowcaseIndex, setActiveShowcaseIndex] = useState(0)
     const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
     const [isAtmetTooltipOpen, setIsAtmetTooltipOpen] = useState(false)
     const atmetTooltipTimeoutRef = useRef<number | null>(null)
+    const footerMenusRef = useRef<HTMLDivElement | null>(null)
     const isArabic = language === 'ar'
-    const isDark = theme === 'dark'
     const t = content[language]
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
     const heroHeadingLineHeightClass = isArabic ? 'leading-7' : 'leading-6'
@@ -205,107 +205,107 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
             industriesTitle: 'حسب التقنية',
             capabilitiesTitle: 'حسب حالة الاستخدام',
             industries: ['وكلاء الذكاء الاصطناعي', 'نماذج تعلم الآلة', 'النماذج اللغوية الكبيرة', 'التعلم العميق', 'الذكاء الاصطناعي التوليدي', 'الشبكات العصبية', 'هندسة البيانات', 'عمليات تعلم الآلة/الذكاء الاصطناعي', 'نمذجة البيانات'],
-            capabilities: ['الأتمتة', 'وكيل دعم', 'التنبؤ المستقبلي', 'دردشة ذكية', 'وكيل صوتي ذكي', 'كشف الاحتيال', 'التعرف على الصوت', 'كشف الصور/الفيديو', '+ المزيد'],
+            capabilities: ['الأتمتة', 'وكيل دعم', 'التنبؤ المستقبلي', 'دردشة ذكية', 'وكيل صوتي ذكي', 'كشف الاحتيال', 'التعرف على الصوت', 'كشف الصور/الفيديو', 'المزيد'],
         }
         : {
             industriesTitle: 'By Technology',
             capabilitiesTitle: 'By Use Case',
             industries: ['AI Agents', 'ML Models', 'LLMs', 'Deep Learning', 'Generative AI', 'Neural Networks', 'Data Engineering', 'MLOps/AIOps', 'Data Modeling'],
-            capabilities: ['Automation', 'Support Agent', 'Future Forecasting', 'AI Chatbot', 'AI Voice Agent', 'Fraud Detection', 'Voice Detection', 'Image/Video Detection', '+ More'],
+            capabilities: ['Automation', 'Support Agent', 'Future Forecasting', 'AI Chatbot', 'AI Voice Agent', 'Fraud Detection', 'Voice Detection', 'Image/Video Detection', 'More'],
         }
     const showcaseSlides: ShowcaseSlide[] = isArabic
         ? [
             {
-                badge: 'AI Labs+ Use Case 1',
+                badge: 'Intelligence Lab Use Case 1',
                 title: 'وكيل صوتي',
                 subtitle: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
                 cta: 'اكتشف الحالة',
                 features: ['تغطية 24/7', 'تكلفة دعم أقل', 'استجابة أسرع'],
                 imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'واجهة عرض AI Labs+ 1',
+                imageAlt: 'واجهة عرض Intelligence Lab 1',
             },
             {
-                badge: 'AI Labs+ Use Case 2',
+                badge: 'Intelligence Lab Use Case 2',
                 title: 'أتمتة سير العمل',
                 subtitle: 'يؤتمت الموافقات والتقارير وتسليم المهام، فيلغي التكرار ويوفّر ساعات عمل أسبوعيًا.',
                 cta: 'اكتشف الحالة',
                 features: ['مهام يدوية أقل', 'تشغيل أسرع', 'تكلفة تشغيل أقل'],
                 imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'واجهة عرض AI Labs+ 2',
+                imageAlt: 'واجهة عرض Intelligence Lab 2',
             },
             {
-                badge: 'AI Labs+ Use Case 3',
+                badge: 'Intelligence Lab Use Case 3',
                 title: 'نموذج تعلم آلة',
                 subtitle: 'يتنبأ بالطلب والمخاطر والتسرّب مبكرًا، لتقليل الهدر وتجنب قرارات مكلفة.',
                 cta: 'اكتشف الحالة',
                 features: ['تنبؤ أدق', 'هدر أقل', 'قرارات أسرع'],
                 imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'واجهة عرض AI Labs+ 3',
+                imageAlt: 'واجهة عرض Intelligence Lab 3',
             },
             {
-                badge: 'AI Labs+ Use Case 4',
+                badge: 'Intelligence Lab Use Case 4',
                 title: 'نموذج لغوي كبير (LLM)',
                 subtitle: 'يسرّع البحث الداخلي والتلخيص وكتابة المسودات، فيختصر الوقت التشغيلي اليومي.',
                 cta: 'اكتشف الحالة',
                 features: ['وصول أسرع للمعرفة', 'وقت إداري أقل', 'إنتاجية أعلى'],
                 imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'واجهة عرض AI Labs+ 4',
+                imageAlt: 'واجهة عرض Intelligence Lab 4',
             },
             {
-                badge: 'AI Labs+ Use Case 5',
+                badge: 'Intelligence Lab Use Case 5',
                 title: 'ذكاء اصطناعي توليدي',
                 subtitle: 'ينتج محتوى وأصولًا وتسويقًا بسرعة، ما يقلل وقت التنفيذ وتكلفة الإنتاج.',
                 cta: 'اكتشف الحالة',
                 features: ['إنتاج محتوى أسرع', 'تكلفة إنتاج أقل', 'جودة متسقة'],
                 imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'واجهة عرض AI Labs+ 5',
+                imageAlt: 'واجهة عرض Intelligence Lab 5',
             },
         ]
         : [
             {
-                badge: 'AI Labs+ Use Case 1',
+                badge: 'Intelligence Lab Use Case 1',
                 title: 'Voice Agent',
                 subtitle: 'Handles customer calls 24/7, reduces response time, and lowers support payroll costs.',
                 cta: 'Explore use case',
                 features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
                 imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'AI Labs+ showcase preview 1',
+                imageAlt: 'Intelligence Lab showcase preview 1',
             },
             {
-                badge: 'AI Labs+ Use Case 2',
+                badge: 'Intelligence Lab Use Case 2',
                 title: 'Workflow Automation',
                 subtitle: 'Automates approvals, reporting, and handoffs to remove repetitive work and save weekly team hours.',
                 cta: 'Explore use case',
                 features: ['Fewer manual tasks', 'Faster operations', 'Lower ops cost'],
                 imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'AI Labs+ showcase preview 2',
+                imageAlt: 'Intelligence Lab showcase preview 2',
             },
             {
-                badge: 'AI Labs+ Use Case 3',
+                badge: 'Intelligence Lab Use Case 3',
                 title: 'ML Model',
                 subtitle: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
                 cta: 'Explore use case',
                 features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
                 imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'AI Labs+ showcase preview 3',
+                imageAlt: 'Intelligence Lab showcase preview 3',
             },
             {
-                badge: 'AI Labs+ Use Case 4',
+                badge: 'Intelligence Lab Use Case 4',
                 title: 'LLM',
                 subtitle: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
                 cta: 'Explore use case',
                 features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
                 imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'AI Labs+ showcase preview 4',
+                imageAlt: 'Intelligence Lab showcase preview 4',
             },
             {
-                badge: 'AI Labs+ Use Case 5',
+                badge: 'Intelligence Lab Use Case 5',
                 title: 'Generative AI',
                 subtitle: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
                 cta: 'Explore use case',
                 features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
                 imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'AI Labs+ showcase preview 5',
+                imageAlt: 'Intelligence Lab showcase preview 5',
             },
         ]
     const activeShowcaseSlide = showcaseSlides[activeShowcaseIndex] ?? showcaseSlides[0]
@@ -331,8 +331,44 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
         window.localStorage.setItem(STORAGE_KEY, language)
         document.documentElement.lang = language
         document.documentElement.dir = isArabic ? 'rtl' : 'ltr'
-        document.documentElement.classList.toggle('dark', isDark)
-    }, [isArabic, isDark, language])
+    }, [isArabic, language])
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        const applyTheme = () => {
+            const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
+            document.documentElement.classList.toggle('dark', shouldUseDark)
+        }
+
+        applyTheme()
+        mediaQuery.addEventListener('change', applyTheme)
+        return () => mediaQuery.removeEventListener('change', applyTheme)
+    }, [theme])
+
+    useEffect(() => {
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
+            if (!footerMenusRef.current?.contains(event.target as Node)) {
+                footerMenusRef.current
+                    ?.querySelectorAll<HTMLDetailsElement>('details[open]')
+                    .forEach((menu) => menu.removeAttribute('open'))
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside)
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [])
+
+    const handleMenuToggle = (event: { currentTarget: HTMLDetailsElement }) => {
+        const currentMenu = event.currentTarget
+        if (!currentMenu.open) return
+        footerMenusRef.current
+            ?.querySelectorAll<HTMLDetailsElement>('details[open]')
+            .forEach((menu) => {
+                if (menu !== currentMenu) {
+                    menu.removeAttribute('open')
+                }
+            })
+    }
 
     useEffect(() => {
         return () => {
@@ -360,33 +396,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
             <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
                 <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
                     <div className="flex items-center gap-1.5">
-                        <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-                            <span className="inline-flex items-start">
-                                {t.nav.logo}
-                                <span
-                                    aria-hidden
-                                    className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
-                                >
-                                    +
-                                </span>
-                            </span>
-                        </Link>
-                        <button
-                            type="button"
-                            onClick={() => setLanguage(current => (current === 'en' ? 'ar' : 'en'))}
-                            aria-label={isArabic ? 'Switch language to English' : 'تغيير اللغة إلى العربية'}
-                            className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
-                        >
-                            <Languages className="size-3.5" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setTheme(current => (current === 'dark' ? 'light' : 'dark'))}
-                            aria-label={isDark ? (isArabic ? 'تفعيل الوضع الفاتح' : 'Switch to light mode') : (isArabic ? 'تفعيل الوضع الداكن' : 'Switch to dark mode')}
-                            className="inline-flex size-5 cursor-pointer items-center justify-center text-black/70 transition-opacity hover:opacity-100 hover:text-black"
-                        >
-                            {isDark ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
-                        </button>
+                        <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
                     </div>
                     <div className="flex items-center justify-end gap-2">
                         <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
@@ -402,16 +412,16 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                     <div className="inline-flex items-center gap-2.5">
                         <div className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white">
                             <Image
-                                src="/AI%20Labs%20%2B%20Main.png"
-                                alt="AI Labs logo primary"
+                                src="/Itelligence%20Lab%20primary%20logo.png"
+                                alt="Intelligence Lab logo primary"
                                 width={96}
                                 height={96}
                                 className="h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
                                 priority
                             />
                             <Image
-                                src="/AI%20Labs%20%2B%20second.png"
-                                alt="AI Labs logo secondary"
+                                src="/Itelligence%20Lab%20secondry%20logo.png"
+                                alt="Intelligence Lab logo secondary"
                                 width={96}
                                 height={96}
                                 className="absolute h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -419,17 +429,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             />
                         </div>
                         <div className="flex h-12 flex-col justify-center">
-                            <p className="text-[16px] leading-5 font-medium text-black">
-                                <span className="inline-flex items-start">
-                                    {t.brandTitle.replace(/\+\s*$/, '')}
-                                    <span
-                                        aria-hidden
-                                        className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
-                                    >
-                                        +
-                                    </span>
-                                </span>
-                            </p>
+                            <p className="text-[16px] leading-5 font-medium text-black">{t.brandTitle}</p>
                             <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{t.brandSubtitle}</p>
                         </div>
                     </div>
@@ -447,7 +447,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                     <Image
                         src="/IMG_3242.heic"
-                        alt={isArabic ? 'صورة واجهة AI Labs+' : 'AI Labs+ hero image'}
+                        alt={isArabic ? 'صورة واجهة Intelligence Lab' : 'Intelligence Lab hero image'}
                         width={1800}
                         height={1200}
                         unoptimized
@@ -706,8 +706,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </div>
             </section>
 
-            <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-start justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-center justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
+        <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
                     <div className="flex flex-wrap items-center justify-start gap-2">
                         <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
                             {EMAIL_ADDRESS}
@@ -718,13 +718,86 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
                         />
                     </div>
-                </div>
-                <div className="flex flex-wrap items-center gap-1.5 text-xs leading-4 font-light text-black/70">
+        </div>
+        <div ref={footerMenusRef} className="flex items-center gap-2">
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Globe className="size-3.5" />
+              <span>{isArabic ? 'العربية' : 'English'}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('en')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>English</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setLanguage('ar')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Languages className="size-3.5" />
+                <span>العربية</span>
+              </button>
+            </div>
+          </details>
+          <details className="group relative" onToggle={handleMenuToggle}>
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
+              <Palette className="size-3.5" />
+              <span>{theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')}</span>
+            </summary>
+            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('light')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Sun className="size-3.5" />
+                <span>{isArabic ? 'فاتح' : 'Light'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('dark')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Moon className="size-3.5" />
+                <span>{isArabic ? 'داكن' : 'Dark'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  setTheme('system')
+                  event.currentTarget.closest('details')?.removeAttribute('open')
+                }}
+                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
+              >
+                <Monitor className="size-3.5" />
+                <span>{isArabic ? 'النظام' : 'System'}</span>
+              </button>
+            </div>
+          </details>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5 text-base leading-6 font-light text-black/65">
                     <a
                         href={X_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
                     >
                         {t.contact.x}
                         <ArrowUpRight className="size-3" />
@@ -733,7 +806,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         href={INSTAGRAM_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
                     >
                         {t.contact.instagram}
                         <ArrowUpRight className="size-3" />
@@ -742,7 +815,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         href={LINKEDIN_URL}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-site-gray-ui px-2.5 py-0.5 transition-colors hover:bg-site-gray-ui hover:text-black"
+                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
                     >
                         {t.contact.linkedIn}
                         <ArrowUpRight className="size-3" />
