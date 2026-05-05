@@ -1,28 +1,147 @@
+'use client'
+
+import { useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { IBM_Plex_Sans_Arabic } from 'next/font/google'
+import { usePersistedLanguage } from '@/hooks/use-persisted-language'
+import { usePersistedTheme } from '@/hooks/use-persisted-theme'
+
+type Language = 'en' | 'ar'
+
+type NotFoundCopy = {
+  nav: {
+    logo: string
+    whatWeDo: string
+    articles: string
+    sayHi: string
+  }
+  badge: string
+  title: string
+  subtitle: string
+  cta: string
+}
+
+const STORAGE_KEY = 'baz-language'
+const THEME_STORAGE_KEY = 'baz-theme'
+
+const ibmArabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic', 'latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const copy: Record<Language, NotFoundCopy> = {
+  en: {
+    nav: {
+      logo: 'Intelligence Lab',
+      whatWeDo: 'What We Do',
+      articles: 'Articles',
+      sayHi: 'Say hi',
+    },
+    badge: 'Error 404',
+    title: 'Page not found',
+    subtitle: 'The page you are trying to open does not exist or may have moved.',
+    cta: 'Back to home',
+  },
+  ar: {
+    nav: {
+      logo: 'إنتيلجنس لاب',
+      whatWeDo: 'ماذا نفعل',
+      articles: 'المقالات',
+      sayHi: 'تواصل',
+    },
+    badge: 'خطأ 404',
+    title: 'الصفحة غير موجودة',
+    subtitle: 'الصفحة التي تحاول فتحها غير موجودة أو ربما تم نقلها.',
+    cta: 'العودة للرئيسية',
+  },
+}
 
 export default function NotFound() {
+  const [language, setLanguage] = usePersistedLanguage('en', STORAGE_KEY)
+  const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, language)
+    document.documentElement.lang = language
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
+  }, [language])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const applyTheme = () => {
+      const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
+      document.documentElement.classList.toggle('dark', shouldUseDark)
+    }
+
+    applyTheme()
+    mediaQuery.addEventListener('change', applyTheme)
+    return () => mediaQuery.removeEventListener('change', applyTheme)
+  }, [theme])
+
+  const isArabic = language === 'ar'
+  const t = copy[language]
+  const textAlignClass = isArabic ? 'text-right' : 'text-left'
+  const homeHref = isArabic ? '/ar' : '/en'
+  const contactHref = isArabic ? '/ar/contact' : '/en/contact'
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white text-black dark:bg-[#1c1917] dark:text-stone-100">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(17,24,39,0.08),transparent_38%),radial-gradient(circle_at_80%_0%,rgba(120,113,108,0.16),transparent_34%),linear-gradient(to_bottom,rgba(245,245,244,0.6),transparent_45%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(245,245,244,0.08),transparent_38%),radial-gradient(circle_at_80%_0%,rgba(120,113,108,0.18),transparent_34%),linear-gradient(to_bottom,rgba(41,37,36,0.45),transparent_45%)]" />
-
-      <section className="relative mx-auto flex min-h-screen w-full max-w-5xl items-center justify-center px-6 py-20">
-        <div className="w-full max-w-2xl rounded-3xl border border-black/10 bg-white/80 p-8 text-center shadow-[0_24px_90px_-40px_rgba(0,0,0,0.35)] backdrop-blur-sm md:p-12 dark:border-white/15 dark:bg-[#1f1b19]/80">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/55 dark:text-stone-300/80">Error 404</p>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tight text-black md:text-5xl dark:text-stone-100">Page not found</h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-black/70 md:text-base dark:text-stone-300/85">
-            The page you are looking for does not exist or was moved. Let&apos;s get you back to the homepage.
-          </p>
-
-          <div className="mt-9">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-black/20 bg-black px-6 py-3 text-sm font-medium text-white transition hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 dark:border-white/20 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to home
+    <main
+      dir={isArabic ? 'rtl' : 'ltr'}
+      className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
+    >
+      <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+        <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
+          <div className="flex items-center gap-1.5">
+            <Link href={homeHref} className="text-sm leading-6 font-medium text-black">
+              {t.nav.logo}
             </Link>
           </div>
+          <div className="flex items-center justify-end gap-2">
+            <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
+            <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
+            <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</Link>
+          </div>
+        </nav>
+      </div>
+
+      <section className="mx-auto flex min-h-[calc(100vh-7rem)] w-full max-w-2xl items-center pt-10">
+        <div className={`w-full ${textAlignClass}`}>
+          <p className="text-xs leading-5 font-medium tracking-[0.2em] text-black/45 uppercase">{t.badge}</p>
+          <h1 className="mt-2 text-xl leading-6 font-medium tracking-normal text-black">{t.title}</h1>
+          <p className="mt-2 text-base leading-6 font-light text-black/65">{t.subtitle}</p>
+          <div className="mt-5">
+            <Link
+              href={homeHref}
+              className="inline-flex h-9 items-center rounded-md bg-black px-4 text-sm font-light text-white transition-colors hover:bg-black/90"
+            >
+              {t.cta}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-4 flex w-full max-w-2xl justify-end pb-10">
+        <div className="flex items-center gap-2">
+          <select
+            aria-label={isArabic ? 'اختيار اللغة' : 'Choose language'}
+            value={language}
+            onChange={(event) => setLanguage(event.target.value as Language)}
+            className="h-8 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/70 outline-none transition-colors hover:border-black/25 focus:border-black/25"
+          >
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+          <select
+            aria-label={isArabic ? 'اختيار النمط' : 'Choose theme'}
+            value={theme}
+            onChange={(event) => setTheme(event.target.value as 'light' | 'dark' | 'system')}
+            className="h-8 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/70 outline-none transition-colors hover:border-black/25 focus:border-black/25"
+          >
+            <option value="light">{isArabic ? 'فاتح' : 'Light'}</option>
+            <option value="dark">{isArabic ? 'داكن' : 'Dark'}</option>
+            <option value="system">{isArabic ? 'النظام' : 'System'}</option>
+          </select>
         </div>
       </section>
     </main>

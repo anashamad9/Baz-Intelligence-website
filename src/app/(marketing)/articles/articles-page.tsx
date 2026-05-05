@@ -86,17 +86,7 @@ export default function ArticlesPage({ initialLanguage = 'en' }: { initialLangua
       <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
         <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
           <div className="flex items-center gap-1.5">
-            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">
-              <span className="inline-flex items-start">
-                {t.nav.logo}
-                <span
-                  aria-hidden
-                  className={isArabic ? 'mr-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none' : 'ml-0 relative -top-[0.14em] inline-block text-[0.66em] leading-none'}
-                >
-                  +
-                </span>
-              </span>
-            </Link>
+            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
           </div>
           <div className="flex items-center justify-end gap-2">
             <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
