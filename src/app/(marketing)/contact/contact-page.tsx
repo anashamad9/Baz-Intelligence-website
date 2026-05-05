@@ -67,7 +67,7 @@ type ContactCopy = {
 
 const STORAGE_KEY = 'baz-language'
 const THEME_STORAGE_KEY = 'baz-theme'
-const CAL_BOOKING_URL = 'https://cal.com/bazintelligence/'
+const CAL_BOOKING_URL = 'https://cal.com/intelligencelab/30min?user=intelligencelab&overlayCalendar=true'
 const ARAB_COUNTRY_CODES = [
   'DZ', 'BH', 'KM', 'DJ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MR',
   'MA', 'OM', 'PS', 'QA', 'SA', 'SO', 'SD', 'SY', 'TN', 'AE', 'YE',

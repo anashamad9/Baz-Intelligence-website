@@ -28,9 +28,9 @@ type ShowcaseSlide = {
 const STORAGE_KEY = 'baz-language'
 const THEME_STORAGE_KEY = 'baz-theme'
 const EMAIL_ADDRESS = 'hi@intelligence.dev'
-const X_URL = 'https://x.com/Bazintelligence'
-const INSTAGRAM_URL = '#'
-const LINKEDIN_URL = 'https://www.linkedin.com/company/baz-intelligence/'
+const X_URL = 'https://x.com/intlgnc_lab'
+const INSTAGRAM_URL = 'https://www.instagram.com/intelligencelab.dev?igsh=N2t4c2J4c2lpb3Zh'
+const LINKEDIN_URL = 'https://www.linkedin.com/company/intelligence-lab-dev'
 const ibmArabic = IBM_Plex_Sans_Arabic({
     subsets: ['arabic', 'latin'],
     weight: ['300', '400', '500', '600', '700'],
