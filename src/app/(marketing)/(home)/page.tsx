@@ -1,18 +1,21 @@
 'use client'
 
-import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent, type TouchEvent } from 'react'
 import ButtonDemo from '@/components/button-demo'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowUpRight, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft, ChevronRight, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 import { Badge } from '@/components/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import { usePersistedTheme } from '@/hooks/use-persisted-theme'
+import { TopNav } from '@/components/top-nav'
+import StackIcon, { type IconName } from 'tech-stack-icons'
+import AvatarGroupTooltipTransitionDemo, { type Avatar18Item } from '@/components/shadcn-studio/avatar/avatar-18'
+import { usePathname, useRouter } from 'next/navigation'
 
 type Language = 'en' | 'ar'
 type ShowcaseSlide = {
@@ -23,6 +26,17 @@ type ShowcaseSlide = {
     features: string[]
     imageSrc: string
     imageAlt: string
+}
+type ShowcaseProjectCard = {
+    badge: string
+    title: string
+    subtitle: string
+    features: string[]
+    betweenParagraph?: string
+    images: Array<{
+        src: string
+        alt: string
+    }>
 }
 
 const STORAGE_KEY = 'baz-language'
@@ -58,7 +72,10 @@ const content = {
     en: {
         nav: {
             logo: 'Intelligence Lab',
-            services: 'What We Do',
+            services: 'Services',
+            ourWork: 'Our Work',
+            aiTechnologies: 'Intelligence Lab: for AI Technologies',
+            appsWebsites: 'Intelligence Lab: for Apps & Websites',
             articles: 'Articles',
             sayHi: 'Say hi',
         },
@@ -77,7 +94,7 @@ const content = {
         buttons: {
             talkTo: 'Talk to',
             founders: 'Founders',
-            ourWork: 'What We Do',
+            ourWork: 'Services',
         },
         articlesDescription: 'Intelligent systems designed to simplify complex workflows and deliver practical, measurable outcomes.',
         foundersTitle: 'Founders',
@@ -93,7 +110,7 @@ const content = {
                 {
                     clientName: 'Randa Mitwalli',
                     company: 'Randa Academy',
-                    quote: 'Working with Intelligence Lab felt like unlocking a hidden operational advantage. They simplified how our team works and helped us launch smarter AI workflows without adding complexity.',
+                    quote: 'I did not share my feedback yet but I will do soon : )',
                     avatarFallback: 'RM',
                     avatarSrc: '',
                 },
@@ -121,7 +138,10 @@ const content = {
     ar: {
         nav: {
             logo: 'إنتيلجنس لاب',
-            services: 'ماذا نفعل',
+            services: 'الخدمات',
+            ourWork: 'أعمالنا',
+            aiTechnologies: 'إنتيلجنس لاب: لتقنيات الذكاء الاصطناعي',
+            appsWebsites: 'إنتيلجنس لاب: للتطبيقات والمواقع',
             articles: 'المقالات',
             sayHi: 'تواصل',
         },
@@ -140,7 +160,7 @@ const content = {
         buttons: {
             talkTo: 'تحدث مع',
             founders: 'المؤسسين',
-            ourWork: 'ماذا نفعل',
+            ourWork: 'الخدمات',
         },
         articlesDescription: 'أنظمة ذكية مُصممة لتبسيط سير العمل المعقّد وتقديم نتائج عملية قابلة للقياس.',
         foundersTitle: 'المؤسسون',
@@ -183,14 +203,56 @@ const content = {
     },
 } as const
 
-export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
+export default function Home({
+    initialLanguage = 'en',
+    showHeroImage = true,
+    showTestimonials = true,
+    showServicesButton = true,
+    techStackIcons = [],
+    brandTitleOverride,
+    brandSubtitleOverride,
+    showClientAvatarStrip = false,
+    clientAvatarItems,
+    logoPrimarySrc = '/Itelligence%20Lab%20primary%20logo.png',
+    logoSecondarySrc = '/Itelligence%20Lab%20secondry%20logo.png',
+    stackShowcaseContentTop = false,
+    heroHeadingOverride,
+    introParagraphsOverride,
+    showcaseProjectCardsOverride,
+    ctaHeadlineOverride,
+    ctaDescriptionOverride,
+}: {
+    initialLanguage?: Language
+    showHeroImage?: boolean
+    showTestimonials?: boolean
+    showServicesButton?: boolean
+    techStackIcons?: IconName[]
+    brandTitleOverride?: string
+    brandSubtitleOverride?: string
+    showClientAvatarStrip?: boolean
+    clientAvatarItems?: Avatar18Item[]
+    logoPrimarySrc?: string
+    logoSecondarySrc?: string
+    stackShowcaseContentTop?: boolean
+    heroHeadingOverride?: string
+    introParagraphsOverride?: string[]
+    showcaseProjectCardsOverride?: ShowcaseProjectCard[]
+    ctaHeadlineOverride?: string
+    ctaDescriptionOverride?: string
+}) {
     const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
     const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
     const [activeShowcaseIndex, setActiveShowcaseIndex] = useState(0)
     const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
+    const [activeProjectImageIndexes, setActiveProjectImageIndexes] = useState<number[]>([])
     const [isAtmetTooltipOpen, setIsAtmetTooltipOpen] = useState(false)
     const atmetTooltipTimeoutRef = useRef<number | null>(null)
+    const showcaseTouchStartXRef = useRef<number | null>(null)
+    const testimonialTouchStartXRef = useRef<number | null>(null)
+    const projectTouchStartXByCardRef = useRef<Record<number, number | null>>({})
     const footerMenusRef = useRef<HTMLDivElement | null>(null)
+    const router = useRouter()
+    const pathname = usePathname()
     const isArabic = language === 'ar'
     const t = content[language]
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
@@ -198,8 +260,15 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const headlineHighlightFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
     const foundersFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
     const paragraphWeightClass = isArabic ? 'font-[300]' : 'font-light'
+    const brandTitle = brandTitleOverride ?? t.brandTitle
+    const brandSubtitle = brandSubtitleOverride ?? t.brandSubtitle
+    const introParagraphs = introParagraphsOverride ?? t.introParagraphs
+    const ctaHeadline = ctaHeadlineOverride ?? t.ctaPanel.headline
+    const ctaDescription = ctaDescriptionOverride ?? t.ctaPanel.description
     const contactHref = isArabic ? '/ar/contact' : '/en/contact'
     const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
+    const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
+    const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
     const servicesPanel = isArabic
         ? {
             industriesTitle: 'حسب التقنية',
@@ -311,6 +380,32 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const activeShowcaseSlide = showcaseSlides[activeShowcaseIndex] ?? showcaseSlides[0]
     const testimonials = t.testimonials.items
     const activeTestimonial = testimonials[activeTestimonialIndex] ?? testimonials[0]
+    const showcaseProjectCards = showcaseProjectCardsOverride ?? []
+
+    const switchLanguage = (nextLanguage: Language) => {
+        setLanguage(nextLanguage)
+
+        if (!pathname) return
+
+        const normalizedPath = pathname === '/' ? '' : pathname
+        let nextPath = normalizedPath
+
+        if (normalizedPath === '' || normalizedPath === '/en' || normalizedPath === '/ar') {
+            nextPath = nextLanguage === 'ar' ? '/ar' : '/en'
+        } else if (normalizedPath.startsWith('/ar/')) {
+            nextPath = nextLanguage === 'en' ? `/en/${normalizedPath.slice(4)}` : normalizedPath
+        } else if (normalizedPath.startsWith('/en/')) {
+            nextPath = nextLanguage === 'ar' ? `/ar/${normalizedPath.slice(4)}` : normalizedPath
+        } else if (nextLanguage === 'ar') {
+            nextPath = `/ar${normalizedPath}`
+        } else if (nextLanguage === 'en') {
+            nextPath = `/en${normalizedPath}`
+        }
+
+        if (nextPath !== pathname) {
+            router.push(nextPath)
+        }
+    }
 
     useEffect(() => {
         setActiveShowcaseIndex(0)
@@ -347,7 +442,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
 
     useEffect(() => {
         const handleClickOutside = (event: globalThis.MouseEvent) => {
-            if (!footerMenusRef.current?.contains(event.target as Node)) {
+            const targetNode = event.target as Node
+            if (!footerMenusRef.current?.contains(targetNode)) {
                 footerMenusRef.current
                     ?.querySelectorAll<HTMLDetailsElement>('details[open]')
                     .forEach((menu) => menu.removeAttribute('open'))
@@ -361,7 +457,8 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
     const handleMenuToggle = (event: { currentTarget: HTMLDetailsElement }) => {
         const currentMenu = event.currentTarget
         if (!currentMenu.open) return
-        footerMenusRef.current
+        const menuScope = currentMenu.closest<HTMLElement>('[data-menu-scope]')
+        menuScope
             ?.querySelectorAll<HTMLDetailsElement>('details[open]')
             .forEach((menu) => {
                 if (menu !== currentMenu) {
@@ -391,28 +488,151 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
         }, 1400)
     }
 
+    const goToNextShowcaseSlide = () => {
+        setActiveShowcaseIndex((current) => (current + 1) % showcaseSlides.length)
+    }
+
+    const goToPreviousShowcaseSlide = () => {
+        setActiveShowcaseIndex((current) => (current - 1 + showcaseSlides.length) % showcaseSlides.length)
+    }
+
+    const handleShowcaseTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+        showcaseTouchStartXRef.current = event.touches[0]?.clientX ?? null
+    }
+
+    const handleShowcaseTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+        const startX = showcaseTouchStartXRef.current
+        const endX = event.changedTouches[0]?.clientX
+
+        showcaseTouchStartXRef.current = null
+
+        if (startX == null || endX == null) {
+            return
+        }
+
+        const swipeDistance = startX - endX
+        const minSwipeDistance = 45
+
+        if (Math.abs(swipeDistance) < minSwipeDistance) {
+            return
+        }
+
+        if (swipeDistance > 0) {
+            goToNextShowcaseSlide()
+            return
+        }
+
+        goToPreviousShowcaseSlide()
+    }
+
+    const goToNextTestimonial = () => {
+        setActiveTestimonialIndex((current) => (current + 1) % testimonials.length)
+    }
+
+    const goToPreviousTestimonial = () => {
+        setActiveTestimonialIndex((current) => (current - 1 + testimonials.length) % testimonials.length)
+    }
+
+    const handleTestimonialTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+        testimonialTouchStartXRef.current = event.touches[0]?.clientX ?? null
+    }
+
+    const handleTestimonialTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+        const startX = testimonialTouchStartXRef.current
+        const endX = event.changedTouches[0]?.clientX
+
+        testimonialTouchStartXRef.current = null
+
+        if (startX == null || endX == null) {
+            return
+        }
+
+        const swipeDistance = startX - endX
+        const minSwipeDistance = 45
+
+        if (Math.abs(swipeDistance) < minSwipeDistance) {
+            return
+        }
+
+        if (swipeDistance > 0) {
+            goToNextTestimonial()
+            return
+        }
+
+        goToPreviousTestimonial()
+    }
+
+    const goToNextProjectImage = (cardIndex: number) => {
+        const totalImages = showcaseProjectCards[cardIndex]?.images.length ?? 0
+        if (totalImages <= 1) return
+        setActiveProjectImageIndexes((current) => {
+            const next = [...current]
+            next[cardIndex] = ((next[cardIndex] ?? 0) + 1) % totalImages
+            return next
+        })
+    }
+
+    const goToPreviousProjectImage = (cardIndex: number) => {
+        const totalImages = showcaseProjectCards[cardIndex]?.images.length ?? 0
+        if (totalImages <= 1) return
+        setActiveProjectImageIndexes((current) => {
+            const next = [...current]
+            next[cardIndex] = ((next[cardIndex] ?? 0) - 1 + totalImages) % totalImages
+            return next
+        })
+    }
+
+    const handleProjectTouchStart = (cardIndex: number, event: TouchEvent<HTMLDivElement>) => {
+        projectTouchStartXByCardRef.current[cardIndex] = event.touches[0]?.clientX ?? null
+    }
+
+    const handleProjectTouchEnd = (cardIndex: number, event: TouchEvent<HTMLDivElement>) => {
+        const startX = projectTouchStartXByCardRef.current[cardIndex]
+        const endX = event.changedTouches[0]?.clientX
+        projectTouchStartXByCardRef.current[cardIndex] = null
+
+        if (startX == null || endX == null) {
+            return
+        }
+
+        const swipeDistance = startX - endX
+        const minSwipeDistance = 45
+
+        if (Math.abs(swipeDistance) < minSwipeDistance) {
+            return
+        }
+
+        if (swipeDistance > 0) {
+            goToNextProjectImage(cardIndex)
+            return
+        }
+
+        goToPreviousProjectImage(cardIndex)
+    }
+
     return (
         <main dir={isArabic ? 'rtl' : 'ltr'} className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}>
-            <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-                <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
-                    <div className="flex items-center gap-1.5">
-                        <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
-                    </div>
-                    <div className="flex items-center justify-end gap-2">
-                        <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.services}</Link>
-                        <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-                        <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">
-                            {t.nav.sayHi}
-                        </Link>
-                    </div>
-                </nav>
-            </div>
+            <TopNav
+                isArabic={isArabic}
+                logo={t.nav.logo}
+                services={t.nav.services}
+                ourWorkLabel={t.nav.ourWork}
+                aiTechnologiesLabel={t.nav.aiTechnologies}
+                appsWebsitesLabel={t.nav.appsWebsites}
+                articles={t.nav.articles}
+                sayHi={t.nav.sayHi}
+                homeHref={isArabic ? '/ar' : '/en'}
+                servicesHref={servicesHref}
+                aiTechnologiesHref={aiTechnologiesHref}
+                articlesHref={articlesHref}
+                contactHref={contactHref}
+            />
             <div className="pt-2 text-black">
                 <div className="mx-auto mb-3 flex max-w-2xl justify-start">
                     <div className="inline-flex items-center gap-2.5">
                         <div className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white">
                             <Image
-                                src="/Itelligence%20Lab%20primary%20logo.png"
+                                src={logoPrimarySrc}
                                 alt="Intelligence Lab logo primary"
                                 width={96}
                                 height={96}
@@ -420,7 +640,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                                 priority
                             />
                             <Image
-                                src="/Itelligence%20Lab%20secondry%20logo.png"
+                                src={logoSecondarySrc}
                                 alt="Intelligence Lab logo secondary"
                                 width={96}
                                 height={96}
@@ -429,34 +649,48 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             />
                         </div>
                         <div className="flex h-12 flex-col justify-center">
-                            <p className="text-[16px] leading-5 font-medium text-black">{t.brandTitle}</p>
-                            <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{t.brandSubtitle}</p>
+                            <p className="text-[16px] leading-5 font-medium text-black">{brandTitle}</p>
+                            <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{brandSubtitle}</p>
                         </div>
+                        {showClientAvatarStrip ? (
+                            <div className="inline-flex items-center gap-2">
+                                <span className="h-7 w-px bg-black/12" aria-hidden />
+                                <AvatarGroupTooltipTransitionDemo avatars={clientAvatarItems} />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
                 <h1 className={`mx-auto max-w-2xl text-xl font-medium tracking-normal ${heroHeadingLineHeightClass} ${textAlignClass}`}>
-                    {t.heading.beforeHighlight}{' '}
-                    <span
-                        className={`${headlineHighlightFontClass} text-[#1063ff] ${isArabic ? '' : 'font-semibold'}`}
-                        style={isArabic ? thmanyahOpenTypeStyles : undefined}
-                    >
-                        {t.heading.highlight}
-                    </span>{' '}
-                    {t.heading.afterHighlight}
+                    {heroHeadingOverride ? (
+                        heroHeadingOverride
+                    ) : (
+                        <>
+                            {t.heading.beforeHighlight}{' '}
+                            <span
+                                className={`${headlineHighlightFontClass} text-[#1063ff] ${isArabic ? '' : 'font-semibold'}`}
+                                style={isArabic ? thmanyahOpenTypeStyles : undefined}
+                            >
+                                {t.heading.highlight}
+                            </span>{' '}
+                            {t.heading.afterHighlight}
+                        </>
+                    )}
                 </h1>
-                <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
-                    <Image
-                        src="/IMG_3242-2.png"
-                        alt={isArabic ? 'صورة واجهة Intelligence Lab' : 'Intelligence Lab hero image'}
-                        width={1800}
-                        height={1200}
-                        unoptimized
-                        className="h-full w-full object-cover"
-                        priority
-                    />
-                </div>
+                {showHeroImage ? (
+                    <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
+                        <Image
+                            src="/IMG_3242-2.png"
+                            alt={isArabic ? 'صورة واجهة Intelligence Lab' : 'Intelligence Lab hero image'}
+                            width={1800}
+                            height={1200}
+                            unoptimized
+                            className="h-full w-full object-cover"
+                            priority
+                        />
+                    </div>
+                ) : null}
                 <div className={`mx-auto mt-4 max-w-2xl space-y-5 text-base leading-5 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
-                    {t.introParagraphs.map(paragraph => {
+                    {introParagraphs.map(paragraph => {
                         const atmetText = 'Atmet AI'
 
                         if (!paragraph.includes(atmetText)) {
@@ -510,88 +744,213 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                             </span>
                         }
                     />
-                    <ButtonDemo
-                        variant="outline"
-                        size="default"
-                        className="h-7 rounded-md border-0 bg-site-gray-ui px-2 py-0 text-xs ring-0 shadow-none hover:bg-site-gray-ui"
-                        onClick={() => {
-                            window.location.href = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
-                        }}
-                        label={
-                            <span>{t.buttons.ourWork}</span>
-                        }
-                    />
+                    {showServicesButton ? (
+                        <ButtonDemo
+                            variant="outline"
+                            size="default"
+                            className="h-7 rounded-md border-0 bg-site-gray-ui px-2 py-0 text-xs ring-0 shadow-none hover:bg-site-gray-ui"
+                            onClick={() => {
+                                window.location.href = servicesHref
+                            }}
+                            label={
+                                <span>{t.buttons.ourWork}</span>
+                            }
+                        />
+                    ) : null}
+                    {techStackIcons.length ? (
+                        <>
+                            <span className="text-xs text-black/45" aria-hidden>-</span>
+                            {techStackIcons.map((iconName, iconIndex) => (
+                                <span key={`${iconName}-${iconIndex}`} className="inline-flex h-5 w-5 items-center justify-center" aria-hidden>
+                                    <StackIcon name={iconName} className="h-full w-full" />
+                                </span>
+                            ))}
+                        </>
+                    ) : null}
                 </div>
             </div>
 
             <section id="articles" className="mx-auto mt-10 w-full max-w-2xl">
-                <div className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
-                    <div className="grid gap-1 md:min-h-[350px] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-stretch">
-                        <div className={`min-w-0 p-4 sm:p-5 flex h-full flex-col ${textAlignClass}`}>
-                            <div>
-                                <div className="flex justify-start">
-                                    <Badge variant="blue" className="bg-[#1063ff] text-white dark:bg-[#1063ff] dark:text-white">
-                                        {activeShowcaseSlide.badge}
-                                    </Badge>
+                {showcaseProjectCards.length ? (
+                    <div className="space-y-7">
+                        {showcaseProjectCards.map((card, cardIndex) => {
+                            const activeImageIndex = activeProjectImageIndexes[cardIndex] ?? 0
+                            return (
+                                <div key={`${card.badge}-${cardIndex}`} className="space-y-4">
+                                    <article className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
+                                        <div className="overflow-hidden rounded-lg">
+                                            <div className="grid gap-1 grid-cols-1">
+                                                <div className={`min-w-0 p-4 sm:p-5 flex h-full flex-col ${textAlignClass}`}>
+                                                    <div>
+                                                        <div className="flex justify-start">
+                                                            <Badge variant="blue" className="bg-[#ff2c48] text-white dark:bg-[#ff2c48] dark:text-white">
+                                                                {card.badge}
+                                                            </Badge>
+                                                        </div>
+                                                        <h3 className="mt-3 text-xl leading-6 font-medium tracking-normal text-black">{card.title}</h3>
+                                                        <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>{card.subtitle}</p>
+                                                    </div>
+                                                    <div className="mt-4">
+                                                        <div className="flex flex-wrap justify-start gap-1.5">
+                                                            {card.features.map((item) => (
+                                                                <span
+                                                                    key={item}
+                                                                    className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
+                                                                >
+                                                                    {item}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    dir="ltr"
+                                                    className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-[360px]"
+                                                    onTouchStart={(event) => handleProjectTouchStart(cardIndex, event)}
+                                                    onTouchEnd={(event) => handleProjectTouchEnd(cardIndex, event)}
+                                                >
+                                                    <div
+                                                        className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                                                        style={{ transform: `translateX(-${activeImageIndex * 100}%)` }}
+                                                    >
+                                                        {card.images.map((image, imageIndex) => (
+                                                            <div key={`${card.badge}-image-${imageIndex}`} className="relative h-full min-h-[240px] w-full shrink-0 md:min-h-[360px]">
+                                                                <Image
+                                                                    src={image.src}
+                                                                    alt={image.alt}
+                                                                    fill
+                                                                    unoptimized
+                                                                    className="object-cover"
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    {card.images.length > 1 ? (
+                                                        <>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => goToPreviousProjectImage(cardIndex)}
+                                                                aria-label={isArabic ? 'الصورة السابقة' : 'Previous image'}
+                                                                className="absolute left-2 top-1/2 hidden size-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/50 md:inline-flex"
+                                                            >
+                                                                <ChevronLeft className="size-4" />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => goToNextProjectImage(cardIndex)}
+                                                                aria-label={isArabic ? 'الصورة التالية' : 'Next image'}
+                                                                className="absolute right-2 top-1/2 hidden size-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/50 md:inline-flex"
+                                                            >
+                                                                <ChevronRight className="size-4" />
+                                                            </button>
+                                                        </>
+                                                    ) : null}
+                                                    <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm dark:bg-white/10">
+                                                        {card.images.map((image, imageIndex) => (
+                                                            <button
+                                                                key={`${card.badge}-dot-${imageIndex}`}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setActiveProjectImageIndexes((current) => {
+                                                                        const next = [...current]
+                                                                        next[cardIndex] = imageIndex
+                                                                        return next
+                                                                    })
+                                                                }}
+                                                                aria-label={isArabic ? `الانتقال للصورة ${imageIndex + 1}` : `Go to image ${imageIndex + 1}`}
+                                                                className={`h-1.5 rounded-full transition-all duration-300 ${imageIndex === activeImageIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/65 hover:bg-white/90'}`}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    {card.betweenParagraph ? (
+                                        <p className={`whitespace-pre-line px-1 text-base leading-6 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
+                                            {card.betweenParagraph}
+                                        </p>
+                                    ) : null}
                                 </div>
-                                <h3 className="mt-3 text-xl leading-6 font-medium tracking-normal text-black">{activeShowcaseSlide.title}</h3>
-                                <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>{activeShowcaseSlide.subtitle}</p>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
+                        <div
+                            className={`grid gap-1 ${stackShowcaseContentTop ? 'grid-cols-1' : 'md:min-h-[350px] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-stretch'}`}
+                        >
+                            <div className={`min-w-0 p-4 sm:p-5 flex h-full flex-col ${textAlignClass}`}>
+                                <div>
+                                    <div className="flex justify-start">
+                                        <Badge variant="blue" className="bg-[#1063ff] text-white dark:bg-[#1063ff] dark:text-white">
+                                            {activeShowcaseSlide.badge}
+                                        </Badge>
+                                    </div>
+                                    <h3 className="mt-3 text-xl leading-6 font-medium tracking-normal text-black">{activeShowcaseSlide.title}</h3>
+                                    <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>{activeShowcaseSlide.subtitle}</p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <div className="flex justify-start">
+                                        <ButtonDemo
+                                            variant="default"
+                                            size="default"
+                                            className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none"
+                                            onClick={() => {
+                                                window.location.href = articlesHref
+                                            }}
+                                            label={<span>{activeShowcaseSlide.cta}</span>}
+                                        />
+                                    </div>
+                                    <div className="mt-4 flex flex-wrap justify-start gap-1.5">
+                                        {activeShowcaseSlide.features.map((item) => (
+                                            <span
+                                                key={item}
+                                                className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
+                                            >
+                                                {item}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="mt-auto pt-4">
-                                <div className="flex justify-start">
-                                    <ButtonDemo
-                                        variant="default"
-                                        size="default"
-                                        className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none"
-                                        onClick={() => {
-                                            window.location.href = articlesHref
-                                        }}
-                                        label={<span>{activeShowcaseSlide.cta}</span>}
-                                    />
+                            <div
+                                dir="ltr"
+                                className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-full"
+                                onTouchStart={handleShowcaseTouchStart}
+                                onTouchEnd={handleShowcaseTouchEnd}
+                            >
+                                <div
+                                    className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                                    style={{ transform: `translateX(-${activeShowcaseIndex * 100}%)` }}
+                                >
+                                    {showcaseSlides.map((slide, index) => (
+                                        <div key={`${slide.badge}-${index}`} className="relative h-full min-h-[240px] w-full shrink-0 md:min-h-full">
+                                            <Image
+                                                src={slide.imageSrc}
+                                                alt={slide.imageAlt}
+                                                fill
+                                                unoptimized
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className="mt-4 flex flex-wrap justify-start gap-1.5">
-                                    {activeShowcaseSlide.features.map((item) => (
-                                        <span
-                                            key={item}
-                                            className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
-                                        >
-                                            {item}
-                                        </span>
+                                <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm dark:bg-white/10">
+                                    {showcaseSlides.map((slide, index) => (
+                                        <button
+                                            key={`${slide.badge}-dot-${index}`}
+                                            type="button"
+                                            onClick={() => setActiveShowcaseIndex(index)}
+                                            aria-label={isArabic ? `الانتقال للشريحة ${index + 1}` : `Go to slide ${index + 1}`}
+                                            className={`h-1.5 rounded-full transition-all duration-300 ${index === activeShowcaseIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/65 hover:bg-white/90'}`}
+                                        />
                                     ))}
                                 </div>
                             </div>
                         </div>
-                        <div dir="ltr" className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-full">
-                            <div
-                                className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                                style={{ transform: `translateX(-${activeShowcaseIndex * 100}%)` }}
-                            >
-                                {showcaseSlides.map((slide, index) => (
-                                    <div key={`${slide.badge}-${index}`} className="relative h-full min-h-[240px] w-full shrink-0 md:min-h-full">
-                                        <Image
-                                            src={slide.imageSrc}
-                                            alt={slide.imageAlt}
-                                            fill
-                                            unoptimized
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm dark:bg-white/10">
-                                {showcaseSlides.map((slide, index) => (
-                                    <button
-                                        key={`${slide.badge}-dot-${index}`}
-                                        type="button"
-                                        onClick={() => setActiveShowcaseIndex(index)}
-                                        aria-label={isArabic ? `الانتقال للشريحة ${index + 1}` : `Go to slide ${index + 1}`}
-                                        className={`h-1.5 rounded-full transition-all duration-300 ${index === activeShowcaseIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/65 hover:bg-white/90'}`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
                     </div>
-                </div>
+                )}
             </section>
             <section
                 id="services"
@@ -627,62 +986,64 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </div>
             </section>
 
-            <section className="mx-auto mt-8 w-full max-w-2xl">
-                <h3 className={`text-xl leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>
-                    {t.testimonials.title}
-                </h3>
-                <div className="mt-3">
-                    <article
-                        key={`${activeTestimonial.clientName}-${activeTestimonial.company}-${activeTestimonialIndex}`}
-                        className="transition-opacity duration-300"
-                    >
-                        <span className={`-mb-1 block text-[30px] leading-[0.7] text-black/35 ${textAlignClass}`}>“</span>
-                        <p className={`mt-0 text-xl leading-6 font-light text-black sm:text-[22px] sm:leading-7 ${textAlignClass}`}>
-                            {activeTestimonial.quote}
-                        </p>
-                        <div className="mt-6 flex items-center gap-3">
-                            <Avatar className="size-10 border-[1px] border-black/10 bg-site-gray-ui">
-                                {activeTestimonial.avatarSrc ? <AvatarImage src={activeTestimonial.avatarSrc} alt={activeTestimonial.clientName} className="object-cover" /> : null}
-                                <AvatarFallback className="bg-site-gray-ui text-xs text-black/65">{activeTestimonial.avatarFallback}</AvatarFallback>
-                            </Avatar>
-                            <div className={`min-w-0 ${textAlignClass}`}>
-                                <p className="text-sm leading-5 font-medium text-black">
-                                    {activeTestimonial.clientName}
-                                </p>
-                                <p className="text-sm leading-5 font-light text-black/55">
-                                    {activeTestimonial.company}
-                                </p>
+            {showTestimonials ? (
+                <section className="mx-auto mt-8 w-full max-w-2xl">
+                    <h3 className={`text-xl leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>
+                        {t.testimonials.title}
+                    </h3>
+                    <div className="mt-3" onTouchStart={handleTestimonialTouchStart} onTouchEnd={handleTestimonialTouchEnd}>
+                        <article
+                            key={`${activeTestimonial.clientName}-${activeTestimonial.company}-${activeTestimonialIndex}`}
+                            className="transition-opacity duration-300"
+                        >
+                            <span className={`-mb-1 block text-[30px] leading-[0.7] text-black/35 ${textAlignClass}`}>“</span>
+                            <p className={`mt-0 text-xl leading-6 font-light text-black sm:text-[22px] sm:leading-7 ${textAlignClass}`}>
+                                {activeTestimonial.quote}
+                            </p>
+                            <div className="mt-6 flex items-center gap-3">
+                                <Avatar className="size-10 border-[1px] border-black/10 bg-site-gray-ui">
+                                    {activeTestimonial.avatarSrc ? <AvatarImage src={activeTestimonial.avatarSrc} alt={activeTestimonial.clientName} className="object-cover" /> : null}
+                                    <AvatarFallback className="bg-site-gray-ui text-xs text-black/65">{activeTestimonial.avatarFallback}</AvatarFallback>
+                                </Avatar>
+                                <div className={`min-w-0 ${textAlignClass}`}>
+                                    <p className="text-sm leading-5 font-medium text-black">
+                                        {activeTestimonial.clientName}
+                                    </p>
+                                    <p className="text-sm leading-5 font-light text-black/55">
+                                        {activeTestimonial.company}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <div className="mt-4 flex items-center justify-start gap-2">
+                            <div className="flex items-center gap-1">
+                                {testimonials.map((item, index) => (
+                                    <button
+                                        key={`${item.clientName}-dot-${index}`}
+                                        type="button"
+                                        onClick={() => setActiveTestimonialIndex(index)}
+                                        aria-label={isArabic ? `الانتقال إلى الشهادة ${index + 1}` : `Go to testimonial ${index + 1}`}
+                                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                                            index === activeTestimonialIndex
+                                                ? 'w-4 bg-black/65 dark:bg-white/65'
+                                                : 'w-1.5 bg-black/20 hover:bg-black/35 dark:bg-white/25 dark:hover:bg-white/40'
+                                        }`}
+                                    />
+                                ))}
                             </div>
                         </div>
-                    </article>
-                    <div className="mt-4 flex items-center justify-start gap-2">
-                        <div className="flex items-center gap-1">
-                            {testimonials.map((item, index) => (
-                                <button
-                                    key={`${item.clientName}-dot-${index}`}
-                                    type="button"
-                                    onClick={() => setActiveTestimonialIndex(index)}
-                                    aria-label={isArabic ? `الانتقال إلى الشهادة ${index + 1}` : `Go to testimonial ${index + 1}`}
-                                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                                        index === activeTestimonialIndex
-                                            ? 'w-4 bg-black/65 dark:bg-white/65'
-                                            : 'w-1.5 bg-black/20 hover:bg-black/35 dark:bg-white/25 dark:hover:bg-white/40'
-                                    }`}
-                                />
-                            ))}
-                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            ) : null}
 
             <section className="mx-auto mt-8 w-full max-w-2xl">
                 <div className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
                     <div className={`rounded-lg p-4 sm:p-5 ${textAlignClass}`}>
                         <h3 className="text-xl leading-6 font-medium tracking-normal text-black">
-                            {t.ctaPanel.headline}
+                            {ctaHeadline}
                         </h3>
                         <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>
-                            {t.ctaPanel.description}
+                            {ctaDescription}
                         </p>
                         <div className="mt-4 flex justify-start">
                             <ButtonDemo
@@ -706,8 +1067,11 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                 </div>
             </section>
 
-      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-center justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
-        <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
+      <footer
+        id="contact"
+        className={`mx-auto mt-8 flex w-full max-w-2xl flex-col gap-4 border-t border-black/10 pt-6 pb-10 md:flex-row md:items-center md:justify-between ${isArabic ? 'md:flex-row-reverse' : ''}`}
+      >
+        <div className={`w-full text-base leading-6 font-light text-black/65 md:w-auto ${textAlignClass}`}>
                     <div className="flex flex-wrap items-center justify-start gap-2">
                         <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
                             {EMAIL_ADDRESS}
@@ -719,7 +1083,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
                         />
                     </div>
         </div>
-        <div ref={footerMenusRef} className="flex items-center gap-2">
+        <div ref={footerMenusRef} data-menu-scope className="flex w-full flex-wrap items-center gap-2 md:w-auto">
           <details className="group relative" onToggle={handleMenuToggle}>
             <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
               <Globe className="size-3.5" />
@@ -729,7 +1093,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
               <button
                 type="button"
                 onClick={(event) => {
-                  setLanguage('en')
+                  switchLanguage('en')
                   event.currentTarget.closest('details')?.removeAttribute('open')
                 }}
                 className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
@@ -740,13 +1104,13 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
               <button
                 type="button"
                 onClick={(event) => {
-                  setLanguage('ar')
+                  switchLanguage('ar')
                   event.currentTarget.closest('details')?.removeAttribute('open')
                 }}
                 className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
               >
                 <Languages className="size-3.5" />
-                <span>العربية</span>
+                <span className={ibmArabic.className}>العربية</span>
               </button>
             </div>
           </details>
@@ -792,7 +1156,7 @@ export default function Home({ initialLanguage = 'en' }: { initialLanguage?: Lan
             </div>
           </details>
         </div>
-        <div className="flex flex-wrap items-center gap-1.5 text-base leading-6 font-light text-black/65">
+        <div className={`flex w-full flex-wrap items-center gap-x-3 gap-y-1 text-base leading-6 font-light text-black/65 md:w-auto ${isArabic ? 'justify-end md:justify-start' : 'justify-start'}`}>
                     <a
                         href={X_URL}
                         target="_blank"

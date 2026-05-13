@@ -7,6 +7,7 @@ import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { CopyButton } from '@/components/copy-button'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import { usePersistedTheme } from '@/hooks/use-persisted-theme'
+import { TopNav } from '@/components/top-nav'
 
 type Language = 'en' | 'ar'
 
@@ -34,6 +35,12 @@ type PageCopy = {
   intro: string
   offers: Offer[]
   cta: string
+  appWebsiteCard: {
+    title: string
+    description: string
+    ourWork: string
+    contactFounders: string
+  }
   calculator: {
     oneTimeLabel: string
     monthlyCostsLabel: string
@@ -69,7 +76,7 @@ const content: Record<Language, PageCopy> = {
   en: {
     nav: {
       logo: 'Intelligence Lab',
-      whatWeDo: 'What We Do',
+      whatWeDo: 'Services',
       articles: 'Articles',
       sayHi: 'Say hi',
     },
@@ -115,6 +122,12 @@ const content: Record<Language, PageCopy> = {
       },
     ],
     cta: 'Talk to us',
+    appWebsiteCard: {
+      title: 'Looking for an App or website?',
+      description: 'We also design and build full digital products with fast execution and high-quality delivery.',
+      ourWork: 'Our Work',
+      contactFounders: 'Contact founders',
+    },
     calculator: {
       oneTimeLabel: 'One-time payment',
       monthlyCostsLabel: 'Enter your monthly costs (USD)',
@@ -164,7 +177,7 @@ const content: Record<Language, PageCopy> = {
   ar: {
     nav: {
       logo: 'إنتيلجنس لاب',
-      whatWeDo: 'ماذا نفعل',
+      whatWeDo: 'الخدمات',
       articles: 'المقالات',
       sayHi: 'تواصل',
     },
@@ -210,6 +223,12 @@ const content: Record<Language, PageCopy> = {
       },
     ],
     cta: 'تواصل معنا',
+    appWebsiteCard: {
+      title: 'هل تبحث عن تطبيق أو موقع؟',
+      description: 'نقوم أيضًا بتصميم وتطوير منتجات رقمية كاملة بسرعة تنفيذ وجودة تسليم عالية.',
+      ourWork: 'أعمالنا',
+      contactFounders: 'تواصل مع المؤسسين',
+    },
     calculator: {
       oneTimeLabel: 'الدفع لمرة واحدة',
       monthlyCostsLabel: 'أدخل تكاليفك الشهرية (دولار)',
@@ -311,7 +330,12 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
   const isArabic = language === 'ar'
   const t = content[language]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
+  const homeHref = isArabic ? '/ar' : '/en'
+  const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
+  const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
+  const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
+  const workHref = isArabic ? '/ar/our-work/apps-websites' : '/en/our-work/apps-websites'
   const monthlyCosts = Number(monthlyCostsInput.replace(/,/g, '').trim())
   const hasValidMonthlyCosts = Number.isFinite(monthlyCosts) && monthlyCosts > 0
   const minSavings = hasValidMonthlyCosts ? monthlyCosts * 0.47 : 0
@@ -402,20 +426,18 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
       dir={isArabic ? 'rtl' : 'ltr'}
       className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
     >
-      <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-        <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
-          <div className="flex items-center gap-1.5">
-            <Link href={isArabic ? '/ar' : '/en'} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
-            <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-            <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">
-              {t.nav.sayHi}
-            </Link>
-          </div>
-        </nav>
-      </div>
+      <TopNav
+        isArabic={isArabic}
+        logo={t.nav.logo}
+        services={t.nav.whatWeDo}
+        articles={t.nav.articles}
+        sayHi={t.nav.sayHi}
+        homeHref={homeHref}
+        servicesHref={servicesHref}
+        aiTechnologiesHref={aiTechnologiesHref}
+        articlesHref={articlesHref}
+        contactHref={contactHref}
+      />
 
       <section className="mx-auto mt-4 w-full max-w-2xl">
         <h1 className={`text-xl leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>{t.heading}</h1>
@@ -435,6 +457,37 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
             )}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto mt-2.5 w-full max-w-2xl">
+        <article className={`flex w-full flex-col rounded-xl border border-black/10 bg-site-gray-surface p-4 md:min-h-[180px] md:p-5 ${textAlignClass}`}>
+          <h2 className="text-xl leading-7 font-medium text-black">{t.appWebsiteCard.title}</h2>
+          <p className="mt-2 text-base leading-6 font-light text-black/65">{t.appWebsiteCard.description}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(offersById.needs?.items ?? []).map((service) => (
+              <span
+                key={service}
+                className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
+              >
+                {service}
+              </span>
+            ))}
+          </div>
+          <div className={`mt-4 flex flex-wrap gap-2 ${isArabic ? 'justify-start' : 'justify-end'}`}>
+            <Link
+              href={workHref}
+              className="inline-flex items-center rounded-md bg-site-gray-ui px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-site-gray-ui"
+            >
+              {t.appWebsiteCard.ourWork}
+            </Link>
+            <Link
+              href={contactHref}
+              className="inline-flex items-center rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black/85"
+            >
+              {t.appWebsiteCard.contactFounders}
+            </Link>
+          </div>
+        </article>
       </section>
 
       <section className="mx-auto mt-6 w-full max-w-2xl">

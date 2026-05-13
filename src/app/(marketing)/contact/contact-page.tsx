@@ -7,6 +7,7 @@ import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
 import { usePersistedTheme } from '@/hooks/use-persisted-theme'
+import { TopNav } from '@/components/top-nav'
 
 type Language = 'en' | 'ar'
 type ContactIntent = 'learn' | 'know'
@@ -95,7 +96,7 @@ const content: Record<Language, ContactCopy> = {
   en: {
     nav: {
       logo: 'Intelligence Lab',
-      whatWeDo: 'What We Do',
+      whatWeDo: 'Services',
       articles: 'Articles',
       sayHi: 'Say hi',
     },
@@ -140,7 +141,7 @@ const content: Record<Language, ContactCopy> = {
   ar: {
     nav: {
       logo: 'إنتيلجنس لاب',
-      whatWeDo: 'ماذا نفعل',
+      whatWeDo: 'الخدمات',
       articles: 'المقالات',
       sayHi: 'تواصل',
     },
@@ -392,6 +393,9 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const t = content[language]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const homeHref = isArabic ? '/ar' : '/en'
+  const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
+  const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
+  const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
   const activeThemeLabel =
     theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')
@@ -490,18 +494,18 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
       dir={isArabic ? 'rtl' : 'ltr'}
       className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
     >
-      <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-        <nav className="flex w-full max-w-[560px] items-center justify-between rounded-md bg-neutral-200/70 px-3 py-1.5 backdrop-blur-md">
-          <div className="flex items-center gap-1.5">
-            <Link href={homeHref} className="text-sm leading-6 font-medium text-black">{t.nav.logo}</Link>
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            <Link href={isArabic ? '/ar/what-we-do' : '/en/what-we-do'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.whatWeDo}</Link>
-            <Link href={isArabic ? '/ar/articles' : '/en/articles'} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.articles}</Link>
-            <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{t.nav.sayHi}</Link>
-          </div>
-        </nav>
-      </div>
+      <TopNav
+        isArabic={isArabic}
+        logo={t.nav.logo}
+        services={t.nav.whatWeDo}
+        articles={t.nav.articles}
+        sayHi={t.nav.sayHi}
+        homeHref={homeHref}
+        servicesHref={servicesHref}
+        aiTechnologiesHref={aiTechnologiesHref}
+        articlesHref={articlesHref}
+        contactHref={contactHref}
+      />
 
       <section className="mx-auto flex min-h-[calc(100vh-7rem)] w-full max-w-2xl items-center pt-10">
         <div className={`w-full ${textAlignClass}`}>
