@@ -584,6 +584,7 @@
     position: relative;
     isolation: isolate;
     background-color: rgb(229 229 229 / 0.7);
+    border: 1px solid rgb(255 255 255 / 0.4);
   }
 
   .top-nav-glass::before {
@@ -602,5 +603,15 @@
     border: 1px solid rgb(255 255 255 / 0.38);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
+  }
+
+  .dark .top-nav-glass {
+    background-color: rgb(39 39 42 / 0.74);
+    border-color: rgb(255 255 255 / 0.2);
+  }
+
+  .dark .top-nav-dropdown-glass {
+    background-color: rgb(39 39 42 / 0.86);
+    border-color: rgb(255 255 255 / 0.22);
   }
 }

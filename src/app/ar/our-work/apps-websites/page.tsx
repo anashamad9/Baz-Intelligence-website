@@ -67,9 +67,9 @@ const artTechStackIcons: IconName[] = [
 ]
 
 const artClientAvatars = [
-  { src: '/clientssss/Ehab%20mousa.jpeg', fallback: 'EM', name: 'Ehab Mousa' },
-  { src: '/clientssss/Randa.webp', fallback: 'RA', name: 'Randa' },
-  { src: '/clientssss/Yazan%20albilleh.jpeg', fallback: 'YA', name: 'Yazan Albilleh' },
+  { src: '/new%20clients/Ehab%20Mousa.jpg', fallback: 'EM', name: 'Ehab Mousa' },
+  { src: '/new%20clients/Randa%20mitwalli.webp', fallback: 'RA', name: 'Randa' },
+  { src: '/new%20clients/Yazan%20Al%20billeh.jpeg', fallback: 'YA', name: 'Yazan Albilleh' },
 ]
 
 const artIntroParagraphs = [

@@ -4,7 +4,7 @@ import type { IconName } from 'tech-stack-icons'
 
 const artProjectCards = [
   {
-    badge: 'Project 1',
+    badge: 'Showcase 1',
     title: 'Components & Blocks Showcase',
     subtitle: 'Every block, every detail, every pixel, crafted intentionally. A living gallery of our design standards and frontend craft.',
     features: ['UI Design', 'Component Library', 'Frontend Craft'],
@@ -20,7 +20,7 @@ const artProjectCards = [
     ],
   },
   {
-    badge: 'Project 2',
+    badge: 'Showcase 2',
     title: 'Real Pages, Real Work',
     subtitle: 'Pages we designed and engineered for real clients, powered by modern tech stacks built to scale, perform, and last.',
     features: ['Full Stack', 'Client Work', 'Production Ready'],
@@ -35,7 +35,7 @@ const artProjectCards = [
     ],
   },
   {
-    badge: 'Project 3',
+    badge: 'Showcase 3',
     title: 'Crafted for Real Users',
     subtitle: 'Production pages built for real clients, where powerful technology meets seamless user experiences that actually convert and retain.',
     features: ['Full Stack', 'UX Driven', 'Client Work'],
@@ -67,9 +67,9 @@ const artTechStackIcons: IconName[] = [
 ]
 
 const artClientAvatars = [
-  { src: '/clientssss/Ehab%20mousa.jpeg', fallback: 'EM', name: 'Ehab Mousa' },
-  { src: '/clientssss/Randa.webp', fallback: 'RA', name: 'Randa' },
-  { src: '/clientssss/Yazan%20albilleh.jpeg', fallback: 'YA', name: 'Yazan Albilleh' },
+  { src: '/new%20clients/Ehab%20Mousa.jpg', fallback: 'EM', name: 'Ehab Mousa' },
+  { src: '/new%20clients/Randa%20mitwalli.webp', fallback: 'RA', name: 'Randa' },
+  { src: '/new%20clients/Yazan%20Al%20billeh.jpeg', fallback: 'YA', name: 'Yazan Albilleh' },
 ]
 
 const artIntroParagraphs = [
@@ -125,7 +125,7 @@ export default function AppsWebsitesPage() {
       stackShowcaseContentTop={true}
       showServicesButton={false}
       techStackIcons={artTechStackIcons}
-      heroHeadingOverride="We do not build only AI technologies. We build mobile apps, web apps, websites, and large-scale systems, following modern design principles and the best technology stack."
+      heroHeadingOverride="Our core is AI technologies, and on top of that we build modern mobile apps, web apps, and large scale systems with sharp design and a solid technology stack."
       introParagraphsOverride={artIntroParagraphs}
       showcaseProjectCardsOverride={artProjectCards}
       ctaHeadlineOverride="Ready to build your project?"

@@ -34,7 +34,7 @@ const copy: Record<Language, PageCopy> = {
       logo: 'Intelligence Lab',
       whatWeDo: 'Services',
       articles: 'Articles',
-      sayHi: 'Say hi',
+      sayHi: 'Say Hi',
     },
     heading: 'Soon',
     subtitle: 'Articles are coming soon. We are preparing this page.',

@@ -37,7 +37,7 @@ const copy: Record<Language, NotFoundCopy> = {
       logo: 'Intelligence Lab',
       whatWeDo: 'Services',
       articles: 'Articles',
-      sayHi: 'Say hi',
+      sayHi: 'Say Hi',
     },
     badge: 'Error 404',
     title: 'Page not found',

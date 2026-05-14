@@ -98,7 +98,7 @@ const content: Record<Language, ContactCopy> = {
       logo: 'Intelligence Lab',
       whatWeDo: 'Services',
       articles: 'Articles',
-      sayHi: 'Say hi',
+      sayHi: 'Say Hi',
     },
     title: 'How would you like to continue?',
     subtitle: 'Choose a direct meeting, or fill the form and we will follow up with the right scope.',

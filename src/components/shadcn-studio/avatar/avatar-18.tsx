@@ -9,17 +9,17 @@ export type Avatar18Item = {
 
 const defaultAvatars: Avatar18Item[] = [
   {
-    src: '/clientssss/Ehab%20mousa.jpeg',
+    src: '/new%20clients/Ehab%20Mousa.jpg',
     fallback: 'EM',
     name: 'Ehab Mousa',
   },
   {
-    src: '/clientssss/Randa.webp',
+    src: '/new%20clients/Randa%20mitwalli.webp',
     fallback: 'RA',
     name: 'Randa',
   },
   {
-    src: '/clientssss/Yazan%20albilleh.jpeg',
+    src: '/new%20clients/Yazan%20Al%20billeh.jpeg',
     fallback: 'YA',
     name: 'Yazan Albilleh',
   },

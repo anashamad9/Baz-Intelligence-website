@@ -78,7 +78,7 @@ const content: Record<Language, PageCopy> = {
       logo: 'Intelligence Lab',
       whatWeDo: 'Services',
       articles: 'Articles',
-      sayHi: 'Say hi',
+      sayHi: 'Say Hi',
     },
     heading: 'What We Do',
     intro:

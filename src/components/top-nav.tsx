@@ -72,17 +72,16 @@ export function TopNav({
       />
       <nav className="top-nav-glass relative z-10 flex w-full max-w-[560px] items-center justify-between rounded-md px-3 py-1.5">
         <div className="flex items-center gap-1.5">
-          <Link href={homeHref} className="text-sm leading-6 font-medium text-black">{logo}</Link>
+          <Link href={homeHref} className="text-sm leading-6 font-medium text-black dark:text-white/90">{logo}</Link>
         </div>
         <div ref={navMenusRef} className="flex items-center justify-end gap-2">
-          <Link href={servicesHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{services}</Link>
           <details
             className="group"
             onToggle={(event) => {
               setIsWorkMenuOpen(event.currentTarget.open)
             }}
           >
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex cursor-pointer items-center gap-1 text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">
+            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex cursor-pointer items-center gap-1 text-sm leading-6 font-light text-black/65 transition-colors hover:text-black dark:text-white/70 dark:hover:text-white">
               <span>{workLabel}</span>
               <ChevronDown className="size-3.5 transition-transform group-open:rotate-180" />
             </summary>
@@ -92,7 +91,7 @@ export function TopNav({
                   <div className="grid grid-cols-2 gap-1.5">
                     <Link
                       href={aiTechnologiesHref}
-                      className={`group/item overflow-hidden ${dropdownRadiusClass} border border-black/5 bg-white/20 transition-colors hover:bg-white/45`}
+                      className={`group/item overflow-hidden ${dropdownRadiusClass} border border-black/5 bg-white/20 transition-colors hover:bg-white/45 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10`}
                       onClick={(event) => {
                         event.currentTarget.closest('details')?.removeAttribute('open')
                       }}
@@ -105,18 +104,18 @@ export function TopNav({
                           className="object-cover transition-transform duration-300 group-hover/item:scale-[1.03]"
                         />
                       </div>
-                      <div className="bg-white/35 px-2 py-1.5">
-                        <p className="text-sm leading-5 font-light text-black/80 transition-colors group-hover/item:text-black">
+                      <div className="bg-white/35 px-2 py-1.5 dark:bg-black/25">
+                        <p className="text-sm leading-5 font-light text-black/80 transition-colors group-hover/item:text-black dark:text-white/85 dark:group-hover/item:text-white">
                           {aiLabel}
                         </p>
-                        <p className="mt-0.5 text-[11px] leading-4 font-light text-black/55 transition-colors group-hover/item:text-black/70">
+                        <p className="mt-0.5 text-[11px] leading-4 font-light text-black/55 transition-colors group-hover/item:text-black/70 dark:text-white/60 dark:group-hover/item:text-white/75">
                           {aiDescription}
                         </p>
                       </div>
                     </Link>
                     <Link
                       href={appsWebsitesHref}
-                      className={`group/item overflow-hidden ${dropdownRadiusClass} border border-black/5 bg-white/20 transition-colors hover:bg-white/45`}
+                      className={`group/item overflow-hidden ${dropdownRadiusClass} border border-black/5 bg-white/20 transition-colors hover:bg-white/45 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10`}
                       onClick={(event) => {
                         event.currentTarget.closest('details')?.removeAttribute('open')
                       }}
@@ -129,11 +128,11 @@ export function TopNav({
                           className="object-cover transition-transform duration-300 group-hover/item:scale-[1.03]"
                         />
                       </div>
-                      <div className="bg-white/35 px-2 py-1.5">
-                        <p className="text-sm leading-5 font-light text-black/80 transition-colors group-hover/item:text-black">
+                      <div className="bg-white/35 px-2 py-1.5 dark:bg-black/25">
+                        <p className="text-sm leading-5 font-light text-black/80 transition-colors group-hover/item:text-black dark:text-white/85 dark:group-hover/item:text-white">
                           {appsLabel}
                         </p>
-                        <p className="mt-0.5 text-[11px] leading-4 font-light text-black/55 transition-colors group-hover/item:text-black/70">
+                        <p className="mt-0.5 text-[11px] leading-4 font-light text-black/55 transition-colors group-hover/item:text-black/70 dark:text-white/60 dark:group-hover/item:text-white/75">
                           {appsDescription}
                         </p>
                       </div>
@@ -143,7 +142,8 @@ export function TopNav({
               </div>
             </div>
           </details>
-          <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black">{sayHi}</Link>
+          <Link href={servicesHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black dark:text-white/70 dark:hover:text-white">{services}</Link>
+          <Link href={contactHref} className="text-sm leading-6 font-light text-black/65 transition-colors hover:text-black dark:text-white/70 dark:hover:text-white">{sayHi}</Link>
         </div>
       </nav>
     </div>
