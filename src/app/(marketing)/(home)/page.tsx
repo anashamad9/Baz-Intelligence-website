@@ -216,6 +216,7 @@ export default function Home({
     logoPrimarySrc = '/Itelligence%20Lab%20primary%20logo.png',
     logoSecondarySrc = '/Itelligence%20Lab%20secondry%20logo.png',
     stackShowcaseContentTop = false,
+    showTopNav = true,
     heroHeadingOverride,
     introParagraphsOverride,
     showcaseProjectCardsOverride,
@@ -234,6 +235,7 @@ export default function Home({
     logoPrimarySrc?: string
     logoSecondarySrc?: string
     stackShowcaseContentTop?: boolean
+    showTopNav?: boolean
     heroHeadingOverride?: string
     introParagraphsOverride?: string[]
     showcaseProjectCardsOverride?: ShowcaseProjectCard[]
@@ -268,7 +270,6 @@ export default function Home({
     const contactHref = isArabic ? '/ar/contact' : '/en/contact'
     const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
     const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
-    const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
     const servicesPanel = isArabic
         ? {
             industriesTitle: 'حسب التقنية',
@@ -612,21 +613,17 @@ export default function Home({
 
     return (
         <main dir={isArabic ? 'rtl' : 'ltr'} className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}>
-            <TopNav
-                isArabic={isArabic}
-                logo={t.nav.logo}
-                services={t.nav.services}
-                ourWorkLabel={t.nav.ourWork}
-                aiTechnologiesLabel={t.nav.aiTechnologies}
-                appsWebsitesLabel={t.nav.appsWebsites}
-                articles={t.nav.articles}
-                sayHi={t.nav.sayHi}
-                homeHref={isArabic ? '/ar' : '/en'}
-                servicesHref={servicesHref}
-                aiTechnologiesHref={aiTechnologiesHref}
-                articlesHref={articlesHref}
-                contactHref={contactHref}
-            />
+            {showTopNav ? (
+                <TopNav
+                    isArabic={isArabic}
+                    logo={t.nav.logo}
+                    services={t.nav.services}
+                    sayHi={t.nav.sayHi}
+                    homeHref={isArabic ? '/ar' : '/en'}
+                    servicesHref={servicesHref}
+                    contactHref={contactHref}
+                />
+            ) : null}
             <div className="pt-2 text-black">
                 <div className="mx-auto mb-3 flex max-w-2xl justify-start">
                     <div className="inline-flex items-center gap-2.5">

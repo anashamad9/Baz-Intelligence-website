@@ -39,7 +39,6 @@ type PageCopy = {
     title: string
     description: string
     ourWork: string
-    contactFounders: string
   }
   calculator: {
     oneTimeLabel: string
@@ -126,7 +125,6 @@ const content: Record<Language, PageCopy> = {
       title: 'Looking for an App or website?',
       description: 'We also design and build full digital products with fast execution and high-quality delivery.',
       ourWork: 'Our Work',
-      contactFounders: 'Contact founders',
     },
     calculator: {
       oneTimeLabel: 'One-time payment',
@@ -227,7 +225,6 @@ const content: Record<Language, PageCopy> = {
       title: 'هل تبحث عن تطبيق أو موقع؟',
       description: 'نقوم أيضًا بتصميم وتطوير منتجات رقمية كاملة بسرعة تنفيذ وجودة تسليم عالية.',
       ourWork: 'أعمالنا',
-      contactFounders: 'تواصل مع المؤسسين',
     },
     calculator: {
       oneTimeLabel: 'الدفع لمرة واحدة',
@@ -332,10 +329,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const homeHref = isArabic ? '/ar' : '/en'
   const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
-  const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
-  const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
-  const workHref = isArabic ? '/ar/our-work/apps-websites' : '/en/our-work/apps-websites'
   const monthlyCosts = Number(monthlyCostsInput.replace(/,/g, '').trim())
   const hasValidMonthlyCosts = Number.isFinite(monthlyCosts) && monthlyCosts > 0
   const minSavings = hasValidMonthlyCosts ? monthlyCosts * 0.47 : 0
@@ -412,7 +406,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
           </div>
         ) : (
           <div className={`mt-5 flex ${isArabic ? 'justify-start' : 'justify-end'}`}>
-            <Link href={contactHref} className="inline-flex items-center rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black/85">
+            <Link href={contactHref} className="inline-flex h-7 items-center rounded-md bg-black px-2 py-0 text-xs font-medium text-white transition-colors hover:bg-black/85">
               {t.cta}
             </Link>
           </div>
@@ -430,12 +424,9 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
         isArabic={isArabic}
         logo={t.nav.logo}
         services={t.nav.whatWeDo}
-        articles={t.nav.articles}
         sayHi={t.nav.sayHi}
         homeHref={homeHref}
         servicesHref={servicesHref}
-        aiTechnologiesHref={aiTechnologiesHref}
-        articlesHref={articlesHref}
         contactHref={contactHref}
       />
 
@@ -457,37 +448,6 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
             )}
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto mt-2.5 w-full max-w-2xl">
-        <article className={`flex w-full flex-col rounded-xl border border-black/10 bg-site-gray-surface p-4 md:min-h-[180px] md:p-5 ${textAlignClass}`}>
-          <h2 className="text-xl leading-7 font-medium text-black">{t.appWebsiteCard.title}</h2>
-          <p className="mt-2 text-base leading-6 font-light text-black/65">{t.appWebsiteCard.description}</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {(offersById.needs?.items ?? []).map((service) => (
-              <span
-                key={service}
-                className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
-              >
-                {service}
-              </span>
-            ))}
-          </div>
-          <div className={`mt-4 flex flex-wrap gap-2 ${isArabic ? 'justify-start' : 'justify-end'}`}>
-            <Link
-              href={workHref}
-              className="inline-flex items-center rounded-md bg-site-gray-ui px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-site-gray-ui"
-            >
-              {t.appWebsiteCard.ourWork}
-            </Link>
-            <Link
-              href={contactHref}
-              className="inline-flex items-center rounded-md bg-black px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black/85"
-            >
-              {t.appWebsiteCard.contactFounders}
-            </Link>
-          </div>
-        </article>
       </section>
 
       <section className="mx-auto mt-6 w-full max-w-2xl">

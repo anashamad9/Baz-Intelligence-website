@@ -116,6 +116,7 @@ export default function AppsWebsitesPage() {
       initialLanguage="en"
       showHeroImage={false}
       showTestimonials={false}
+      showTopNav={false}
       brandTitleOverride="Art.intelligence Lab"
       brandSubtitleOverride="Apps & Web apps"
       showClientAvatarStrip={true}

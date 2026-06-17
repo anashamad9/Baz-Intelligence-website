@@ -125,6 +125,7 @@ export default function ArabicAppsWebsitesPage() {
       initialLanguage="ar"
       showHeroImage={false}
       showTestimonials={false}
+      showTopNav={false}
       brandTitleOverride="Art.intelligence Lab"
       brandSubtitleOverride="Apps & Web apps"
       showClientAvatarStrip={true}
