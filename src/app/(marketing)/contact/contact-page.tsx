@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Check, ChevronDown, Globe, Languages, Loader2, Monitor, Moon, Palette, Sun } from 'lucide-react'
+import { Check, ChevronDown, Loader2 } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
 import AvatarGroupTooltipDemo from '@/components/shadcn-studio/avatar/avatar-16'
-import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 import { TopNav } from '@/components/top-nav'
+import { MarketingFooter } from '@/components/marketing-footer'
+import { usePathname, useRouter } from 'next/navigation'
 
 type Language = 'en' | 'ar'
 type ContactIntent = 'learn' | 'know'
@@ -64,11 +65,15 @@ type ContactCopy = {
     skippedMessage: string
     backHome: string
   }
+  contact: {
+    x: string
+    instagram: string
+    linkedIn: string
+  }
 }
 
 const STORAGE_KEY = 'baz-language'
-const THEME_STORAGE_KEY = 'baz-theme'
-const CAL_BOOKING_URL = 'https://cal.com/intelligencelab/30min?user=intelligencelab&overlayCalendar=true'
+const CAL_BOOKING_URL = 'https://cal.com/anashamed/intelligence-lab-30-min-meeting'
 const ARAB_COUNTRY_CODES = [
   'DZ', 'BH', 'KM', 'DJ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MR',
   'MA', 'OM', 'PS', 'QA', 'SA', 'SO', 'SD', 'SY', 'TN', 'AE', 'YE',
@@ -137,6 +142,11 @@ const content: Record<Language, ContactCopy> = {
       skippedMessage: 'Great, we received your details and will contact you soon.',
       backHome: 'Back to home',
     },
+    contact: {
+      x: 'X',
+      instagram: 'Instagram',
+      linkedIn: 'LinkedIn',
+    },
   },
   ar: {
     nav: {
@@ -181,6 +191,11 @@ const content: Record<Language, ContactCopy> = {
       skip: 'تخطي',
       skippedMessage: 'ممتاز، استلمنا بياناتك وسنتواصل معك قريبًا.',
       backHome: 'العودة للرئيسية',
+    },
+    contact: {
+      x: 'إكس',
+      instagram: 'إنستغرام',
+      linkedIn: 'لينكدإن',
     },
   },
 }
@@ -346,8 +361,8 @@ function CustomSelect({
 
 export default function ContactPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
-  const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
-  const footerMenusRef = useRef<HTMLDivElement | null>(null)
+  const router = useRouter()
+  const pathname = usePathname()
   const [showForm, setShowForm] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [skippedMeeting, setSkippedMeeting] = useState(false)
@@ -380,14 +395,13 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const applyTheme = () => {
-      const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
-      document.documentElement.classList.toggle('dark', shouldUseDark)
+      document.documentElement.classList.toggle('dark', mediaQuery.matches)
     }
 
     applyTheme()
     mediaQuery.addEventListener('change', applyTheme)
     return () => mediaQuery.removeEventListener('change', applyTheme)
-  }, [theme])
+  }, [])
 
   const isArabic = language === 'ar'
   const t = content[language]
@@ -397,19 +411,29 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const aiTechnologiesHref = isArabic ? '/ar/our-work/ai-technologies' : '/en/our-work/ai-technologies'
   const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
-  const activeThemeLabel =
-    theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')
-  const handleMenuToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
-    if (!event.currentTarget.open) {
-      return
+  const switchLanguage = (nextLanguage: Language) => {
+    setLanguage(nextLanguage)
+
+    if (!pathname) return
+
+    const normalizedPath = pathname === '/' ? '' : pathname
+    let nextPath = normalizedPath
+
+    if (normalizedPath === '' || normalizedPath === '/en' || normalizedPath === '/ar') {
+      nextPath = nextLanguage === 'ar' ? '/ar' : '/en'
+    } else if (normalizedPath.startsWith('/ar/')) {
+      nextPath = nextLanguage === 'en' ? `/en/${normalizedPath.slice(4)}` : normalizedPath
+    } else if (normalizedPath.startsWith('/en/')) {
+      nextPath = nextLanguage === 'ar' ? `/ar/${normalizedPath.slice(4)}` : normalizedPath
+    } else if (nextLanguage === 'ar') {
+      nextPath = `/ar${normalizedPath}`
+    } else if (nextLanguage === 'en') {
+      nextPath = `/en${normalizedPath}`
     }
-    const menu = event.currentTarget
-    const allMenus = footerMenusRef.current?.querySelectorAll('details')
-    allMenus?.forEach((details) => {
-      if (details !== menu) {
-        details.removeAttribute('open')
-      }
-    })
+
+    if (nextPath !== pathname) {
+      router.push(nextPath)
+    }
   }
   const employeeSections: SelectSection[] = useMemo(
     () => [
@@ -469,7 +493,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
         ...ARAB_COUNTRY_CODES,
       ]),
     )
-    const displayNames = new Intl.DisplayNames([isArabic ? 'ar' : 'en'], { type: 'region' })
+    const displayNames = new Intl.DisplayNames(['en'], { type: 'region' })
     const toOption = (code: string): SelectOption => ({
       value: code,
       label: displayNames.of(code) ?? code,
@@ -478,17 +502,17 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
     const arabOptions = ARAB_COUNTRY_CODES
       .filter((code) => mergedCodes.includes(code))
       .map(toOption)
-      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
+      .sort((a, b) => a.label.localeCompare(b.label, 'en'))
     const otherOptions = mergedCodes
       .filter((code) => !arabCodeSet.has(code))
       .map(toOption)
-      .sort((a, b) => a.label.localeCompare(b.label, isArabic ? 'ar' : 'en'))
+      .sort((a, b) => a.label.localeCompare(b.label, 'en'))
 
     return [
       { label: t.form.arabCountriesSection, options: arabOptions },
       { label: t.form.otherCountriesSection, options: otherOptions },
     ]
-  }, [isArabic, t.form.arabCountriesSection, t.form.otherCountriesSection])
+  }, [t.form.arabCountriesSection, t.form.otherCountriesSection])
   return (
     <main
       dir={isArabic ? 'rtl' : 'ltr'}
@@ -500,6 +524,10 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
         services={t.nav.whatWeDo}
         articles={t.nav.articles}
         sayHi={t.nav.sayHi}
+        language={language}
+        onLanguageToggle={() => {
+          switchLanguage(language === 'en' ? 'ar' : 'en')
+        }}
         homeHref={homeHref}
         servicesHref={servicesHref}
         aiTechnologiesHref={aiTechnologiesHref}
@@ -779,81 +807,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
           </div>
         </div>
       </section>
-      <section className="mx-auto mt-4 flex w-full max-w-2xl justify-end pb-10">
-        <div ref={footerMenusRef} className="flex items-center gap-2">
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Globe className="size-3.5" />
-              <span>{isArabic ? 'العربية' : 'English'}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  setLanguage('en')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span>English</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setLanguage('ar')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span>العربية</span>
-              </button>
-            </div>
-          </details>
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Palette className="size-3.5" />
-              <span>{activeThemeLabel}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('light')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Sun className="size-3.5" />
-                <span>{isArabic ? 'فاتح' : 'Light'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('dark')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Moon className="size-3.5" />
-                <span>{isArabic ? 'داكن' : 'Dark'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('system')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Monitor className="size-3.5" />
-                <span>{isArabic ? 'النظام' : 'System'}</span>
-              </button>
-            </div>
-          </details>
-        </div>
-      </section>
+      <MarketingFooter isArabic={isArabic} textAlignClass={textAlignClass} contact={t.contact} />
     </main>
   )
 }

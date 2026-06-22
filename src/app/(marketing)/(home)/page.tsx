@@ -5,28 +5,17 @@ import ButtonDemo from '@/components/button-demo'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import Image from 'next/image'
-import { ArrowUpRight, ChevronLeft, ChevronRight, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
-import { CopyButton } from '@/components/copy-button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Badge } from '@/components/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
-import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 import { TopNav } from '@/components/top-nav'
+import { MarketingFooter } from '@/components/marketing-footer'
 import StackIcon, { type IconName } from 'tech-stack-icons'
 import AvatarGroupTooltipTransitionDemo, { type Avatar18Item } from '@/components/shadcn-studio/avatar/avatar-18'
 import { usePathname, useRouter } from 'next/navigation'
 
 type Language = 'en' | 'ar'
-type ShowcaseSlide = {
-    badge: string
-    title: string
-    subtitle: string
-    cta: string
-    features: string[]
-    imageSrc: string
-    imageAlt: string
-}
 type ShowcaseProjectCard = {
     badge: string
     title: string
@@ -40,18 +29,9 @@ type ShowcaseProjectCard = {
 }
 
 const STORAGE_KEY = 'baz-language'
-const THEME_STORAGE_KEY = 'baz-theme'
-const EMAIL_ADDRESS = 'hi@intelligence.dev'
-const X_URL = 'https://x.com/intlgnc_lab'
-const INSTAGRAM_URL = 'https://www.instagram.com/intelligencelab.dev?igsh=N2t4c2J4c2lpb3Zh'
-const LINKEDIN_URL = 'https://www.linkedin.com/company/intelligence-lab-dev'
 const ibmArabic = IBM_Plex_Sans_Arabic({
     subsets: ['arabic', 'latin'],
     weight: ['300', '400', '500', '600', '700'],
-    display: 'swap',
-})
-const unixel = localFont({
-    src: '../../../../public/unixel/font/unixel-Regular.woff2',
     display: 'swap',
 })
 const thmanyahSerifDisplay = localFont({
@@ -242,17 +222,15 @@ export default function Home({
     ctaHeadlineOverride?: string
     ctaDescriptionOverride?: string
 }) {
+    void showTestimonials
+    void stackShowcaseContentTop
+    void ctaHeadlineOverride
+    void ctaDescriptionOverride
     const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
-    const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
-    const [activeShowcaseIndex, setActiveShowcaseIndex] = useState(0)
-    const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
     const [activeProjectImageIndexes, setActiveProjectImageIndexes] = useState<number[]>([])
     const [isAtmetTooltipOpen, setIsAtmetTooltipOpen] = useState(false)
     const atmetTooltipTimeoutRef = useRef<number | null>(null)
-    const showcaseTouchStartXRef = useRef<number | null>(null)
-    const testimonialTouchStartXRef = useRef<number | null>(null)
     const projectTouchStartXByCardRef = useRef<Record<number, number | null>>({})
-    const footerMenusRef = useRef<HTMLDivElement | null>(null)
     const router = useRouter()
     const pathname = usePathname()
     const isArabic = language === 'ar'
@@ -265,122 +243,39 @@ export default function Home({
     const brandTitle = brandTitleOverride ?? t.brandTitle
     const brandSubtitle = brandSubtitleOverride ?? t.brandSubtitle
     const introParagraphs = introParagraphsOverride ?? t.introParagraphs
-    const ctaHeadline = ctaHeadlineOverride ?? t.ctaPanel.headline
-    const ctaDescription = ctaDescriptionOverride ?? t.ctaPanel.description
     const contactHref = isArabic ? '/ar/contact' : '/en/contact'
-    const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
     const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
-    const servicesPanel = isArabic
-        ? {
-            industriesTitle: 'حسب التقنية',
-            capabilitiesTitle: 'حسب حالة الاستخدام',
-            industries: ['وكلاء الذكاء الاصطناعي', 'نماذج تعلم الآلة', 'النماذج اللغوية الكبيرة', 'التعلم العميق', 'الذكاء الاصطناعي التوليدي', 'الشبكات العصبية', 'هندسة البيانات', 'عمليات تعلم الآلة/الذكاء الاصطناعي', 'نمذجة البيانات'],
-            capabilities: ['الأتمتة', 'وكيل دعم', 'التنبؤ المستقبلي', 'دردشة ذكية', 'وكيل صوتي ذكي', 'كشف الاحتيال', 'التعرف على الصوت', 'كشف الصور/الفيديو', 'المزيد'],
-        }
-        : {
-            industriesTitle: 'By Technology',
-            capabilitiesTitle: 'By Use Case',
-            industries: ['AI Agents', 'ML Models', 'LLMs', 'Deep Learning', 'Generative AI', 'Neural Networks', 'Data Engineering', 'MLOps/AIOps', 'Data Modeling'],
-            capabilities: ['Automation', 'Support Agent', 'Future Forecasting', 'AI Chatbot', 'AI Voice Agent', 'Fraud Detection', 'Voice Detection', 'Image/Video Detection', 'More'],
-        }
-    const showcaseSlides: ShowcaseSlide[] = isArabic
+    const combinedServiceTags = isArabic
         ? [
-            {
-                badge: 'Intelligence Lab Use Case 1',
-                title: 'وكيل صوتي',
-                subtitle: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
-                cta: 'اكتشف الحالة',
-                features: ['تغطية 24/7', 'تكلفة دعم أقل', 'استجابة أسرع'],
-                imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'واجهة عرض Intelligence Lab 1',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 2',
-                title: 'أتمتة سير العمل',
-                subtitle: 'يؤتمت الموافقات والتقارير وتسليم المهام، فيلغي التكرار ويوفّر ساعات عمل أسبوعيًا.',
-                cta: 'اكتشف الحالة',
-                features: ['مهام يدوية أقل', 'تشغيل أسرع', 'تكلفة تشغيل أقل'],
-                imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'واجهة عرض Intelligence Lab 2',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 3',
-                title: 'نموذج تعلم آلة',
-                subtitle: 'يتنبأ بالطلب والمخاطر والتسرّب مبكرًا، لتقليل الهدر وتجنب قرارات مكلفة.',
-                cta: 'اكتشف الحالة',
-                features: ['تنبؤ أدق', 'هدر أقل', 'قرارات أسرع'],
-                imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'واجهة عرض Intelligence Lab 3',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 4',
-                title: 'نموذج لغوي كبير (LLM)',
-                subtitle: 'يسرّع البحث الداخلي والتلخيص وكتابة المسودات، فيختصر الوقت التشغيلي اليومي.',
-                cta: 'اكتشف الحالة',
-                features: ['وصول أسرع للمعرفة', 'وقت إداري أقل', 'إنتاجية أعلى'],
-                imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'واجهة عرض Intelligence Lab 4',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 5',
-                title: 'ذكاء اصطناعي توليدي',
-                subtitle: 'ينتج محتوى وأصولًا وتسويقًا بسرعة، ما يقلل وقت التنفيذ وتكلفة الإنتاج.',
-                cta: 'اكتشف الحالة',
-                features: ['إنتاج محتوى أسرع', 'تكلفة إنتاج أقل', 'جودة متسقة'],
-                imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'واجهة عرض Intelligence Lab 5',
-            },
+            'وكيل دعم',
+            'الشبكات العصبية',
+            'وكلاء الذكاء الاصطناعي',
+            'كشف الصور/الفيديو',
+            'النماذج اللغوية الكبيرة',
+            'الأتمتة',
+            'التعلم العميق',
+            'وكيل صوتي ذكي',
+            'نمذجة البيانات',
+            'نماذج تعلم الآلة',
+            'دردشة ذكية',
+            'الذكاء الاصطناعي التوليدي',
+            'التعرف على الصوت',
         ]
         : [
-            {
-                badge: 'Intelligence Lab Use Case 1',
-                title: 'Voice Agent',
-                subtitle: 'Handles customer calls 24/7, reduces response time, and lowers support payroll costs.',
-                cta: 'Explore use case',
-                features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
-                imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-                imageAlt: 'Intelligence Lab showcase preview 1',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 2',
-                title: 'Workflow Automation',
-                subtitle: 'Automates approvals, reporting, and handoffs to remove repetitive work and save weekly team hours.',
-                cta: 'Explore use case',
-                features: ['Fewer manual tasks', 'Faster operations', 'Lower ops cost'],
-                imageSrc: '/images%20part/google-custom-search-astro.C-sgXeVB_2vUNQJ.avif',
-                imageAlt: 'Intelligence Lab showcase preview 2',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 3',
-                title: 'ML Model',
-                subtitle: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
-                cta: 'Explore use case',
-                features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
-                imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-                imageAlt: 'Intelligence Lab showcase preview 3',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 4',
-                title: 'LLM',
-                subtitle: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
-                cta: 'Explore use case',
-                features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
-                imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-                imageAlt: 'Intelligence Lab showcase preview 4',
-            },
-            {
-                badge: 'Intelligence Lab Use Case 5',
-                title: 'Generative AI',
-                subtitle: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
-                cta: 'Explore use case',
-                features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
-                imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-                imageAlt: 'Intelligence Lab showcase preview 5',
-            },
+            'Support Agent',
+            'Neural Networks',
+            'AI Agents',
+            'Image/Video Detection',
+            'LLMs',
+            'Automation',
+            'Deep Learning',
+            'AI Voice Agent',
+            'Data Modeling',
+            'ML Models',
+            'AI Chatbot',
+            'Generative AI',
+            'Voice Detection',
         ]
-    const activeShowcaseSlide = showcaseSlides[activeShowcaseIndex] ?? showcaseSlides[0]
-    const testimonials = t.testimonials.items
-    const activeTestimonial = testimonials[activeTestimonialIndex] ?? testimonials[0]
     const showcaseProjectCards = showcaseProjectCardsOverride ?? []
 
     const switchLanguage = (nextLanguage: Language) => {
@@ -409,21 +304,6 @@ export default function Home({
     }
 
     useEffect(() => {
-        setActiveShowcaseIndex(0)
-        setActiveTestimonialIndex(0)
-    }, [language])
-
-    useEffect(() => {
-        const intervalId = window.setInterval(() => {
-            setActiveShowcaseIndex((current) => (current + 1) % showcaseSlides.length)
-        }, 4200)
-
-        return () => {
-            window.clearInterval(intervalId)
-        }
-    }, [showcaseSlides.length])
-
-    useEffect(() => {
         window.localStorage.setItem(STORAGE_KEY, language)
         document.documentElement.lang = language
         document.documentElement.dir = isArabic ? 'rtl' : 'ltr'
@@ -432,41 +312,13 @@ export default function Home({
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
         const applyTheme = () => {
-            const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
-            document.documentElement.classList.toggle('dark', shouldUseDark)
+            document.documentElement.classList.toggle('dark', mediaQuery.matches)
         }
 
         applyTheme()
         mediaQuery.addEventListener('change', applyTheme)
         return () => mediaQuery.removeEventListener('change', applyTheme)
-    }, [theme])
-
-    useEffect(() => {
-        const handleClickOutside = (event: globalThis.MouseEvent) => {
-            const targetNode = event.target as Node
-            if (!footerMenusRef.current?.contains(targetNode)) {
-                footerMenusRef.current
-                    ?.querySelectorAll<HTMLDetailsElement>('details[open]')
-                    .forEach((menu) => menu.removeAttribute('open'))
-            }
-        }
-
-        document.addEventListener('click', handleClickOutside)
-        return () => document.removeEventListener('click', handleClickOutside)
     }, [])
-
-    const handleMenuToggle = (event: { currentTarget: HTMLDetailsElement }) => {
-        const currentMenu = event.currentTarget
-        if (!currentMenu.open) return
-        const menuScope = currentMenu.closest<HTMLElement>('[data-menu-scope]')
-        menuScope
-            ?.querySelectorAll<HTMLDetailsElement>('details[open]')
-            .forEach((menu) => {
-                if (menu !== currentMenu) {
-                    menu.removeAttribute('open')
-                }
-            })
-    }
 
     useEffect(() => {
         return () => {
@@ -487,80 +339,6 @@ export default function Home({
         atmetTooltipTimeoutRef.current = window.setTimeout(() => {
             setIsAtmetTooltipOpen(false)
         }, 1400)
-    }
-
-    const goToNextShowcaseSlide = () => {
-        setActiveShowcaseIndex((current) => (current + 1) % showcaseSlides.length)
-    }
-
-    const goToPreviousShowcaseSlide = () => {
-        setActiveShowcaseIndex((current) => (current - 1 + showcaseSlides.length) % showcaseSlides.length)
-    }
-
-    const handleShowcaseTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-        showcaseTouchStartXRef.current = event.touches[0]?.clientX ?? null
-    }
-
-    const handleShowcaseTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-        const startX = showcaseTouchStartXRef.current
-        const endX = event.changedTouches[0]?.clientX
-
-        showcaseTouchStartXRef.current = null
-
-        if (startX == null || endX == null) {
-            return
-        }
-
-        const swipeDistance = startX - endX
-        const minSwipeDistance = 45
-
-        if (Math.abs(swipeDistance) < minSwipeDistance) {
-            return
-        }
-
-        if (swipeDistance > 0) {
-            goToNextShowcaseSlide()
-            return
-        }
-
-        goToPreviousShowcaseSlide()
-    }
-
-    const goToNextTestimonial = () => {
-        setActiveTestimonialIndex((current) => (current + 1) % testimonials.length)
-    }
-
-    const goToPreviousTestimonial = () => {
-        setActiveTestimonialIndex((current) => (current - 1 + testimonials.length) % testimonials.length)
-    }
-
-    const handleTestimonialTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-        testimonialTouchStartXRef.current = event.touches[0]?.clientX ?? null
-    }
-
-    const handleTestimonialTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-        const startX = testimonialTouchStartXRef.current
-        const endX = event.changedTouches[0]?.clientX
-
-        testimonialTouchStartXRef.current = null
-
-        if (startX == null || endX == null) {
-            return
-        }
-
-        const swipeDistance = startX - endX
-        const minSwipeDistance = 45
-
-        if (Math.abs(swipeDistance) < minSwipeDistance) {
-            return
-        }
-
-        if (swipeDistance > 0) {
-            goToNextTestimonial()
-            return
-        }
-
-        goToPreviousTestimonial()
     }
 
     const goToNextProjectImage = (cardIndex: number) => {
@@ -619,6 +397,10 @@ export default function Home({
                     logo={t.nav.logo}
                     services={t.nav.services}
                     sayHi={t.nav.sayHi}
+                    language={language}
+                    onLanguageToggle={() => {
+                        switchLanguage(language === 'en' ? 'ar' : 'en')
+                    }}
                     homeHref={isArabic ? '/ar' : '/en'}
                     servicesHref={servicesHref}
                     contactHref={contactHref}
@@ -626,38 +408,49 @@ export default function Home({
             ) : null}
             <div className="pt-2 text-black">
                 <div className="mx-auto mb-3 flex max-w-2xl justify-start">
-                    <div className="inline-flex items-center gap-2.5">
-                        <div className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white">
-                            <Image
-                                src={logoPrimarySrc}
-                                alt="Intelligence Lab logo primary"
-                                width={96}
-                                height={96}
-                                className="h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
-                                priority
-                            />
-                            <Image
-                                src={logoSecondarySrc}
-                                alt="Intelligence Lab logo secondary"
-                                width={96}
-                                height={96}
-                                className="absolute h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
-                                aria-hidden
-                            />
-                        </div>
-                        <div className="flex h-12 flex-col justify-center">
-                            <p className="text-[16px] leading-5 font-medium text-black">{brandTitle}</p>
-                            <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{brandSubtitle}</p>
-                        </div>
-                        {showClientAvatarStrip ? (
-                            <div className="inline-flex items-center gap-2">
-                                <span className="h-7 w-px bg-black/12" aria-hidden />
-                                <AvatarGroupTooltipTransitionDemo avatars={clientAvatarItems} />
+                    <div className="w-full">
+                        <div className="inline-flex max-w-full items-start gap-2.5">
+                            <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white">
+                                <Image
+                                    src={logoPrimarySrc}
+                                    alt="Intelligence Lab logo primary"
+                                    width={96}
+                                    height={96}
+                                    className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
+                                    priority
+                                />
+                                <Image
+                                    src={logoSecondarySrc}
+                                    alt="Intelligence Lab logo secondary"
+                                    width={96}
+                                    height={96}
+                                    className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
+                                    aria-hidden
+                                />
                             </div>
-                        ) : null}
+                            <div className="min-w-0">
+                                <div className="flex h-12 flex-col justify-center">
+                                    <p className="text-[16px] leading-5 font-medium text-black">{brandTitle}</p>
+                                    <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{brandSubtitle}</p>
+                                </div>
+                            </div>
+                            {showClientAvatarStrip ? (
+                                <div className="inline-flex items-center gap-2">
+                                    <span className="h-7 w-px bg-black/12" aria-hidden />
+                                    <AvatarGroupTooltipTransitionDemo avatars={clientAvatarItems} />
+                                </div>
+                            ) : null}
+                        </div>
+                        <div className="mt-3 flex flex-wrap justify-start gap-1.5">
+                            {combinedServiceTags.map(item => (
+                                <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
+                                    {item}
+                                </p>
+                            ))}
+                        </div>
                     </div>
                 </div>
-                <h1 className={`mx-auto max-w-2xl text-xl font-medium tracking-normal ${heroHeadingLineHeightClass} ${textAlignClass}`}>
+                <h1 className={`mx-auto mt-4 max-w-2xl text-xl font-medium tracking-normal ${heroHeadingLineHeightClass} ${textAlignClass}`}>
                     {heroHeadingOverride ? (
                         heroHeadingOverride
                     ) : (
@@ -767,8 +560,8 @@ export default function Home({
                 </div>
             </div>
 
+            {showcaseProjectCards.length ? (
             <section id="articles" className="mx-auto mt-10 w-full max-w-2xl">
-                {showcaseProjectCards.length ? (
                     <div className="space-y-7">
                         {showcaseProjectCards.map((card, cardIndex) => {
                             const activeImageIndex = activeProjectImageIndexes[cardIndex] ?? 0
@@ -872,317 +665,9 @@ export default function Home({
                             )
                         })}
                     </div>
-                ) : (
-                    <div className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
-                        <div
-                            className={`grid gap-1 ${stackShowcaseContentTop ? 'grid-cols-1' : 'md:min-h-[350px] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-stretch'}`}
-                        >
-                            <div className={`min-w-0 p-4 sm:p-5 flex h-full flex-col ${textAlignClass}`}>
-                                <div>
-                                    <div className="flex justify-start">
-                                        <Badge variant="blue" className="bg-[#1063ff] text-white dark:bg-[#1063ff] dark:text-white">
-                                            {activeShowcaseSlide.badge}
-                                        </Badge>
-                                    </div>
-                                    <h3 className="mt-3 text-xl leading-6 font-medium tracking-normal text-black">{activeShowcaseSlide.title}</h3>
-                                    <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>{activeShowcaseSlide.subtitle}</p>
-                                </div>
-                                <div className="mt-auto pt-4">
-                                    <div className="flex justify-start">
-                                        <ButtonDemo
-                                            variant="default"
-                                            size="default"
-                                            className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none"
-                                            onClick={() => {
-                                                window.location.href = articlesHref
-                                            }}
-                                            label={<span>{activeShowcaseSlide.cta}</span>}
-                                        />
-                                    </div>
-                                    <div className="mt-4 flex flex-wrap justify-start gap-1.5">
-                                        {activeShowcaseSlide.features.map((item) => (
-                                            <span
-                                                key={item}
-                                                className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
-                                            >
-                                                {item}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                dir="ltr"
-                                className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-full"
-                                onTouchStart={handleShowcaseTouchStart}
-                                onTouchEnd={handleShowcaseTouchEnd}
-                            >
-                                <div
-                                    className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                                    style={{ transform: `translateX(-${activeShowcaseIndex * 100}%)` }}
-                                >
-                                    {showcaseSlides.map((slide, index) => (
-                                        <div key={`${slide.badge}-${index}`} className="relative h-full min-h-[240px] w-full shrink-0 md:min-h-full">
-                                            <Image
-                                                src={slide.imageSrc}
-                                                alt={slide.imageAlt}
-                                                fill
-                                                unoptimized
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/20 px-2 py-1 backdrop-blur-sm dark:bg-white/10">
-                                    {showcaseSlides.map((slide, index) => (
-                                        <button
-                                            key={`${slide.badge}-dot-${index}`}
-                                            type="button"
-                                            onClick={() => setActiveShowcaseIndex(index)}
-                                            aria-label={isArabic ? `الانتقال للشريحة ${index + 1}` : `Go to slide ${index + 1}`}
-                                            className={`h-1.5 rounded-full transition-all duration-300 ${index === activeShowcaseIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/65 hover:bg-white/90'}`}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </section>
-            <section
-                id="services"
-                dir={isArabic ? 'rtl' : 'ltr'}
-                aria-hidden={false}
-                className="mx-auto mt-8 max-w-2xl scroll-mt-24"
-            >
-                <div className="grid overflow-hidden grid-rows-[1fr] opacity-100">
-                    <div className={`min-h-0 ${textAlignClass}`}>
-                        <div className="grid grid-cols-2 items-start gap-x-10 gap-y-6 pt-1">
-                            <div className="min-w-0">
-                                <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.industriesTitle}</h3>
-                                <div className="mt-3 flex flex-wrap justify-start gap-1.5">
-                                    {servicesPanel.industries.map(item => (
-                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
-                                            {item}
-                                        </p>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="min-w-0">
-                                <h3 className="text-xl leading-6 font-medium tracking-normal text-black">{servicesPanel.capabilitiesTitle}</h3>
-                                <div className="mt-3 flex flex-wrap justify-start gap-1.5">
-                                    {servicesPanel.capabilities.map(item => (
-                                        <p key={item} className="inline-flex rounded-md bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70">
-                                            {item}
-                                        </p>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {showTestimonials ? (
-                <section className="mx-auto mt-8 w-full max-w-2xl">
-                    <h3 className={`text-xl leading-6 font-medium tracking-normal text-black ${textAlignClass}`}>
-                        {t.testimonials.title}
-                    </h3>
-                    <div className="mt-3" onTouchStart={handleTestimonialTouchStart} onTouchEnd={handleTestimonialTouchEnd}>
-                        <article
-                            key={`${activeTestimonial.clientName}-${activeTestimonial.company}-${activeTestimonialIndex}`}
-                            className="transition-opacity duration-300"
-                        >
-                            <span className={`-mb-1 block text-[30px] leading-[0.7] text-black/35 ${textAlignClass}`}>“</span>
-                            <p className={`mt-0 text-xl leading-6 font-light text-black sm:text-[22px] sm:leading-7 ${textAlignClass}`}>
-                                {activeTestimonial.quote}
-                            </p>
-                            <div className="mt-6 flex items-center gap-3">
-                                <Avatar className="size-10 border-[1px] border-black/10 bg-site-gray-ui">
-                                    {activeTestimonial.avatarSrc ? <AvatarImage src={activeTestimonial.avatarSrc} alt={activeTestimonial.clientName} className="object-cover" /> : null}
-                                    <AvatarFallback className="bg-site-gray-ui text-xs text-black/65">{activeTestimonial.avatarFallback}</AvatarFallback>
-                                </Avatar>
-                                <div className={`min-w-0 ${textAlignClass}`}>
-                                    <p className="text-sm leading-5 font-medium text-black">
-                                        {activeTestimonial.clientName}
-                                    </p>
-                                    <p className="text-sm leading-5 font-light text-black/55">
-                                        {activeTestimonial.company}
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                        <div className="mt-4 flex items-center justify-start gap-2">
-                            <div className="flex items-center gap-1">
-                                {testimonials.map((item, index) => (
-                                    <button
-                                        key={`${item.clientName}-dot-${index}`}
-                                        type="button"
-                                        onClick={() => setActiveTestimonialIndex(index)}
-                                        aria-label={isArabic ? `الانتقال إلى الشهادة ${index + 1}` : `Go to testimonial ${index + 1}`}
-                                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                                            index === activeTestimonialIndex
-                                                ? 'w-4 bg-black/65 dark:bg-white/65'
-                                                : 'w-1.5 bg-black/20 hover:bg-black/35 dark:bg-white/25 dark:hover:bg-white/40'
-                                        }`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </section>
             ) : null}
-
-            <section className="mx-auto mt-8 w-full max-w-2xl">
-                <div className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
-                    <div className={`rounded-lg p-4 sm:p-5 ${textAlignClass}`}>
-                        <h3 className="text-xl leading-6 font-medium tracking-normal text-black">
-                            {ctaHeadline}
-                        </h3>
-                        <p className={`mt-2 text-base leading-5 ${paragraphWeightClass} text-black/65`}>
-                            {ctaDescription}
-                        </p>
-                        <div className="mt-4 flex justify-start">
-                            <ButtonDemo
-                                variant="default"
-                                size="default"
-                                className="h-7 rounded-md border-0 ring-0 shadow-none px-2 py-0 text-xs"
-                                onClick={() => {
-                                    window.location.href = contactHref
-                                }}
-                                label={
-                                    <span>
-                                        {t.buttons.talkTo}{' '}
-                                        <span className={foundersFontClass} style={isArabic ? thmanyahOpenTypeStyles : undefined}>
-                                            {t.buttons.founders}
-                                        </span>
-                                    </span>
-                                }
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-      <footer
-        id="contact"
-        className={`mx-auto mt-8 flex w-full max-w-2xl flex-col gap-4 border-t border-black/10 pt-6 pb-10 md:flex-row md:items-center md:justify-between ${isArabic ? 'md:flex-row-reverse' : ''}`}
-      >
-        <div className={`w-full text-base leading-6 font-light text-black/65 md:w-auto ${textAlignClass}`}>
-                    <div className="flex flex-wrap items-center justify-start gap-2">
-                        <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
-                            {EMAIL_ADDRESS}
-                        </a>
-                        <CopyButton
-                            value={EMAIL_ADDRESS}
-                            size="sm"
-                            className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
-                        />
-                    </div>
-        </div>
-        <div ref={footerMenusRef} data-menu-scope className="flex w-full flex-wrap items-center gap-2 md:w-auto">
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Globe className="size-3.5" />
-              <span>{isArabic ? 'العربية' : 'English'}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  switchLanguage('en')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span>English</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  switchLanguage('ar')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span className={ibmArabic.className}>العربية</span>
-              </button>
-            </div>
-          </details>
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Palette className="size-3.5" />
-              <span>{theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('light')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Sun className="size-3.5" />
-                <span>{isArabic ? 'فاتح' : 'Light'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('dark')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Moon className="size-3.5" />
-                <span>{isArabic ? 'داكن' : 'Dark'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('system')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Monitor className="size-3.5" />
-                <span>{isArabic ? 'النظام' : 'System'}</span>
-              </button>
-            </div>
-          </details>
-        </div>
-        <div className={`flex w-full flex-wrap items-center gap-x-3 gap-y-1 text-base leading-6 font-light text-black/65 md:w-auto ${isArabic ? 'justify-end md:justify-start' : 'justify-start'}`}>
-                    <a
-                        href={X_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
-                    >
-                        {t.contact.x}
-                        <ArrowUpRight className="size-3" />
-                    </a>
-                    <a
-                        href={INSTAGRAM_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
-                    >
-                        {t.contact.instagram}
-                        <ArrowUpRight className="size-3" />
-                    </a>
-                    <a
-                        href={LINKEDIN_URL}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 transition-colors hover:text-black"
-                    >
-                        {t.contact.linkedIn}
-                        <ArrowUpRight className="size-3" />
-                    </a>
-                </div>
-            </footer>
+            <MarketingFooter isArabic={isArabic} textAlignClass={textAlignClass} contact={t.contact} />
 
         </main>
     )

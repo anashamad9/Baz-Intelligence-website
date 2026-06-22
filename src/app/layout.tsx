@@ -24,13 +24,13 @@ const structuredData = {
       alternateName: siteNameArabic,
       url: siteUrl,
       logo: `${siteUrl}/Itelligence%20Lab%20primary%20logo.png`,
-      email: "hi@intelligence.dev",
+      email: "hi@intelligencelab.dev",
       telephone: "+962795874662",
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "hi@intelligence.dev",
+          email: "hi@intelligencelab.dev",
           availableLanguage: ["English", "Arabic"],
         },
       ],
@@ -155,7 +155,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('baz-theme')||'system';var d=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)}catch(e){}})();",
+              "(function(){try{var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)');document.documentElement.classList.toggle('dark',!!(m&&m.matches));}catch(e){}})();",
           }}
         />
         <script

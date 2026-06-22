@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, ChevronDown, Globe, Languages, Monitor, Moon, Palette, Sun } from 'lucide-react'
+import Image from 'next/image'
+import { ChevronDown } from 'lucide-react'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
-import { CopyButton } from '@/components/copy-button'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
-import { usePersistedTheme } from '@/hooks/use-persisted-theme'
 import { TopNav } from '@/components/top-nav'
+import { MarketingFooter } from '@/components/marketing-footer'
+import { usePathname, useRouter } from 'next/navigation'
 
 type Language = 'en' | 'ar'
 
@@ -22,6 +23,16 @@ type Offer = {
 type FaqItem = {
   question: string
   answer: string
+}
+
+type FeaturedUseCase = {
+  badge: string
+  title: string
+  description: string
+  cta: string
+  features: string[]
+  imageSrc: string
+  imageAlt: string
 }
 
 type PageCopy = {
@@ -47,6 +58,7 @@ type PageCopy = {
     rangeNote: string
     placeholder: string
   }
+  featuredUseCases: FeaturedUseCase[]
   faq: {
     title: string
     items: FaqItem[]
@@ -59,11 +71,6 @@ type PageCopy = {
 }
 
 const STORAGE_KEY = 'baz-language'
-const THEME_STORAGE_KEY = 'baz-theme'
-const EMAIL_ADDRESS = 'hi@intelligence.dev'
-const X_URL = 'https://x.com/intlgnc_lab'
-const INSTAGRAM_URL = 'https://www.instagram.com/intelligencelab.dev?igsh=N2t4c2J4c2lpb3Zh'
-const LINKEDIN_URL = 'https://www.linkedin.com/company/intelligence-lab-dev'
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
@@ -133,6 +140,44 @@ const content: Record<Language, PageCopy> = {
       rangeNote: 'Range based on 47% to 68% cost reduction.',
       placeholder: 'e.g. 20000',
     },
+    featuredUseCases: [
+      {
+        badge: 'Intelligence Lab Use Case 1',
+        title: 'Voice Agent',
+        description: 'Handles customer calls 24/7, reduces response time, and lowers support payroll costs.',
+        cta: 'Explore use case',
+        features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
+        imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
+        imageAlt: 'Intelligence Lab voice agent use case',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 3',
+        title: 'ML Model',
+        description: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
+        cta: 'Explore use case',
+        features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
+        imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
+        imageAlt: 'Intelligence Lab ML model use case',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 4',
+        title: 'LLM',
+        description: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
+        cta: 'Explore use case',
+        features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
+        imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
+        imageAlt: 'Intelligence Lab LLM use case',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 5',
+        title: 'Generative AI',
+        description: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
+        cta: 'Explore use case',
+        features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
+        imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
+        imageAlt: 'Intelligence Lab generative AI use case',
+      },
+    ],
     faq: {
       title: 'FAQ',
       items: [
@@ -233,6 +278,44 @@ const content: Record<Language, PageCopy> = {
       rangeNote: 'النطاق مبني على خفض تكلفة بين 47٪ و 68٪.',
       placeholder: 'مثال: 20000',
     },
+    featuredUseCases: [
+      {
+        badge: 'Intelligence Lab Use Case 1',
+        title: 'وكيل صوتي',
+        description: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
+        cta: 'اكتشف الحالة',
+        features: ['تغطية 24/7', 'تكلفة دعم أقل', 'استجابة أسرع'],
+        imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
+        imageAlt: 'حالة استخدام الوكيل الصوتي من Intelligence Lab',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 3',
+        title: 'نموذج تعلم آلة',
+        description: 'يتنبأ بالطلب والمخاطر والتسرّب مبكرًا، لتقليل الهدر وتجنب قرارات مكلفة.',
+        cta: 'اكتشف الحالة',
+        features: ['تنبؤ أدق', 'هدر أقل', 'قرارات أسرع'],
+        imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
+        imageAlt: 'حالة استخدام نموذج تعلم الآلة من Intelligence Lab',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 4',
+        title: 'نموذج لغوي كبير (LLM)',
+        description: 'يسرّع البحث الداخلي والتلخيص وكتابة المسودات، فيختصر الوقت التشغيلي اليومي.',
+        cta: 'اكتشف الحالة',
+        features: ['وصول أسرع للمعرفة', 'وقت إداري أقل', 'إنتاجية أعلى'],
+        imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
+        imageAlt: 'حالة استخدام النموذج اللغوي من Intelligence Lab',
+      },
+      {
+        badge: 'Intelligence Lab Use Case 5',
+        title: 'ذكاء اصطناعي توليدي',
+        description: 'ينتج محتوى وأصولًا ونسخًا للحملات خلال دقائق، ما يقلل وقت الإنتاج وتكلفته.',
+        cta: 'اكتشف الحالة',
+        features: ['إنتاج محتوى أسرع', 'تكلفة إنتاج أقل', 'جودة متسقة'],
+        imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
+        imageAlt: 'حالة استخدام الذكاء الاصطناعي التوليدي من Intelligence Lab',
+      },
+    ],
     faq: {
       title: 'الأسئلة الشائعة',
       items: [
@@ -276,10 +359,11 @@ const content: Record<Language, PageCopy> = {
 
 export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLanguage?: Language }) {
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
-  const [theme, setTheme] = usePersistedTheme('system', THEME_STORAGE_KEY)
   const [openFaqItem, setOpenFaqItem] = useState<string | null>(null)
   const [monthlyCostsInput, setMonthlyCostsInput] = useState('')
-  const footerMenusRef = useRef<HTMLDivElement | null>(null)
+  const [activeFeaturedUseCaseIndex, setActiveFeaturedUseCaseIndex] = useState(0)
+  const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language)
@@ -290,45 +374,47 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const applyTheme = () => {
-      const shouldUseDark = theme === 'dark' || (theme === 'system' && mediaQuery.matches)
-      document.documentElement.classList.toggle('dark', shouldUseDark)
+      document.documentElement.classList.toggle('dark', mediaQuery.matches)
     }
 
     applyTheme()
     mediaQuery.addEventListener('change', applyTheme)
     return () => mediaQuery.removeEventListener('change', applyTheme)
-  }, [theme])
-
-  useEffect(() => {
-    const handleClickOutside = (event: globalThis.MouseEvent) => {
-      if (!footerMenusRef.current?.contains(event.target as Node)) {
-        footerMenusRef.current
-          ?.querySelectorAll<HTMLDetailsElement>('details[open]')
-          .forEach((menu) => menu.removeAttribute('open'))
-      }
-    }
-
-    document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
   }, [])
 
-  const handleMenuToggle = (event: { currentTarget: HTMLDetailsElement }) => {
-    const currentMenu = event.currentTarget
-    if (!currentMenu.open) return
-    footerMenusRef.current
-      ?.querySelectorAll<HTMLDetailsElement>('details[open]')
-      .forEach((menu) => {
-        if (menu !== currentMenu) {
-          menu.removeAttribute('open')
-        }
-      })
+  const switchLanguage = (nextLanguage: Language) => {
+    setActiveFeaturedUseCaseIndex(0)
+    setLanguage(nextLanguage)
+
+    if (!pathname) return
+
+    const normalizedPath = pathname === '/' ? '' : pathname
+    let nextPath = normalizedPath
+
+    if (normalizedPath === '' || normalizedPath === '/en' || normalizedPath === '/ar') {
+      nextPath = nextLanguage === 'ar' ? '/ar' : '/en'
+    } else if (normalizedPath.startsWith('/ar/')) {
+      nextPath = nextLanguage === 'en' ? `/en/${normalizedPath.slice(4)}` : normalizedPath
+    } else if (normalizedPath.startsWith('/en/')) {
+      nextPath = nextLanguage === 'ar' ? `/ar/${normalizedPath.slice(4)}` : normalizedPath
+    } else if (nextLanguage === 'ar') {
+      nextPath = `/ar${normalizedPath}`
+    } else if (nextLanguage === 'en') {
+      nextPath = `/en${normalizedPath}`
+    }
+
+    if (nextPath !== pathname) {
+      router.push(nextPath)
+    }
   }
 
   const isArabic = language === 'ar'
   const t = content[language]
+  const activeFeaturedUseCase = t.featuredUseCases[activeFeaturedUseCaseIndex] ?? t.featuredUseCases[0]
   const textAlignClass = isArabic ? 'text-right' : 'text-left'
   const homeHref = isArabic ? '/ar' : '/en'
   const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
+  const articlesHref = isArabic ? '/ar/articles' : '/en/articles'
   const contactHref = isArabic ? '/ar/contact' : '/en/contact'
   const monthlyCosts = Number(monthlyCostsInput.replace(/,/g, '').trim())
   const hasValidMonthlyCosts = Number.isFinite(monthlyCosts) && monthlyCosts > 0
@@ -343,6 +429,16 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
   const offersById = Object.fromEntries(t.offers.map((offer) => [offer.id, offer])) as Record<string, Offer>
   const leftColumnOffers = [offersById.meeting, offersById['for-who']].filter(Boolean)
   const rightColumnOffers = [offersById.needs, offersById.calculator].filter(Boolean)
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveFeaturedUseCaseIndex((current) => (current + 1) % t.featuredUseCases.length)
+    }, 4200)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [t.featuredUseCases.length])
 
   const renderOfferCard = (offer: Offer, variant: 'featured' | 'default' | 'compact' = 'default') => {
     const cardPaddingClass =
@@ -425,6 +521,10 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
         logo={t.nav.logo}
         services={t.nav.whatWeDo}
         sayHi={t.nav.sayHi}
+        language={language}
+        onLanguageToggle={() => {
+          switchLanguage(language === 'en' ? 'ar' : 'en')
+        }}
         homeHref={homeHref}
         servicesHref={servicesHref}
         contactHref={contactHref}
@@ -436,7 +536,52 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
       </section>
 
       <section className="mx-auto mt-6 w-full max-w-2xl">
-        <div className="grid gap-2.5 md:grid-cols-2">
+        <article className="overflow-hidden rounded-xl border border-black/10 bg-site-gray-surface p-0.5 sm:p-1">
+          <div className="grid gap-1 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-stretch">
+            <div className={`flex min-w-0 flex-col p-4 sm:p-5 ${textAlignClass}`}>
+              <div>
+                <div className="flex justify-start">
+                  <span className="inline-flex rounded-md bg-[#1063ff] px-2 py-1 text-sm font-medium text-white">
+                    {activeFeaturedUseCase.badge}
+                  </span>
+                </div>
+                <h2 className="mt-3 text-xl leading-6 font-medium tracking-normal text-black">{activeFeaturedUseCase.title}</h2>
+                <p className="mt-2 text-base leading-5 font-light text-black/65">{activeFeaturedUseCase.description}</p>
+              </div>
+              <div className="mt-auto pt-4">
+                <div className="flex justify-start">
+                  <Link
+                    href={articlesHref}
+                    className="inline-flex h-7 items-center rounded-md bg-black px-2 py-0 text-xs font-medium text-white transition-colors hover:bg-black/85"
+                  >
+                    {activeFeaturedUseCase.cta}
+                  </Link>
+                </div>
+                <div className="mt-4 flex flex-wrap justify-start gap-1.5">
+                  {activeFeaturedUseCase.features.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex rounded-md border border-black/10 bg-site-gray-ui px-1.5 py-0.5 text-xs leading-4 font-light text-black/70"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div dir="ltr" className="relative min-h-[240px] overflow-hidden rounded-lg md:min-h-[360px]">
+              <Image
+                src={activeFeaturedUseCase.imageSrc}
+                alt={activeFeaturedUseCase.imageAlt}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </article>
+
+        <div className="mt-2.5 grid gap-2.5 md:grid-cols-2">
           <div className="flex flex-col gap-2.5">
             {leftColumnOffers.map((offer) =>
               renderOfferCard(offer, offer.id === 'meeting' ? 'featured' : 'compact'),
@@ -483,122 +628,7 @@ export default function WhatWeDoPage({ initialLanguage = 'en' }: { initialLangua
         </div>
       </section>
 
-      <footer id="contact" className={`mx-auto mt-8 flex w-full max-w-2xl items-center justify-between border-t border-black/10 pt-6 pb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
-        <div className={`text-base leading-6 font-light text-black/65 ${textAlignClass}`}>
-          <div className="flex flex-wrap items-center justify-start gap-2">
-            <a href={`mailto:${EMAIL_ADDRESS}`} className="transition-colors hover:text-black">
-              {EMAIL_ADDRESS}
-            </a>
-            <CopyButton
-              value={EMAIL_ADDRESS}
-              size="sm"
-              className="size-6 rounded-full text-black/65 transition-colors hover:text-black"
-            />
-          </div>
-        </div>
-        <div ref={footerMenusRef} className="flex items-center gap-2">
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Globe className="size-3.5" />
-              <span>{isArabic ? 'العربية' : 'English'}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-36 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  setLanguage('en')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'en' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span>English</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setLanguage('ar')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${language === 'ar' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Languages className="size-3.5" />
-                <span>العربية</span>
-              </button>
-            </div>
-          </details>
-          <details className="group relative" onToggle={handleMenuToggle}>
-            <summary className="list-none [&::-webkit-details-marker]:hidden inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border border-black/10 bg-site-gray-surface px-2 text-sm font-light text-black/65 transition-colors hover:border-black/25 hover:text-black">
-              <Palette className="size-3.5" />
-              <span>{theme === 'system' ? (isArabic ? 'النظام' : 'System') : theme === 'dark' ? (isArabic ? 'داكن' : 'Dark') : (isArabic ? 'فاتح' : 'Light')}</span>
-            </summary>
-            <div className="absolute right-0 bottom-full z-20 mb-1 w-32 rounded-md border border-black/10 bg-site-gray-surface p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('light')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'light' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Sun className="size-3.5" />
-                <span>{isArabic ? 'فاتح' : 'Light'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('dark')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'dark' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Moon className="size-3.5" />
-                <span>{isArabic ? 'داكن' : 'Dark'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={(event) => {
-                  setTheme('system')
-                  event.currentTarget.closest('details')?.removeAttribute('open')
-                }}
-                className={`inline-flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-left text-sm transition-colors ${theme === 'system' ? 'bg-white text-black dark:bg-white/20 dark:text-white' : 'text-black/65 hover:bg-white/70 hover:text-black dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`}
-              >
-                <Monitor className="size-3.5" />
-                <span>{isArabic ? 'النظام' : 'System'}</span>
-              </button>
-            </div>
-          </details>
-        </div>
-        <div className="flex flex-wrap items-center gap-1.5 text-base leading-6 font-light text-black/65">
-          <a
-            href={X_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 transition-colors hover:text-black"
-          >
-            {t.contact.x}
-            <ArrowUpRight className="size-3" />
-          </a>
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 transition-colors hover:text-black"
-          >
-            {t.contact.instagram}
-            <ArrowUpRight className="size-3" />
-          </a>
-          <a
-            href={LINKEDIN_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 transition-colors hover:text-black"
-          >
-            {t.contact.linkedIn}
-            <ArrowUpRight className="size-3" />
-          </a>
-        </div>
-      </footer>
+      <MarketingFooter isArabic={isArabic} textAlignClass={textAlignClass} contact={t.contact} />
     </main>
   )
 }
