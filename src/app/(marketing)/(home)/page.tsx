@@ -51,15 +51,15 @@ const thmanyahOpenTypeStyles: CSSProperties = {
 const content = {
     en: {
         nav: {
-            logo: 'Intelligence Lab',
+            logo: 'Atmet Technologies',
             services: 'Services',
             ourWork: 'Our Work',
-            aiTechnologies: 'Intelligence Lab: for AI Technologies',
-            appsWebsites: 'Intelligence Lab: for Apps & Websites',
+            aiTechnologies: 'Atmet Technologies: for AI Technologies',
+            appsWebsites: 'Atmet Technologies: for Apps & Websites',
             articles: 'Articles',
             sayHi: 'Say Hi',
         },
-        brandTitle: 'Intelligence Lab',
+        brandTitle: 'Atmet Technologies',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'Save your time and reduce your operating costs for real with an',
@@ -117,15 +117,15 @@ const content = {
     },
     ar: {
         nav: {
-            logo: 'إنتيلجنس لاب',
+            logo: 'أتمت تيكنولوجيس',
             services: 'الخدمات',
             ourWork: 'أعمالنا',
-            aiTechnologies: 'إنتيلجنس لاب: لتقنيات الذكاء الاصطناعي',
-            appsWebsites: 'إنتيلجنس لاب: للتطبيقات والمواقع',
+            aiTechnologies: 'أتمت تيكنولوجيس: لتقنيات الذكاء الاصطناعي',
+            appsWebsites: 'أتمت تيكنولوجيس: للتطبيقات والمواقع',
             articles: 'المقالات',
             sayHi: 'تواصل',
         },
-        brandTitle: 'إنتيلجنس لاب',
+        brandTitle: 'أتمت تيكنولوجيس',
         brandSubtitle: 'مختبر تقنيات ذكاء إصطناعي',
         heading: {
             beforeHighlight: 'وفّر وقتك وقلّل تكاليف شغلك بشكل فعلي مع مختبر تقنيات وأبحاث',
@@ -193,8 +193,8 @@ export default function Home({
     brandSubtitleOverride,
     showClientAvatarStrip = false,
     clientAvatarItems,
-    logoPrimarySrc = '/Itelligence%20Lab%20primary%20logo.png',
-    logoSecondarySrc = '/Itelligence%20Lab%20secondry%20logo.png',
+    logoPrimarySrc = '/Atmet%20Technologies%20primary%20logo.png',
+    logoSecondarySrc = '/Atmet%20Technologies%20secondary%20logo.png',
     stackShowcaseContentTop = false,
     showTopNav = true,
     heroHeadingOverride,
@@ -413,7 +413,7 @@ export default function Home({
                             <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white">
                                 <Image
                                     src={logoPrimarySrc}
-                                    alt="Intelligence Lab logo primary"
+                                    alt="Atmet Technologies logo primary"
                                     width={96}
                                     height={96}
                                     className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
@@ -421,7 +421,7 @@ export default function Home({
                                 />
                                 <Image
                                     src={logoSecondarySrc}
-                                    alt="Intelligence Lab logo secondary"
+                                    alt="Atmet Technologies logo secondary"
                                     width={96}
                                     height={96}
                                     className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -470,7 +470,7 @@ export default function Home({
                     <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                         <Image
                             src="/IMG_3242-2.png"
-                            alt={isArabic ? 'صورة واجهة Intelligence Lab' : 'Intelligence Lab hero image'}
+                            alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Atmet Technologies hero image'}
                             width={1800}
                             height={1200}
                             unoptimized

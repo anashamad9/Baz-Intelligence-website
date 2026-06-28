@@ -4,15 +4,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 const geistSans = GeistSans;
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://bazintelligence.com").replace(
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://atmetai.com").replace(
   /\/+$/,
   "",
 );
-const siteName = "Intelligence Lab";
-const siteNameArabic = "إنتيلجنس لاب";
-const siteTitle = "Intelligence Lab";
+const siteName = "Atmet Technologies";
+const siteNameArabic = "أتمت تيكنولوجيس";
+const siteTitle = "Atmet Technologies";
 const siteDescription =
-  "Intelligence Lab is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Atmet Technologies is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -23,14 +23,14 @@ const structuredData = {
       name: siteName,
       alternateName: siteNameArabic,
       url: siteUrl,
-      logo: `${siteUrl}/Itelligence%20Lab%20primary%20logo.png`,
-      email: "hi@intelligencelab.dev",
+      logo: `${siteUrl}/Atmet%20Technologies%20primary%20logo.png`,
+      email: "team@atmetai.com",
       telephone: "+962795874662",
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "customer support",
-          email: "hi@intelligencelab.dev",
+          email: "team@atmetai.com",
           availableLanguage: ["English", "Arabic"],
         },
       ],
@@ -57,9 +57,9 @@ const structuredData = {
       "@type": "WebPage",
       "@id": `${siteUrl}/ar#webpage`,
       url: `${siteUrl}/ar`,
-      name: "إنتيلجنس لاب | مختبر تقنيات ذكاء إصطناعي",
+      name: "أتمت تيكنولوجيس | مختبر تقنيات ذكاء إصطناعي",
       description:
-        "إنتيلجنس لاب هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
+        "أتمت تيكنولوجيس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.",
       inLanguage: "ar",
       isPartOf: { "@id": `${siteUrl}#website` },
       about: { "@id": `${siteUrl}#organization` },
@@ -71,18 +71,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Intelligence Lab",
+    template: "%s | Atmet Technologies",
   },
   description: siteDescription,
   applicationName: siteName,
   icons: {
-    icon: [{ url: "/Fav%20icon%20Itelligence%20Lab.png", type: "image/png" }],
-    shortcut: ["/Fav%20icon%20Itelligence%20Lab.png"],
-    apple: [{ url: "/Fav%20icon%20Itelligence%20Lab.png", type: "image/png" }],
+    icon: [{ url: "/Fav%20icon%20Atmet%20Technologies.png", type: "image/png" }],
+    shortcut: ["/Fav%20icon%20Atmet%20Technologies.png"],
+    apple: [{ url: "/Fav%20icon%20Atmet%20Technologies.png", type: "image/png" }],
   },
   keywords: [
-    "Intelligence Lab",
-    "Intelligence Lab",
+    "Atmet Technologies",
+    "Atmet Technologies",
     "AI lab",
     "machine learning",
     "LLM solutions",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Intelligence Lab English preview",
+        alt: "Atmet Technologies English preview",
       },
     ],
   },

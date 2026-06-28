@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import AITechnologiesSoonPage from '../../../(marketing)/our-work/ai-technologies/ai-technologies-soon-page'
 
-const siteName = 'إنتيلجنس لاب'
-const title = 'إنتيلجنس لاب لتقنيات الذكاء الاصطناعي | إنتيلجنس لاب'
-const description = 'صفحة إنتيلجنس لاب لتقنيات الذكاء الاصطناعي قادمة قريبًا.'
+const siteName = 'أتمت تيكنولوجيس'
+const title = 'أتمت تيكنولوجيس لتقنيات الذكاء الاصطناعي | أتمت تيكنولوجيس'
+const description = 'صفحة أتمت تيكنولوجيس لتقنيات الذكاء الاصطناعي قادمة قريبًا.'
 
 export const metadata: Metadata = {
   title,

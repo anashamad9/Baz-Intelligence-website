@@ -77,10 +77,10 @@ const artIntroParagraphs = [
   "Our specialty lies in building modern applications and websites that do not just function beautifully but feel alive. We are obsessed with trendy, forward-thinking design that captures attention and keeps users coming back. Every pixel, every interaction, and every line of code is intentional because we believe great technology deserves a great experience to match.",
 ]
 
-const siteName = 'Intelligence Lab'
-const title = 'Intelligence Lab: Apps & Websites | Intelligence Lab'
+const siteName = 'Atmet Technologies'
+const title = 'Atmet Technologies: Apps & Websites | Atmet Technologies'
 const description =
-  'Intelligence Lab for Apps & Websites builds tailored digital products with practical execution and measurable outcomes.'
+  'Atmet Technologies for Apps & Websites builds tailored digital products with practical execution and measurable outcomes.'
 const shareImage = '/art eng.png'
 
 export const metadata: Metadata = {
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
         url: shareImage,
         width: 3624,
         height: 1345,
-        alt: 'Art.intelligence Lab - Apps & Websites',
+        alt: 'Atmet Technologies - Apps & Websites',
       },
     ],
     locale: 'en_US',
@@ -125,7 +125,7 @@ export default function EnglishAppsWebsitesPage() {
       initialLanguage="en"
       showHeroImage={false}
       showTestimonials={false}
-      brandTitleOverride="Art.intelligence Lab"
+      brandTitleOverride="Atmet Technologies"
       brandSubtitleOverride="Apps & Web apps"
       showClientAvatarStrip={true}
       clientAvatarItems={artClientAvatars}

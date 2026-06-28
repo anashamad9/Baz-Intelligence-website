@@ -77,10 +77,10 @@ const artIntroParagraphs = [
   'تخصصنا هو بناء تطبيقات ومواقع حديثة لا تعمل بشكل ممتاز فقط، بل تنبض بالحياة. نحن مهووسون بتصميم متجدد واستشرافي يجذب الانتباه ويحافظ على عودة المستخدمين. كل بكسل، وكل تفاعل، وكل سطر كود يأتي بقصد، لأننا نؤمن أن التقنية العظيمة تستحق تجربة عظيمة توازيها.',
 ]
 
-const siteName = 'إنتيلجنس لاب'
-const title = 'إنتيلجنس لاب: التطبيقات والمواقع | إنتيلجنس لاب'
+const siteName = 'أتمت تيكنولوجيس'
+const title = 'أتمت تيكنولوجيس: التطبيقات والمواقع | أتمت تيكنولوجيس'
 const description =
-  'صفحة إنتيلجنس لاب للتطبيقات والمواقع، لتصميم وتطوير منتجات رقمية مخصصة بنتائج عملية قابلة للقياس.'
+  'صفحة أتمت تيكنولوجيس للتطبيقات والمواقع، لتصميم وتطوير منتجات رقمية مخصصة بنتائج عملية قابلة للقياس.'
 const shareImage = '/art arabic.png'
 
 export const metadata: Metadata = {
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
         url: shareImage,
         width: 3624,
         height: 1345,
-        alt: 'Art.intelligence Lab - التطبيقات والمواقع',
+        alt: 'أتمت تيكنولوجيس - التطبيقات والمواقع',
       },
     ],
     locale: 'ar_JO',
@@ -126,8 +126,8 @@ export default function ArabicAppsWebsitesPage() {
       showHeroImage={false}
       showTestimonials={false}
       showTopNav={false}
-      brandTitleOverride="Art.intelligence Lab"
-      brandSubtitleOverride="Apps & Web apps"
+      brandTitleOverride="أتمت تيكنولوجيس"
+      brandSubtitleOverride="التطبيقات ومواقع الويب"
       showClientAvatarStrip={true}
       clientAvatarItems={artClientAvatars}
       logoPrimarySrc="/Art%20main.png"

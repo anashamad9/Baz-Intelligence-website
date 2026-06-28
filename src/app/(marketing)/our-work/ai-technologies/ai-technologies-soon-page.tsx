@@ -31,23 +31,23 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const copy: Record<Language, PageCopy> = {
   en: {
     nav: {
-      logo: 'Intelligence Lab',
+      logo: 'Atmet Technologies',
       services: 'Services',
       articles: 'Articles',
       sayHi: 'Say Hi',
     },
     heading: 'Soon',
-    subtitle: 'Intelligence Lab for AI Technologies is coming soon.',
+    subtitle: 'Atmet Technologies for AI Technologies is coming soon.',
   },
   ar: {
     nav: {
-      logo: 'إنتيلجنس لاب',
+      logo: 'أتمت تيكنولوجيس',
       services: 'الخدمات',
       articles: 'المقالات',
       sayHi: 'تواصل',
     },
     heading: 'قريبًا',
-    subtitle: 'صفحة إنتيلجنس لاب لتقنيات الذكاء الاصطناعي قادمة قريبًا.',
+    subtitle: 'صفحة أتمت تيكنولوجيس لتقنيات الذكاء الاصطناعي قادمة قريبًا.',
   },
 }
 

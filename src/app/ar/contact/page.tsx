@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import ContactPage from '../../(marketing)/contact/contact-page'
 
-const siteName = 'إنتيلجنس لاب'
-const title = 'تواصل | إنتيلجنس لاب'
+const siteName = 'أتمت تيكنولوجيس'
+const title = 'تواصل | أتمت تيكنولوجيس'
 const description =
-  'تواصل مع إنتيلجنس لاب لحجز اجتماع مباشر أو إرسال تفاصيل مشروعك للحصول على نطاق تنفيذ ذكاء اصطناعي مناسب.'
+  'تواصل مع أتمت تيكنولوجيس لحجز اجتماع مباشر أو إرسال تفاصيل مشروعك للحصول على نطاق تنفيذ ذكاء اصطناعي مناسب.'
 const previewImage = '/IntArabic.png'
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'معاينة صفحة التواصل في إنتيلجنس لاب',
+        alt: 'معاينة صفحة التواصل في أتمت تيكنولوجيس',
       },
     ],
   },

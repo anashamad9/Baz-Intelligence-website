@@ -3,7 +3,7 @@
 import { ArrowUpRight } from 'lucide-react'
 import { CopyButton } from '@/components/copy-button'
 
-const EMAIL_ADDRESS = 'hi@intelligencelab.dev'
+const EMAIL_ADDRESS = 'team@atmetai.com'
 const X_URL = 'https://x.com/intlgnc_lab'
 const INSTAGRAM_URL = 'https://www.instagram.com/intelligencelab.dev?igsh=N2t4c2J4c2lpb3Zh'
 const LINKEDIN_URL = 'https://www.linkedin.com/company/intelligence-lab-dev'
