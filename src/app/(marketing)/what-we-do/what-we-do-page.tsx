@@ -81,7 +81,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const content: Record<Language, PageCopy> = {
   en: {
     nav: {
-      logo: 'Admins Atmet Technogloes',
+      logo: 'Atmet Technologies',
       whatWeDo: 'Services',
       articles: 'Articles',
       sayHi: 'Say Hi',
@@ -148,34 +148,34 @@ const content: Record<Language, PageCopy> = {
         cta: 'Explore use case',
         features: ['24/7 coverage', 'Lower support cost', 'Faster response'],
         imageSrc: '/images%20part/drool-is-shut-down.CgPgS3_0_1QSogs.avif',
-        imageAlt: 'Admins Atmet Technogloes voice agent use case',
+        imageAlt: 'Atmet Technologies voice agent use case',
       },
       {
-        badge: 'Admins Atmet Technogloes Use Case 3',
+        badge: 'Atmet Technologies Use Case 3',
         title: 'ML Model',
         description: 'Predicts demand, risk, and churn earlier so teams reduce waste and avoid costly decisions.',
         cta: 'Explore use case',
         features: ['Better forecasting', 'Less waste', 'Smarter decisions'],
         imageSrc: '/images%20part/linkedin-automation.m-LHqa5x_OL9P8.avif',
-        imageAlt: 'Admins Atmet Technogloes ML model use case',
+        imageAlt: 'Atmet Technologies ML model use case',
       },
       {
-        badge: 'Admins Atmet Technogloes Use Case 4',
+        badge: 'Atmet Technologies Use Case 4',
         title: 'LLM',
         description: 'Accelerates internal search, summarization, and drafting to save operational time every day.',
         cta: 'Explore use case',
         features: ['Faster knowledge access', 'Less admin time', 'Higher output'],
         imageSrc: '/images%20part/orama-astro.CEysS80e_1t9OiV.avif',
-        imageAlt: 'Admins Atmet Technogloes LLM use case',
+        imageAlt: 'Atmet Technologies LLM use case',
       },
       {
-        badge: 'Admins Atmet Technogloes Use Case 5',
+        badge: 'Atmet Technologies Use Case 5',
         title: 'Generative AI',
         description: 'Creates content, assets, and campaign copy in minutes, cutting production time and spend.',
         cta: 'Explore use case',
         features: ['Faster content creation', 'Lower production spend', 'Consistent quality'],
         imageSrc: '/images%20part/scaling-highly-personalized-outbound.BLsWG_WN_IrHCc.avif',
-        imageAlt: 'Admins Atmet Technogloes generative AI use case',
+        imageAlt: 'Atmet Technologies generative AI use case',
       },
     ],
     faq: {
@@ -280,7 +280,7 @@ const content: Record<Language, PageCopy> = {
     },
     featuredUseCases: [
       {
-        badge: 'Admins Atmet Technogloes Use Case 1',
+        badge: 'Atmet Technologies Use Case 1',
         title: 'وكيل صوتي',
         description: 'يرد على مكالمات العملاء 24/7، يقلل زمن الاستجابة ويخفّض تكلفة فرق الدعم.',
         cta: 'اكتشف الحالة',

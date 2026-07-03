@@ -130,8 +130,8 @@ export default function ArabicAppsWebsitesPage() {
       brandSubtitleOverride="التطبيقات ومواقع الويب"
       showClientAvatarStrip={true}
       clientAvatarItems={artClientAvatars}
-      logoPrimarySrc="/Atmet.%20Technologieslogo.png"
-      logoSecondarySrc="/Atmet.%20Technologieslogo.png"
+      logoPrimarySrc="/Atmet%20Technologies%20logo.png"
+      logoSecondarySrc="/Atmet%20Technologies%20logo.png"
       stackShowcaseContentTop={true}
       showServicesButton={false}
       techStackIcons={artTechStackIcons}

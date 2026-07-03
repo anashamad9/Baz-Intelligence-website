@@ -31,13 +31,13 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const copy: Record<Language, PageCopy> = {
   en: {
     nav: {
-      logo: 'Admins Atmet Technogloes',
+      logo: 'Atmet Technologies',
       services: 'Services',
       articles: 'Articles',
       sayHi: 'Say Hi',
     },
     heading: 'Soon',
-    subtitle: 'Admins Atmet Technogloes for AI Technologies is coming soon.',
+    subtitle: 'Atmet Technologies for AI Technologies is coming soon.',
   },
   ar: {
     nav: {

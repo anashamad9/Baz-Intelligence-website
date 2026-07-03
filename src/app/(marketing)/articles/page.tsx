@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import ArticlesPage from './articles-page'
 
-const siteName = 'Admins Atmet Technogloes'
-const title = 'Articles | Admins Atmet Technogloes'
+const siteName = 'Atmet Technologies'
+const title = 'Articles | Atmet Technologies'
 const description =
-  'Read Admins Atmet Technogloes articles on applied AI engineering, model deployment, data systems, and automation strategy.'
+  'Read Atmet Technologies articles on applied AI engineering, model deployment, data systems, and automation strategy.'
 const previewImage = '/IntEng.png'
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: previewImage,
         width: 1200,
         height: 630,
-        alt: 'Admins Atmet Technogloes articles preview',
+        alt: 'Atmet Technologies articles preview',
       },
     ],
   },

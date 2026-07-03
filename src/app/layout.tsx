@@ -8,11 +8,11 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://atmetai.com").repl
   /\/+$/,
   "",
 );
-const siteName = "Admins Atmet Technogloes";
+const siteName = "Atmet Technologies";
 const siteNameArabic = "أتمت تيكنولوجيس";
-const siteTitle = "Admins Atmet Technogloes";
+const siteTitle = "Atmet Technologies";
 const siteDescription =
-  "Admins Atmet Technogloes is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Atmet Technologies is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -23,7 +23,7 @@ const structuredData = {
       name: siteName,
       alternateName: siteNameArabic,
       url: siteUrl,
-      logo: `${siteUrl}/Atmet.%20Technologieslogo.png`,
+      logo: `${siteUrl}/Atmet%20Technologies%20logo.png`,
       email: "team@atmetai.com",
       telephone: "+962795874662",
       contactPoint: [
@@ -71,18 +71,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Admins Atmet Technogloes",
+    template: "%s | Atmet Technologies",
   },
   description: siteDescription,
   applicationName: siteName,
   icons: {
-    icon: [{ url: "/Atmet.%20Technologieslogo.png", type: "image/png" }],
-    shortcut: ["/Atmet.%20Technologieslogo.png"],
-    apple: [{ url: "/Atmet.%20Technologieslogo.png", type: "image/png" }],
+    icon: [{ url: "/Atmet%20Fav%20icon.png", type: "image/png" }],
+    shortcut: ["/Atmet%20Fav%20icon.png"],
+    apple: [{ url: "/Atmet%20Fav%20icon.png", type: "image/png" }],
   },
   keywords: [
-    "Admins Atmet Technogloes",
-    "Admins Atmet Technogloes",
+    "Atmet Technologies",
+    "Atmet Technologies",
     "AI lab",
     "machine learning",
     "LLM solutions",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Admins Atmet Technogloes English preview",
+        alt: "Atmet Technologies English preview",
       },
     ],
   },

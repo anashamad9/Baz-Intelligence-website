@@ -77,10 +77,10 @@ const artIntroParagraphs = [
   "Our specialty lies in building modern applications and websites that do not just function beautifully but feel alive. We are obsessed with trendy, forward-thinking design that captures attention and keeps users coming back. Every pixel, every interaction, and every line of code is intentional because we believe great technology deserves a great experience to match.",
 ]
 
-const siteName = 'Admins Atmet Technogloes'
-const title = 'Admins Atmet Technogloes: Apps & Websites | Admins Atmet Technogloes'
+const siteName = 'Atmet Technologies'
+const title = 'Atmet Technologies: Apps & Websites | Atmet Technologies'
 const description =
-  'Admins Atmet Technogloes for Apps & Websites builds tailored digital products with practical execution and measurable outcomes.'
+  'Atmet Technologies for Apps & Websites builds tailored digital products with practical execution and measurable outcomes.'
 const shareImage = '/art eng.png'
 
 export const metadata: Metadata = {
@@ -105,7 +105,7 @@ export const metadata: Metadata = {
         url: shareImage,
         width: 3624,
         height: 1345,
-        alt: 'Admins Atmet Technogloes - Apps & Websites',
+        alt: 'Atmet Technologies - Apps & Websites',
       },
     ],
     locale: 'en_US',
@@ -125,12 +125,12 @@ export default function EnglishAppsWebsitesPage() {
       initialLanguage="en"
       showHeroImage={false}
       showTestimonials={false}
-      brandTitleOverride="Admins Atmet Technogloes"
+      brandTitleOverride="Atmet Technologies"
       brandSubtitleOverride="Apps & Web apps"
       showClientAvatarStrip={true}
       clientAvatarItems={artClientAvatars}
-      logoPrimarySrc="/Atmet.%20Technologieslogo.png"
-      logoSecondarySrc="/Atmet.%20Technologieslogo.png"
+      logoPrimarySrc="/Atmet%20Technologies%20logo.png"
+      logoSecondarySrc="/Atmet%20Technologies%20logo.png"
       stackShowcaseContentTop={true}
       showServicesButton={false}
       techStackIcons={artTechStackIcons}

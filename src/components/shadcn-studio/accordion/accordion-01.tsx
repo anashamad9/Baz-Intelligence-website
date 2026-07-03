@@ -5,7 +5,7 @@ type Language = 'en' | 'ar'
 const items = [
   {
     title: {
-      en: 'What services does Admins Atmet Technogloes provide?',
+      en: 'What services does Atmet Technologies provide?',
       ar: 'ما الخدمات التي تقدمها أتمت تيكنولوجيس؟'
     },
     content: {

@@ -42,6 +42,10 @@ const redaction50Italic = localFont({
     src: '../../../../public/redaction/Redaction_50-Italic.woff2',
     display: 'swap',
 })
+const redaction50Regular = localFont({
+    src: '../../../../public/redaction/Redaction_50-Regular.woff2',
+    display: 'swap',
+})
 const thmanyahOpenTypeStyles: CSSProperties = {
     // Enable stylistic alternates and contextual Arabic shaping when available in the font.
     fontFeatureSettings: '"salt" 1, "calt" 1, "liga" 1, "kern" 1, "ss01" 1, "ss02" 1',
@@ -51,15 +55,15 @@ const thmanyahOpenTypeStyles: CSSProperties = {
 const content = {
     en: {
         nav: {
-            logo: 'Admins Atmet Technogloes',
+            logo: 'Atmet Technologies',
             services: 'Services',
             ourWork: 'Our Work',
-            aiTechnologies: 'Admins Atmet Technogloes: for AI Technologies',
-            appsWebsites: 'Admins Atmet Technogloes: for Apps & Websites',
+            aiTechnologies: 'Atmet Technologies: for AI Technologies',
+            appsWebsites: 'Atmet Technologies: for Apps & Websites',
             articles: 'Articles',
             sayHi: 'Say Hi',
         },
-        brandTitle: 'Admins Atmet Technogloes',
+        brandTitle: 'Atmet Technologies',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'Save your time and reduce your operating costs for real with an',
@@ -213,8 +217,8 @@ export default function Home({
     brandSubtitleOverride,
     showClientAvatarStrip = false,
     clientAvatarItems,
-    logoPrimarySrc = '/Atmet.%20Technologieslogo.png',
-    logoSecondarySrc = '/Atmet.%20Technologieslogo.png',
+    logoPrimarySrc = '/Atmet%20Technologies%20logo.png',
+    logoSecondarySrc = '/Atmet%20Technologies%20logo.png',
     stackShowcaseContentTop = false,
     showTopNav = true,
     heroHeadingOverride,
@@ -259,6 +263,7 @@ export default function Home({
     const heroHeadingLineHeightClass = isArabic ? 'leading-7' : 'leading-6'
     const headlineHighlightFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
     const foundersFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
+    const brandTitleFontClass = isArabic ? '' : redaction50Regular.className
     const paragraphWeightClass = isArabic ? 'font-[300]' : 'font-light'
     const brandTitle = brandTitleOverride ?? t.brandTitle
     const brandSubtitle = brandSubtitleOverride ?? t.brandSubtitle
@@ -433,7 +438,7 @@ export default function Home({
                             <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white">
                                 <Image
                                     src={logoPrimarySrc}
-                                    alt="Admins Atmet Technogloes logo primary"
+                                    alt="Atmet Technologies logo primary"
                                     width={96}
                                     height={96}
                                     className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
@@ -441,7 +446,7 @@ export default function Home({
                                 />
                                 <Image
                                     src={logoSecondarySrc}
-                                    alt="Admins Atmet Technogloes logo secondary"
+                                    alt="Atmet Technologies logo secondary"
                                     width={96}
                                     height={96}
                                     className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -450,7 +455,7 @@ export default function Home({
                             </div>
                             <div className="min-w-0">
                                 <div className="flex h-12 flex-col justify-center">
-                                    <p className="text-[16px] leading-5 font-medium text-black">{brandTitle}</p>
+                                    <p className={`text-[16px] leading-5 font-normal text-black ${brandTitleFontClass}`}>{brandTitle}</p>
                                     <p className="mt-0.5 text-[12px] leading-4 font-light text-black/60">{brandSubtitle}</p>
                                 </div>
                             </div>
@@ -491,7 +496,7 @@ export default function Home({
                         <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
                             <Image
                                 src="/IMG_3242-2.png"
-                                alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Admins Atmet Technogloes hero image'}
+                                alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Atmet Technologies hero image'}
                                 width={1800}
                                 height={1200}
                                 unoptimized
