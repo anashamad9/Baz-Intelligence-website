@@ -218,7 +218,7 @@ export default function Home({
     showClientAvatarStrip = false,
     clientAvatarItems,
     logoPrimarySrc = '/Atmet%20Technologies%20logo.png',
-    logoSecondarySrc = '/Atmet%20Technologies%20logo.png',
+    logoSecondarySrc = '/Atmet%20technogloes%20white.png',
     stackShowcaseContentTop = false,
     showTopNav = true,
     heroHeadingOverride,
@@ -435,13 +435,13 @@ export default function Home({
                 <div className="mx-auto mb-3 flex max-w-2xl justify-start">
                     <div className="w-full">
                         <div className="inline-flex max-w-full items-start gap-2.5">
-                            <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white">
+                            <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white transition-colors duration-500 ease-out group-hover:bg-black dark:border-white/10 dark:bg-black dark:group-hover:bg-white">
                                 <Image
                                     src={logoPrimarySrc}
                                     alt="Atmet Technologies logo primary"
                                     width={96}
                                     height={96}
-                                    className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
+                                    className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0 dark:opacity-0 dark:group-hover:scale-100 dark:group-hover:opacity-100"
                                     priority
                                 />
                                 <Image
@@ -449,7 +449,7 @@ export default function Home({
                                     alt="Atmet Technologies logo secondary"
                                     width={96}
                                     height={96}
-                                    className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
+                                    className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 dark:scale-100 dark:opacity-100 dark:group-hover:scale-95 dark:group-hover:opacity-0"
                                     aria-hidden
                                 />
                             </div>
@@ -513,7 +513,7 @@ export default function Home({
                                     {integrationIconNames.map((iconName) => (
                                         <span
                                             key={iconName}
-                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm"
+                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:bg-white/10 dark:ring-1 dark:ring-white/20 dark:hover:ring-white/35"
                                             aria-hidden
                                         >
                                             {iconName === 'google-sheets' ? (
@@ -526,7 +526,7 @@ export default function Home({
                                         </span>
                                     ))}
                                 </div>
-                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm`}>
+                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:bg-white/10 dark:text-white/65 dark:ring-1 dark:ring-white/20 dark:hover:ring-white/35`}>
                                     +5000
                                 </span>
                             </div>

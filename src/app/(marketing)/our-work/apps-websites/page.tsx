@@ -122,7 +122,7 @@ export default function AppsWebsitesPage() {
       showClientAvatarStrip={true}
       clientAvatarItems={artClientAvatars}
       logoPrimarySrc="/Atmet%20Technologies%20logo.png"
-      logoSecondarySrc="/Atmet%20Technologies%20logo.png"
+      logoSecondarySrc="/Atmet%20technogloes%20white.png"
       stackShowcaseContentTop={true}
       showServicesButton={false}
       techStackIcons={artTechStackIcons}
