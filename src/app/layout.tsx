@@ -8,11 +8,11 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://atmetai.com").repl
   /\/+$/,
   "",
 );
-const siteName = "Atmet Technologies";
+const siteName = "Admins Atmet Technogloes";
 const siteNameArabic = "أتمت تيكنولوجيس";
-const siteTitle = "Atmet Technologies";
+const siteTitle = "Admins Atmet Technogloes";
 const siteDescription =
-  "Atmet Technologies is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
+  "Admins Atmet Technogloes is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
 const englishPreviewImage = "/IntEng.png";
 const structuredData = {
   "@context": "https://schema.org",
@@ -23,7 +23,7 @@ const structuredData = {
       name: siteName,
       alternateName: siteNameArabic,
       url: siteUrl,
-      logo: `${siteUrl}/Atmet%20Technologies%20primary%20logo.png`,
+      logo: `${siteUrl}/Atmet.%20Technologieslogo.png`,
       email: "team@atmetai.com",
       telephone: "+962795874662",
       contactPoint: [
@@ -71,18 +71,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Atmet Technologies",
+    template: "%s | Admins Atmet Technogloes",
   },
   description: siteDescription,
   applicationName: siteName,
   icons: {
-    icon: [{ url: "/Fav%20icon%20Atmet%20Technologies.png", type: "image/png" }],
-    shortcut: ["/Fav%20icon%20Atmet%20Technologies.png"],
-    apple: [{ url: "/Fav%20icon%20Atmet%20Technologies.png", type: "image/png" }],
+    icon: [{ url: "/Atmet.%20Technologieslogo.png", type: "image/png" }],
+    shortcut: ["/Atmet.%20Technologieslogo.png"],
+    apple: [{ url: "/Atmet.%20Technologieslogo.png", type: "image/png" }],
   },
   keywords: [
-    "Atmet Technologies",
-    "Atmet Technologies",
+    "Admins Atmet Technogloes",
+    "Admins Atmet Technogloes",
     "AI lab",
     "machine learning",
     "LLM solutions",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
         url: englishPreviewImage,
         width: 1200,
         height: 630,
-        alt: "Atmet Technologies English preview",
+        alt: "Admins Atmet Technogloes English preview",
       },
     ],
   },

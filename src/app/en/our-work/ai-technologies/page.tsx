@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import AITechnologiesSoonPage from '../../../(marketing)/our-work/ai-technologies/ai-technologies-soon-page'
 
-const siteName = 'Atmet Technologies'
-const title = 'Atmet Technologies for AI Technologies | Atmet Technologies'
-const description = 'Atmet Technologies for AI Technologies is coming soon.'
+const siteName = 'Admins Atmet Technogloes'
+const title = 'Admins Atmet Technogloes for AI Technologies | Admins Atmet Technogloes'
+const description = 'Admins Atmet Technogloes for AI Technologies is coming soon.'
 
 export const metadata: Metadata = {
   title,

@@ -100,7 +100,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 const content: Record<Language, ContactCopy> = {
   en: {
     nav: {
-      logo: 'Atmet Technologies',
+      logo: 'Admins Atmet Technogloes',
       whatWeDo: 'Services',
       articles: 'Articles',
       sayHi: 'Say Hi',
@@ -516,7 +516,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   return (
     <main
       dir={isArabic ? 'rtl' : 'ltr'}
-      className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}
+      className={`flex min-h-screen flex-col bg-white px-6 pt-16 pb-40 sm:px-8 sm:pb-32 ${isArabic ? ibmArabic.className : ''}`}
     >
       <TopNav
         isArabic={isArabic}

@@ -22,7 +22,7 @@ export function MarketingFooter({ isArabic, textAlignClass, contact }: Marketing
   return (
     <footer
       id="contact"
-      className={`mx-auto mt-8 flex w-full max-w-2xl flex-col gap-4 border-t border-black/10 pt-6 pb-10 md:flex-row md:items-center md:justify-between ${isArabic ? 'md:flex-row-reverse' : ''}`}
+      className={`fixed bottom-0 left-1/2 z-40 flex w-[calc(100%-3rem)] max-w-2xl -translate-x-1/2 flex-col gap-4 border-t border-black/10 bg-white pt-6 pb-10 sm:w-[calc(100%-4rem)] md:flex-row md:items-center md:justify-between ${isArabic ? 'md:flex-row-reverse' : ''}`}
     >
       <div className={`w-full text-base leading-6 font-light text-black/65 md:w-auto ${textAlignClass}`}>
         <div className="flex flex-wrap items-center justify-start gap-2">

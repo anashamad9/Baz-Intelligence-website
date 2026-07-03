@@ -5,7 +5,7 @@ import ButtonDemo from '@/components/button-demo'
 import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 import localFont from 'next/font/local'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, FileSpreadsheet } from 'lucide-react'
 import { Badge } from '@/components/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { usePersistedLanguage } from '@/hooks/use-persisted-language'
@@ -51,15 +51,15 @@ const thmanyahOpenTypeStyles: CSSProperties = {
 const content = {
     en: {
         nav: {
-            logo: 'Atmet Technologies',
+            logo: 'Admins Atmet Technogloes',
             services: 'Services',
             ourWork: 'Our Work',
-            aiTechnologies: 'Atmet Technologies: for AI Technologies',
-            appsWebsites: 'Atmet Technologies: for Apps & Websites',
+            aiTechnologies: 'Admins Atmet Technogloes: for AI Technologies',
+            appsWebsites: 'Admins Atmet Technogloes: for Apps & Websites',
             articles: 'Articles',
             sayHi: 'Say Hi',
         },
-        brandTitle: 'Atmet Technologies',
+        brandTitle: 'Admins Atmet Technogloes',
         brandSubtitle: 'AI Technologies Lab',
         heading: {
             beforeHighlight: 'Save your time and reduce your operating costs for real with an',
@@ -183,6 +183,26 @@ const content = {
     },
 } as const
 
+type IntegrationIconName = IconName | 'google-sheets'
+
+const integrationIconNames: IntegrationIconName[] = [
+    'google',
+    'slack',
+    'notion',
+    'onedrive',
+    'google-sheets',
+    'salesforce',
+    'github',
+    'airtable',
+    'zapier',
+    'stripe',
+    'openai',
+    'supabase',
+    'figma',
+    'linear',
+    'jira',
+]
+
 export default function Home({
     initialLanguage = 'en',
     showHeroImage = true,
@@ -193,8 +213,8 @@ export default function Home({
     brandSubtitleOverride,
     showClientAvatarStrip = false,
     clientAvatarItems,
-    logoPrimarySrc = '/Atmet%20Technologies%20primary%20logo.png',
-    logoSecondarySrc = '/Atmet%20Technologies%20secondary%20logo.png',
+    logoPrimarySrc = '/Atmet.%20Technologieslogo.png',
+    logoSecondarySrc = '/Atmet.%20Technologieslogo.png',
     stackShowcaseContentTop = false,
     showTopNav = true,
     heroHeadingOverride,
@@ -390,7 +410,7 @@ export default function Home({
     }
 
     return (
-        <main dir={isArabic ? 'rtl' : 'ltr'} className={`min-h-screen bg-white px-6 pt-16 sm:px-8 ${isArabic ? ibmArabic.className : ''}`}>
+        <main dir={isArabic ? 'rtl' : 'ltr'} className={`flex min-h-screen flex-col bg-white px-6 pt-16 pb-40 sm:px-8 sm:pb-32 ${isArabic ? ibmArabic.className : ''}`}>
             {showTopNav ? (
                 <TopNav
                     isArabic={isArabic}
@@ -413,7 +433,7 @@ export default function Home({
                             <div className="group relative aspect-square w-12 shrink-0 overflow-hidden rounded-md border border-black/10 bg-white">
                                 <Image
                                     src={logoPrimarySrc}
-                                    alt="Atmet Technologies logo primary"
+                                    alt="Admins Atmet Technogloes logo primary"
                                     width={96}
                                     height={96}
                                     className="h-full w-full object-contain transition-all duration-500 ease-out group-hover:scale-95 group-hover:opacity-0"
@@ -421,7 +441,7 @@ export default function Home({
                                 />
                                 <Image
                                     src={logoSecondarySrc}
-                                    alt="Atmet Technologies logo secondary"
+                                    alt="Admins Atmet Technogloes logo secondary"
                                     width={96}
                                     height={96}
                                     className="absolute inset-0 h-full w-full scale-105 object-contain opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
@@ -467,17 +487,46 @@ export default function Home({
                     )}
                 </h1>
                 {showHeroImage ? (
-                    <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
-                        <Image
-                            src="/IMG_3242-2.png"
-                            alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Atmet Technologies hero image'}
-                            width={1800}
-                            height={1200}
-                            unoptimized
-                            className="h-full w-full object-cover"
-                            priority
-                        />
-                    </div>
+                    <>
+                        <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
+                            <Image
+                                src="/IMG_3242-2.png"
+                                alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Admins Atmet Technogloes hero image'}
+                                width={1800}
+                                height={1200}
+                                unoptimized
+                                className="h-full w-full object-cover"
+                                priority
+                            />
+                        </div>
+                        <div className="mx-auto mt-2 flex w-full max-w-2xl flex-wrap items-center justify-start gap-x-2.5 gap-y-1.5">
+                            <p className={`text-[11px] leading-4 text-black/45 ${isArabic ? 'font-[300] tracking-normal' : 'font-medium tracking-[0.12em] uppercase'}`}>
+                                {isArabic ? 'نشتغل مع أدواتك الحالية' : 'Works with your current stack'}
+                            </p>
+                            <div className="flex min-w-0 items-center" dir={isArabic ? 'rtl' : 'ltr'}>
+                                <div className="flex -space-x-1 rtl:space-x-reverse">
+                                    {integrationIconNames.map((iconName) => (
+                                        <span
+                                            key={iconName}
+                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm"
+                                            aria-hidden
+                                        >
+                                            {iconName === 'google-sheets' ? (
+                                                <span className="inline-flex h-full w-full items-center justify-center rounded-full bg-emerald-500 text-white">
+                                                    <FileSpreadsheet className="size-3" strokeWidth={2.25} />
+                                                </span>
+                                            ) : (
+                                                <StackIcon name={iconName} className="h-full w-full" />
+                                            )}
+                                        </span>
+                                    ))}
+                                </div>
+                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm`}>
+                                    +5000
+                                </span>
+                            </div>
+                        </div>
+                    </>
                 ) : null}
                 <div className={`mx-auto mt-4 max-w-2xl space-y-5 text-base leading-5 ${paragraphWeightClass} text-black/65 ${textAlignClass}`}>
                     {introParagraphs.map(paragraph => {
