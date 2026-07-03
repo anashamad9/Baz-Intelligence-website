@@ -513,7 +513,7 @@ export default function Home({
                                     {integrationIconNames.map((iconName) => (
                                         <span
                                             key={iconName}
-                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:bg-white dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45"
+                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45"
                                             aria-hidden
                                         >
                                             {iconName === 'google-sheets' ? (
@@ -526,7 +526,7 @@ export default function Home({
                                         </span>
                                     ))}
                                 </div>
-                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:bg-white dark:!text-neutral-900 dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45`}>
+                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45`}>
                                     +5000
                                 </span>
                             </div>
