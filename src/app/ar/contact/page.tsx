@@ -5,7 +5,7 @@ const siteName = 'أتمت تيكنولوجيس'
 const title = 'تواصل | أتمت تيكنولوجيس'
 const description =
   'تواصل مع أتمت تيكنولوجيس لحجز اجتماع مباشر أو إرسال تفاصيل مشروعك للحصول على نطاق تنفيذ ذكاء اصطناعي مناسب.'
-const previewImage = '/IntArabic.png'
+const previewImage = '/Preview arab.png'
 
 export const metadata: Metadata = {
   title,

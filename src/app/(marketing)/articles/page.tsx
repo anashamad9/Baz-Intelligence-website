@@ -5,7 +5,7 @@ const siteName = 'Atmet Technologies'
 const title = 'Articles | Atmet Technologies'
 const description =
   'Read Atmet Technologies articles on applied AI engineering, model deployment, data systems, and automation strategy.'
-const previewImage = '/IntEng.png'
+const previewImage = '/Preview Eng.png'
 
 export const metadata: Metadata = {
   title,

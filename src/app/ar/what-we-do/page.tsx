@@ -5,7 +5,7 @@ const siteName = 'أتمت تيكنولوجيس'
 const title = 'ماذا نفعل | أتمت تيكنولوجيس'
 const description =
   'تعرّف على ما تقدمه أتمت تيكنولوجيس عبر الاستراتيجية وتنفيذ الأنظمة الذكية والتشغيل والنطاقات المخصصة.'
-const previewImage = '/IntArabic.png'
+const previewImage = '/Preview arab.png'
 
 export const metadata: Metadata = {
   title,

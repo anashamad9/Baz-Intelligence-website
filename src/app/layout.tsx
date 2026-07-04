@@ -13,7 +13,7 @@ const siteNameArabic = "أتمت تيكنولوجيس";
 const siteTitle = "Atmet Technologies";
 const siteDescription =
   "Atmet Technologies is an AI technologies lab that designs, trains, and deploys advanced AI systems for startups, businesses, and teams.";
-const englishPreviewImage = "/IntEng.png";
+const englishPreviewImage = "/Preview Eng.png";
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [

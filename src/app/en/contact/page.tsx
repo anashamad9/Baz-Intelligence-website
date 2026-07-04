@@ -5,7 +5,7 @@ const siteName = 'Atmet Technologies'
 const title = 'Contact | Atmet Technologies'
 const description =
   'Contact Atmet Technologies to book a direct meeting or send your project details for a tailored AI implementation scope.'
-const previewImage = '/IntEng.png'
+const previewImage = '/Preview Eng.png'
 
 export const metadata: Metadata = {
   title,

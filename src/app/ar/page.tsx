@@ -5,7 +5,7 @@ const siteName = "أتمت تيكنولوجيس";
 const siteTitle = "أتمت تيكنولوجيس";
 const siteDescription =
   "أتمت تيكنولوجيس هو مختبر تقنيات ذكاء اصطناعي يصمم ويدرّب وينشر أنظمة ذكاء اصطناعي متقدمة للشركات والناشئين والمؤسسات.";
-const previewImage = "/IntArabic.png";
+const previewImage = "/Preview arab.png";
 
 export const metadata: Metadata = {
   title: siteTitle,

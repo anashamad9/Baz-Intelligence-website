@@ -5,7 +5,7 @@ const siteName = 'أتمت تيكنولوجيس'
 const title = 'المقالات | أتمت تيكنولوجيس'
 const description =
   'اطلع على مقالات أتمت تيكنولوجيس حول هندسة الذكاء الاصطناعي التطبيقية ونشر النماذج وبنية البيانات والأتمتة.'
-const previewImage = '/IntArabic.png'
+const previewImage = '/Preview arab.png'
 
 export const metadata: Metadata = {
   title,
