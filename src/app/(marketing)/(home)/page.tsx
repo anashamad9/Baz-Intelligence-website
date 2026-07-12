@@ -72,8 +72,8 @@ const content = {
         },
         subheading: 'For founders, startups, businesses, and individuals.',
         introParagraphs: [
-            'Most companies today use artificial intelligence in a shallow way: ready-made tools, limited results, and almost no real impact. We work differently. We go deep into your business, analyze every step, and identify exactly where your time and money are being lost, then turn those operations into intelligent systems that run on their own. From AI agents that execute full tasks without intervention, to advanced automation that connects all your systems, to language models and machine learning models built specifically on your data, everything is designed to serve how you work, not the other way around.',
-            'The result? Real cost reduction, faster execution, and greater ability to scale without adding complexity. Instead of your team losing time on repetitive tasks, they focus on decisions and growth. We have worked with teams across finance, operations, and marketing, helping them transform entire workflows from daily burden into near-autonomous systems. If AI in your company is still just an extra tool, then you have not really started yet. We turn it into the core infrastructure your business runs on.',
+            'Most companies today use artificial intelligence, but only a few apply it in a way that creates real impact. Ready-made tools, scattered experiments, and limited results rarely touch the core of the work or change how it gets done. We start from a different point. We do not begin with the technology; we begin with the work itself. We go deep into your operations, understand where effort repeats, where time is wasted, and what can be done with greater efficiency and intelligence. Then we turn those details into systems designed around how you work: from AI agents that take on complete tasks, to advanced automation that connects your systems together, and language models and machine learning models built specifically on your data and needs.',
+            'Our goal is not to add another tool, but to build a clearer, faster, and more independent way of working; one that reduces costs, accelerates execution, and enables your team to scale without multiplying complexity. We have worked with teams across finance, operations, and marketing, helping them transform exhausting daily processes into systems that operate with a high degree of independence, so the team can focus on decisions, growth, and creating value. If artificial intelligence in your company is still just an extra tool, the real transformation may not have started yet. We build it to become part of the core infrastructure your business runs on.',
         ],
         buttons: {
             talkTo: 'Talk to',
@@ -138,8 +138,8 @@ const content = {
         },
         subheading: 'للمؤسسين، للشركات الناشئة، للأعمال، وللأفراد.',
         introParagraphs: [
-            'معظم الشركات اليوم تستخدم الذكاء الاصطناعي بشكل سطحي… أدوات جاهزة، نتائج محدودة، وتأثير شبه معدوم. احنا نشتغل بشكل مختلف. بنتعمق داخل شغلك، نحلل كل خطوة، ونحدد وين يضيع وقتك وفلوسك فعلياً، ثم نحوّل هذه العمليات إلى أنظمة ذكية تشتغل لحالها. من وكلاء ذكاء اصطناعي ينفذوا مهام كاملة بدون تدخل، إلى أتمتة متقدمة تربط كل أنظمتك ببعض، وصولًا إلى نماذج لغوية وتعلم آلة مبنية خصيصًا على بياناتك، كل شيء مصمم ليخدم طريقة عملك أنت، مش العكس.',
-            'النتيجة؟ تقليل حقيقي في التكاليف، تسريع واضح في التنفيذ، وقدرة أعلى على التوسع بدون زيادة التعقيد. بدل ما فريقك يضيع وقته في مهام متكررة، بيصير يركز على القرارات والنمو. اشتغلنا مع فرق في مجالات مثل المالية، التشغيل، والتسويق، وساعدناهم يحولوا عمليات كاملة من عبء يومي إلى أنظمة تعمل بشكل شبه ذاتي. إذا الذكاء الاصطناعي عندك لسه مجرد أداة إضافية، فأنت فعليًا ما بدأت. احنا بنحوله إلى البنية الأساسية اللي يقوم عليها شغلك.',
+            'معظم الشركات اليوم تستخدم الذكاء الاصطناعي، لكن القليل منها يوظّفه على نحو يصنع أثرًا حقيقيًا. أدوات جاهزة، وتجارب متفرقة، ونتائج محدودة لا تمسّ جوهر العمل ولا تغيّر طريقة إنجازه. نحن نبدأ من نقطة مختلفة؛ لا ننطلق من التقنية، بل من العمل نفسه. نتعمّق في عملياتك، ونفهم أين يتكرر الجهد، وأين يُهدر الوقت، وما الذي يمكن أن يُنجز بكفاءة وذكاء أكبر. ثم نحوّل هذه التفاصيل إلى أنظمة مصممة حول طريقة عملك أنت؛ من وكلاء ذكاء اصطناعي يتولّون مهام كاملة، إلى أتمتة متقدمة تربط أنظمتك بعضها ببعض، ونماذج لغوية وتعلّم آلي تُبنى خصيصًا على بياناتك واحتياجاتك.',
+            'غايتنا ليست إضافة أداة جديدة، بل بناء طريقة عمل أكثر وضوحًا وسرعة واستقلالية؛ طريقة تخفّض التكاليف، وتسرّع التنفيذ، وتمكّن فريقك من التوسع دون أن يتضاعف معه التعقيد. عملنا مع فرق في مجالات المالية والتشغيل والتسويق، وساعدناها على تحويل عمليات يومية مرهقة إلى أنظمة تعمل بدرجة عالية من الاستقلالية، ليتركّز جهد الفريق على القرارات والنمو وصناعة القيمة. فإذا كان الذكاء الاصطناعي لديك لا يزال مجرد أداة إضافية، فربما لم يبدأ التحوّل الحقيقي بعد. نحن نبنيه ليصبح جزءًا من البنية الأساسية التي يقوم عليها عملك.',
         ],
         buttons: {
             talkTo: 'تحدث مع',
@@ -262,7 +262,6 @@ export default function Home({
     const textAlignClass = isArabic ? 'text-right' : 'text-left'
     const heroHeadingLineHeightClass = isArabic ? 'leading-7' : 'leading-6'
     const headlineHighlightFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
-    const foundersFontClass = isArabic ? thmanyahSerifDisplay.className : redaction50Italic.className
     const brandTitleFontClass = isArabic ? '' : redaction50Regular.className
     const paragraphWeightClass = isArabic ? 'font-[300]' : 'font-light'
     const brandTitle = brandTitleOverride ?? t.brandTitle
@@ -415,7 +414,10 @@ export default function Home({
     }
 
     return (
-        <main dir={isArabic ? 'rtl' : 'ltr'} className={`flex min-h-screen flex-col bg-white px-6 pt-16 pb-40 sm:px-8 sm:pb-32 ${isArabic ? ibmArabic.className : ''}`}>
+        <main
+            dir={isArabic ? 'rtl' : 'ltr'}
+            className={`flex min-h-screen flex-col bg-white px-6 pt-16 pb-40 sm:px-8 sm:pb-32 ${isArabic ? ibmArabic.className : ''}`}
+        >
             {showTopNav ? (
                 <TopNav
                     isArabic={isArabic}
@@ -493,14 +495,19 @@ export default function Home({
                 </h1>
                 {showHeroImage ? (
                     <>
-                        <div className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10">
+                        <div
+                            className="mx-auto mt-3 aspect-[3/2] w-full max-w-2xl overflow-hidden rounded-md border border-black/10"
+                            onContextMenu={(event) => event.preventDefault()}
+                        >
                             <Image
-                                src="/IMG_3242-2.png"
+                                src="/Atmet%20Technologies.heic"
                                 alt={isArabic ? 'صورة واجهة أتمت تيكنولوجيس' : 'Atmet Technologies hero image'}
                                 width={1800}
                                 height={1200}
                                 unoptimized
                                 className="h-full w-full object-cover"
+                                draggable={false}
+                                onDragStart={(event) => event.preventDefault()}
                                 priority
                             />
                         </div>
@@ -582,7 +589,10 @@ export default function Home({
                         label={
                             <span>
                                 {t.buttons.talkTo}{' '}
-                                <span className={foundersFontClass} style={isArabic ? thmanyahOpenTypeStyles : undefined}>
+                                <span
+                                    className={`${headlineHighlightFontClass} text-white ${isArabic ? '' : 'font-semibold'}`}
+                                    style={isArabic ? thmanyahOpenTypeStyles : undefined}
+                                >
                                     {t.buttons.founders}
                                 </span>
                             </span>

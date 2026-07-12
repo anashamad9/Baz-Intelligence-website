@@ -30,6 +30,7 @@ type ContactCopy = {
   }
   title: string
   subtitle: string
+  introParagraphs: string[]
   actions: {
     directMeeting: string
     fillForm: string
@@ -107,6 +108,12 @@ const content: Record<Language, ContactCopy> = {
     },
     title: 'How would you like to continue?',
     subtitle: 'Choose a direct meeting, or fill the form and we will follow up with the right scope.',
+    introParagraphs: [
+      'We are a team that brings together research, engineering, and product design to build smarter systems and software capable of creating real impact. We do not treat technology as a set of ready-made tools, but as an open space for research, experimentation, and rethinking. We study problems from their roots, test hypotheses, and turn what we learn into products, models, and systems that can be used in the real world.',
+      'We believe software deserves better than quick solutions that only work temporarily, and better than products built without a deep understanding of the user or the problem. That is why we care about what sits behind the interface as much as what appears on it: system engineering, experience quality, decision clarity, and the product ability to evolve over time. We do not only want to build more software; we want to help build a better standard for how technology is designed and developed.',
+      'Research leads a fundamental part of our work. We explore how artificial intelligence, language models, machine learning, and agentic systems can change the way products are built and companies operate. But we do not stop at theoretical research. We work to turn ideas and experiments into practical applications, whether they are custom systems for companies, internal tools, or new products that can grow and serve more users.',
+      'We do not see the future as more separate tools, but as systems that understand context more deeply and fit more naturally with the way people work. This is what we are trying to build: thoughtful, useful technology that can become better over time.',
+    ],
     actions: {
       directMeeting: 'Book a direct meeting',
       fillForm: 'Fill the form',
@@ -157,6 +164,12 @@ const content: Record<Language, ContactCopy> = {
     },
     title: 'كيف تفضّل المتابعة؟',
     subtitle: 'يمكنك حجز اجتماع مباشر، أو تعبئة النموذج وسنتواصل معك بالنطاق المناسب.',
+    introParagraphs: [
+      'نحن فريق يجمع بين البحث والهندسة وتصميم المنتجات لبناء أنظمة وبرمجيات أكثر ذكاءً وقدرةً على إحداث أثر حقيقي. لا نتعامل مع التقنية بوصفها مجموعة أدوات جاهزة، بل مجالًا مفتوحًا للبحث والتجربة وإعادة التفكير. ندرس المشكلات من جذورها، نختبر الفرضيات، ونحوّل ما نتعلّمه إلى منتجات ونماذج وأنظمة يمكن استخدامها في العالم الحقيقي.',
+      'نؤمن أن صناعة البرمجيات تستحق أفضل من حلول سريعة تؤدي الغرض مؤقتًا، ومن منتجات تُبنى دون فهم عميق للمستخدم أو المشكلة. لذلك نهتم بما وراء الواجهة بقدر اهتمامنا بما يظهر عليها؛ بهندسة النظام، وجودة التجربة، ووضوح القرارات، وقدرة المنتج على التطور مع مرور الوقت. لا نريد أن نبني المزيد من البرمجيات فحسب، بل أن نشارك في بناء معيار أفضل للطريقة التي تُصمَّم وتُطوَّر بها التقنية.',
+      'يقود الجانب البحثي جزءًا أساسيًا من عملنا. نستكشف كيف يمكن للذكاء الاصطناعي، والنماذج اللغوية، وتعلّم الآلة، والأنظمة الوكيلة أن تغيّر طريقة بناء المنتجات وتشغيل الشركات. لكننا لا نتوقف عند البحث النظري؛ بل نعمل على تحويل الأفكار والتجارب إلى تطبيقات عملية، سواء كانت أنظمة مخصصة للشركات، أو أدوات داخلية، أو منتجات جديدة يمكن أن تنمو وتخدم عددًا أكبر من المستخدمين.',
+      'نحن لا نرى المستقبل على أنه مزيد من الأدوات المنفصلة، بل أنظمة أكثر فهمًا للسياق، وأكثر انسجامًا مع طريقة عمل الإنسان. وهذا هو ما نحاول بناءه: تقنية مدروسة، مفيدة، وقادرة على أن تصبح أفضل بمرور الوقت.',
+    ],
     actions: {
       directMeeting: 'حجز اجتماع مباشر',
       fillForm: 'تعبئة النموذج',
@@ -540,8 +553,11 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
           <div className="mb-3 flex justify-start">
             <AvatarGroupTooltipDemo language={language} tooltipClassName={isArabic ? ibmArabic.className : undefined} />
           </div>
-          <h1 className="text-xl leading-6 font-medium tracking-normal text-black">{t.title}</h1>
-          <p className="mt-2 text-base leading-6 font-light text-black/65">{t.subtitle}</p>
+          <div className="mt-5 space-y-4 text-base leading-6 font-light text-black/65">
+            {t.introParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <a
