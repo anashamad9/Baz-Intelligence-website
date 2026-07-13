@@ -271,34 +271,22 @@ export default function Home({
     const servicesHref = isArabic ? '/ar/what-we-do' : '/en/what-we-do'
     const combinedServiceTags = isArabic
         ? [
-            'وكيل دعم',
-            'الشبكات العصبية',
-            'وكلاء الذكاء الاصطناعي',
-            'كشف الصور/الفيديو',
-            'النماذج اللغوية الكبيرة',
             'الأتمتة',
-            'التعلم العميق',
-            'وكيل صوتي ذكي',
-            'نمذجة البيانات',
-            'نماذج تعلم الآلة',
-            'دردشة ذكية',
-            'الذكاء الاصطناعي التوليدي',
-            'التعرف على الصوت',
+            'وكلاء الذكاء الاصطناعي',
+            'وكلاء محليون (Local Agents)',
+            'تقليل صرفية التوكنز',
+            'تدريب النماذج والنماذج اللغوية',
+            'منتجات الذكاء الاصطناعي',
+            'تعلم الآلة',
         ]
         : [
-            'Support Agent',
-            'Neural Networks',
-            'AI Agents',
-            'Image/Video Detection',
-            'LLMs',
             'Automation',
-            'Deep Learning',
-            'AI Voice Agent',
-            'Data Modeling',
-            'ML Models',
-            'AI Chatbot',
-            'Generative AI',
-            'Voice Detection',
+            'AI Agents',
+            'Local Agents',
+            'Reduce AI Usage',
+            'Train Models & LLMs',
+            'AI Products',
+            'Machine Learning',
         ]
     const showcaseProjectCards = showcaseProjectCardsOverride ?? []
 
