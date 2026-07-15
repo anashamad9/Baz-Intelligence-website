@@ -33,7 +33,7 @@ type ContactCopy = {
   introParagraphs: string[]
   actions: {
     directMeeting: string
-    fillForm: string
+    sendEmail: string
   }
   form: {
     title: string
@@ -74,6 +74,7 @@ type ContactCopy = {
 }
 
 const STORAGE_KEY = 'baz-language'
+const EMAIL_ADDRESS = 'team@atmetai.com'
 const CAL_BOOKING_URL = 'https://cal.com/anashamed/intelligence-lab-30-min-meeting'
 const ARAB_COUNTRY_CODES = [
   'DZ', 'BH', 'KM', 'DJ', 'EG', 'IQ', 'JO', 'KW', 'LB', 'LY', 'MR',
@@ -107,7 +108,7 @@ const content: Record<Language, ContactCopy> = {
       sayHi: 'Say Hi',
     },
     title: 'How would you like to continue?',
-    subtitle: 'Choose a direct meeting, or fill the form and we will follow up with the right scope.',
+    subtitle: 'Choose a direct meeting, or send us an email and we will follow up with the right scope.',
     introParagraphs: [
       'We are a team that brings together research, engineering, and product design to build smarter systems and software capable of creating real impact. We do not treat technology as a set of ready-made tools, but as an open space for research, experimentation, and rethinking. We study problems from their roots, test hypotheses, and turn what we learn into products, models, and systems that can be used in the real world.',
       'We believe software deserves better than quick solutions that only work temporarily, and better than products built without a deep understanding of the user or the problem. That is why we care about what sits behind the interface as much as what appears on it: system engineering, experience quality, decision clarity, and the product ability to evolve over time. We do not only want to build more software; we want to help build a better standard for how technology is designed and developed.',
@@ -116,7 +117,7 @@ const content: Record<Language, ContactCopy> = {
     ],
     actions: {
       directMeeting: 'Book a direct meeting',
-      fillForm: 'Fill the form',
+      sendEmail: 'Send email',
     },
     form: {
       title: 'Tell us about your company',
@@ -163,7 +164,7 @@ const content: Record<Language, ContactCopy> = {
       sayHi: 'تواصل',
     },
     title: 'كيف تفضّل المتابعة؟',
-    subtitle: 'يمكنك حجز اجتماع مباشر، أو تعبئة النموذج وسنتواصل معك بالنطاق المناسب.',
+    subtitle: 'يمكنك حجز اجتماع مباشر، أو إرسال بريد إلكتروني وسنتواصل معك بالنطاق المناسب.',
     introParagraphs: [
       'نحن فريق يجمع بين البحث والهندسة وتصميم المنتجات لبناء أنظمة وبرمجيات أكثر ذكاءً وقدرةً على إحداث أثر حقيقي. لا نتعامل مع التقنية بوصفها مجموعة أدوات جاهزة، بل مجالًا مفتوحًا للبحث والتجربة وإعادة التفكير. ندرس المشكلات من جذورها، نختبر الفرضيات، ونحوّل ما نتعلّمه إلى منتجات ونماذج وأنظمة يمكن استخدامها في العالم الحقيقي.',
       'نؤمن أن صناعة البرمجيات تستحق أفضل من حلول سريعة تؤدي الغرض مؤقتًا، ومن منتجات تُبنى دون فهم عميق للمستخدم أو المشكلة. لذلك نهتم بما وراء الواجهة بقدر اهتمامنا بما يظهر عليها؛ بهندسة النظام، وجودة التجربة، ووضوح القرارات، وقدرة المنتج على التطور مع مرور الوقت. لا نريد أن نبني المزيد من البرمجيات فحسب، بل أن نشارك في بناء معيار أفضل للطريقة التي تُصمَّم وتُطوَّر بها التقنية.',
@@ -172,7 +173,7 @@ const content: Record<Language, ContactCopy> = {
     ],
     actions: {
       directMeeting: 'حجز اجتماع مباشر',
-      fillForm: 'تعبئة النموذج',
+      sendEmail: 'إرسال بريد إلكتروني',
     },
     form: {
       title: 'أخبرنا أكثر عن شركتك',
@@ -376,7 +377,7 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
   const [language, setLanguage] = usePersistedLanguage(initialLanguage, STORAGE_KEY)
   const router = useRouter()
   const pathname = usePathname()
-  const [showForm, setShowForm] = useState(false)
+  const showForm = false
   const [submitted, setSubmitted] = useState(false)
   const [skippedMeeting, setSkippedMeeting] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -568,13 +569,12 @@ export default function ContactPage({ initialLanguage = 'en' }: { initialLanguag
             >
               {t.actions.directMeeting}
             </a>
-            <button
-              type="button"
-              onClick={() => setShowForm(true)}
+            <a
+              href={`mailto:${EMAIL_ADDRESS}`}
               className="inline-flex items-center rounded-md bg-site-gray-ui px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-site-gray-ui"
             >
-              {t.actions.fillForm}
-            </button>
+              {t.actions.sendEmail}
+            </a>
           </div>
 
           <div className={`grid transition-all duration-500 ease-out ${showForm ? 'mt-5 grid-rows-[1fr] overflow-visible opacity-100' : 'mt-0 grid-rows-[0fr] overflow-hidden opacity-0'}`}>

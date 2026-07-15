@@ -504,16 +504,16 @@ export default function Home({
                                 {isArabic ? 'نشتغل مع أدواتك الحالية' : 'Works with your current stack'}
                             </p>
                             <div className="flex min-w-0 items-center" dir={isArabic ? 'rtl' : 'ltr'}>
-                                <div className="flex -space-x-1 rtl:space-x-reverse">
+                                <div className="flex items-center gap-1.5">
                                     {integrationIconNames.map((iconName) => (
                                         <span
                                             key={iconName}
-                                            className="relative inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-site-gray-ui p-0.5 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45"
+                                            className="relative inline-flex size-5 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:z-10 hover:scale-110"
                                             aria-hidden
                                         >
                                             {iconName === 'google-sheets' ? (
-                                                <span className="inline-flex h-full w-full items-center justify-center rounded-full bg-emerald-500 text-white">
-                                                    <FileSpreadsheet className="size-3" strokeWidth={2.25} />
+                                                <span className="inline-flex h-full w-full items-center justify-center text-emerald-500">
+                                                    <FileSpreadsheet className="size-[18px]" strokeWidth={2.25} />
                                                 </span>
                                             ) : (
                                                 <StackIcon name={iconName} className="h-full w-full" />
@@ -521,7 +521,7 @@ export default function Home({
                                         </span>
                                     ))}
                                 </div>
-                                <span className={`${isArabic ? '-mr-1' : '-ml-1'} inline-flex h-5 shrink-0 items-center rounded-full bg-site-gray-ui px-1.5 text-[10px] leading-none font-medium tabular-nums text-black/60 ring-2 ring-white transition-[transform,box-shadow] duration-200 ease-out hover:z-10 hover:scale-110 hover:shadow-sm dark:ring-1 dark:ring-white/25 dark:hover:ring-white/45`}>
+                                <span className={`${isArabic ? 'mr-1' : 'ml-1'} inline-flex shrink-0 items-center text-[11px] leading-none font-medium tabular-nums text-black/50`}>
                                     +5000
                                 </span>
                             </div>
@@ -570,7 +570,7 @@ export default function Home({
                     <ButtonDemo
                         variant="default"
                         size="default"
-                        className="h-7 rounded-md border-0 ring-0 shadow-none px-2 py-0 text-xs"
+                        className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none [text-shadow:none] [&_*]:text-inherit [&_*]:[text-shadow:none] dark:bg-[#3a342f] dark:text-white dark:shadow-[inset_0_1px_0_rgb(255_255_255_/_0.08),0_1px_2px_rgb(0_0_0_/_0.2)] dark:hover:bg-[#3a342f]"
                         onClick={() => {
                             window.location.href = contactHref
                         }}
