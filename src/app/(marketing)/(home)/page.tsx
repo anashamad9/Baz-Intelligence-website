@@ -504,16 +504,16 @@ export default function Home({
                                 {isArabic ? 'نشتغل مع أدواتك الحالية' : 'Works with your current stack'}
                             </p>
                             <div className="flex min-w-0 items-center" dir={isArabic ? 'rtl' : 'ltr'}>
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-1">
                                     {integrationIconNames.map((iconName) => (
                                         <span
                                             key={iconName}
-                                            className="relative inline-flex size-5 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:z-10 hover:scale-110"
+                                            className="relative inline-flex size-4 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:z-10 hover:scale-110"
                                             aria-hidden
                                         >
                                             {iconName === 'google-sheets' ? (
                                                 <span className="inline-flex h-full w-full items-center justify-center text-emerald-500">
-                                                    <FileSpreadsheet className="size-[18px]" strokeWidth={2.25} />
+                                                    <FileSpreadsheet className="size-3.5" strokeWidth={2.25} />
                                                 </span>
                                             ) : (
                                                 <StackIcon name={iconName} className="h-full w-full" />
@@ -570,7 +570,7 @@ export default function Home({
                     <ButtonDemo
                         variant="default"
                         size="default"
-                        className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none [text-shadow:none] [&_*]:text-inherit [&_*]:[text-shadow:none] dark:bg-[#3a342f] dark:text-white dark:shadow-[inset_0_1px_0_rgb(255_255_255_/_0.08),0_1px_2px_rgb(0_0_0_/_0.2)] dark:hover:bg-[#3a342f]"
+                        className="h-7 rounded-md border-0 px-2 py-0 text-xs ring-0 shadow-none [text-shadow:none] [&_*]:text-inherit [&_*]:[text-shadow:none] dark:bg-white dark:text-black dark:hover:bg-white"
                         onClick={() => {
                             window.location.href = contactHref
                         }}
@@ -578,7 +578,7 @@ export default function Home({
                             <span>
                                 {t.buttons.talkTo}{' '}
                                 <span
-                                    className={`${headlineHighlightFontClass} text-white ${isArabic ? '' : 'font-semibold'}`}
+                                    className={`${headlineHighlightFontClass} ${isArabic ? '' : 'font-semibold'}`}
                                     style={isArabic ? thmanyahOpenTypeStyles : undefined}
                                 >
                                     {t.buttons.founders}
